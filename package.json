@@ -1,0 +1,52 @@
+{
+  "name": "broncodirectme",
+  "version": "1.0.0",
+  "description": "Chrome Extension for BroncoDirect, a web application used by students at CalPoly Pomona",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve",
+    "build": "webpack --mode production --progress",
+    "lint": "eslint --ext .js,.ts,.jsx,.tsx src",
+    "format": "npm run lint --fix & npx prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZombiMigz/BroncoDirectMe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZombiMigz/BroncoDirectMe/issues"
+  },
+  "homepage": "https://github.com/ZombiMigz/BroncoDirectMe#readme",
+  "devDependencies": {
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "babel-loader": "^8.2.5",
+    "copy-webpack-plugin": "^11.0.0",
+    "core-js": "^3.25.0",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^22.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.5",
+    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-react": "^7.31.1",
+    "prettier": "^2.7.1",
+    "regenerator-runtime": "^0.13.9",
+    "typescript": "^4.8.2",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.10.1"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
