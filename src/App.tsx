@@ -1,5 +1,5 @@
-import React from "react";
+import React, { ReactElement } from 'react';
 
-export function App() {
+export function App(): ReactElement {
   return <h1>Hello World</h1>;
 }
