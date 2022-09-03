@@ -11,5 +11,11 @@
       "48": "/images/icon.png",
       "128": "/images/icon.png"
     }
-  }
+  },
+  "content_scripts": [
+    {
+      "js": ["content.js"],
+      "matches": ["https://cmsweb.cms.cpp.edu/*"]
+    }
+  ]
 }
