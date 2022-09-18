@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-//import professorPopup from'./ProfessorPopup';
+//import ProfessorPopup from './ProfessorPopup';
 
 const iframe = document.getElementById('ptifrmtgtframe') as HTMLIFrameElement;
 var insts = iframe.contentWindow?.document.querySelectorAll(
