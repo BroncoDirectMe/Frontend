@@ -1,14 +1,5 @@
 import React, { ReactElement } from 'react';
-import Button from './SettingsButton';
 
 export function App(): ReactElement {
-  return(
-    <Button
-      height = "100px"
-      width = "100px"
-      onClick={() => console.log("Click! :D")}
-    ></Button>
-  );
+  return <h1>Hello World</h1>;
 }
-
-export default App;
