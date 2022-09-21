@@ -1,15 +1,16 @@
-import { Button, IconButton } from '@mui/material';
+import * as React from 'react';
+import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
-import React, { ReactElement } from 'react';
 
-export function App(): ReactElement {
-  return(
-      <IconButton aria-label="settings"
-        onClick={() => {
+export default function App() 
+{
+  return (
+    <IconButton aria-label="settings"
+        onClick={() => 
+        {
           alert('clicked');
         }}  
-      >Settings
-        <SettingsIcon/>
+      ><SettingsIcon/>
       </IconButton>
   );
 }
