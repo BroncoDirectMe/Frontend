@@ -1,5 +1,15 @@
+import { Button, IconButton } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
 import React, { ReactElement } from 'react';
 
 export function App(): ReactElement {
-  return <h1>Hello World</h1>;
+  return(
+      <IconButton aria-label="settings"
+        onClick={() => {
+          alert('clicked');
+        }}  
+      >Settings
+        <SettingsIcon />
+      </IconButton>
+  );
 }
