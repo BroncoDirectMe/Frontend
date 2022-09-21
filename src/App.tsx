@@ -9,7 +9,7 @@ export function App(): ReactElement {
           alert('clicked');
         }}  
       >Settings
-        <SettingsIcon />
+        <SettingsIcon/>
       </IconButton>
   );
 }
