@@ -5,12 +5,19 @@ import SettingsIcon from '@mui/icons-material/Settings';
 export default function App() 
 {
   return (
-    <IconButton aria-label="settings"
-        onClick={() => 
-        {
-          alert('clicked');
-        }}  
-      ><SettingsIcon/>
-      </IconButton>
+    <div style={{display: "flex"}}>
+      <IconButton style={{marginRight: "auto"}} aria-label="settings"
+          onClick={() => 
+          {
+            alert('clicked');
+          }}  
+        ><SettingsIcon/>
+        </IconButton>
+      </div>
   );
+}
+
+export function settingsPanel() 
+{
+  return ("This is the settings panel! :D");
 }
