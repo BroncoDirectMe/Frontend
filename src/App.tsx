@@ -9,15 +9,10 @@ export default function App()
       <IconButton style={{marginRight: "auto"}} aria-label="settings"
           onClick={() => 
           {
-            alert('clicked');
+            alert("Clicked");
           }}  
         ><SettingsIcon/>
         </IconButton>
       </div>
   );
-}
-
-export function settingsPanel() 
-{
-  return ("This is the settings panel! :D");
 }
