@@ -2,27 +2,34 @@ import { Button, ClickAwayListener, Tooltip } from '@mui/material';
 import React from 'react';
 
 const dummyData: String =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tincidunt lobortis feugiat vivamus at augue.';
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-function ProfessorPopupInfo(props: any): JSX.Element {
+export default function ProfessorPopup(props: any): JSX.Element {
+  const [open, setOpen] = React.useState(false);
+
+  const handleTooltipClose = (): void => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = (): void => {
+    setOpen(true);
+  };
+
   return (
-    <>
-      <h1>{props.professor}</h1>
-      {dummyData}
-      <Button
-        onClick={props.handleTooltipClose}
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-        }}
-      >
-        Close
-      </Button>
-    </>
+    // close popup if click outside inner tooltip
+    <ClickAwayListener onClickAway={handleTooltipClose}>
+      <div>
+        <ProfessorPopupToolTip
+          professorName={props.professorName}
+          open={open}
+          handleTooltipOpen={handleTooltipOpen}
+          handleTooltipClose={handleTooltipClose}
+        />
+      </div>
+    </ClickAwayListener>
   );
 }
-
+// component that shows popup
 function ProfessorPopupToolTip(props: any): JSX.Element {
   return (
     <Tooltip
@@ -43,41 +50,31 @@ function ProfessorPopupToolTip(props: any): JSX.Element {
       placement="top"
       title={
         <ProfessorPopupInfo
-          professor={props.professor}
+          professorName={props.professorName}
           handleTooltipClose={props.handleTooltipClose}
         />
       }
-      arrow
     >
       <Button onClick={props.handleTooltipOpen}>Click</Button>
     </Tooltip>
   );
 }
-
-export default function ProfessorPopup(props: any): JSX.Element {
-  const [open, setOpen] = React.useState(false);
-
-  const handleTooltipClose = (): void => {
-    setOpen(false);
-  };
-
-  const handleTooltipOpen = (): void => {
-    setOpen(true);
-  };
-
+// component that shows the info inside the popup
+function ProfessorPopupInfo(props: any): JSX.Element {
   return (
-    <ClickAwayListener onClickAway={handleTooltipClose}>
-      <div>
-        <ProfessorPopupToolTip
-          professor={props.professor}
-          open={open}
-          handleTooltipOpen={handleTooltipOpen}
-          handleTooltipClose={handleTooltipClose}
-        />
-      </div>
-    </ClickAwayListener>
+    <>
+      <h1>{props.professorName}</h1>
+      {dummyData}
+      <Button
+        onClick={props.handleTooltipClose}
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+        }}
+      >
+        Close
+      </Button>
+    </>
   );
 }
-
-// var inst = iframe.contentWindow?.document.getElementById('MTG_INSTR$0')
-// var insts = iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');

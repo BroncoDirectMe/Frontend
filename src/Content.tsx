@@ -23,7 +23,7 @@ iframe?.contentWindow?.addEventListener('message', () => {
     parentElem?.append(root);
 
     // innerHtml is used until I can figure out why innerText doesnt work
-    createRoot(root).render(<ProfessorPopup professor={inst.innerHTML} />);
+    createRoot(root).render(<ProfessorPopup professorName={inst.innerHTML} />);
   });
 });
 
