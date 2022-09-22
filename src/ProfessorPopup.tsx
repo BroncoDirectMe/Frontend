@@ -1,10 +1,23 @@
 import { Button, ClickAwayListener, Tooltip } from '@mui/material';
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 
 const dummyData: String =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-export default function ProfessorPopup(props: any): JSX.Element {
+interface professorPopupTooltipProps {
+  professorName: string;
+  open?: boolean;
+  handleTooltipOpen?:
+    | ((event: Event | React.SyntheticEvent<Element, Event>) => void)
+    | undefined;
+  handleTooltipClose?:
+    | ((event: Event | React.SyntheticEvent<Element, Event>) => void)
+    | undefined;
+}
+
+export default function ProfessorPopup(props: {
+  professorName: string;
+}): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
   const handleTooltipClose = (): void => {
@@ -30,7 +43,7 @@ export default function ProfessorPopup(props: any): JSX.Element {
   );
 }
 // component that shows popup
-function ProfessorPopupToolTip(props: any): JSX.Element {
+function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
   return (
     <Tooltip
       PopperProps={{
@@ -60,7 +73,7 @@ function ProfessorPopupToolTip(props: any): JSX.Element {
   );
 }
 // component that shows the info inside the popup
-function ProfessorPopupInfo(props: any): JSX.Element {
+function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   return (
     <>
       <h1>{props.professorName}</h1>
