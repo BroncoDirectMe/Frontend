@@ -3,37 +3,28 @@ import { createRoot } from 'react-dom/client';
 import ProfessorPopup from './ProfessorPopup';
 
 const iframe = document.getElementById('ptifrmtgtframe') as HTMLIFrameElement;
-let insts = iframe.contentWindow?.document.querySelectorAll(
-  '*[id^="MTG_INSTR$"]'
-);
 
 // event listener on the iframe which fires on search
 // since iframe will receive a post message of the search criteria
 // however event will fire regardless if the search criteria is invalid and will remain on the page
 iframe?.contentWindow?.addEventListener('message', () => {
-  insts = iframe.contentWindow?.document.querySelectorAll(
+  const insts = iframe.contentWindow?.document.querySelectorAll(
     '*[id^="MTG_INSTR$"]'
   );
-  console.log(insts);
+  // iterate through insts and create new instance of ProfessorPopup for each inst
+  insts?.forEach((inst) => {
+    // append a new root container under inst.parent to retain original span element
+    const root = document.createElement('div');
+    const parentElem = inst.parentElement as HTMLDivElement;
 
-  if (insts) {
-    insts.forEach((inst) => {
-      // not sure if its a bug but it seems like innerText is invalid but innerHTML works
-      console.log(inst.innerHTML);
-      // null is placeholder for the popup component
+    // styling for the ProfessorPopup Button
+    root.setAttribute('id', 'root');
+    root.style.float = 'right';
+    parentElem?.append(root);
 
-      // create a new root container under inst.parent to retain original span element
-      const container = document.createElement('div');
-      container.setAttribute('id', 'root');
-      container.style.float = 'right';
-      inst.parentElement?.append(container);
-
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      createRoot(inst.parentElement!.children[1]).render(
-        <ProfessorPopup professor={inst.innerHTML} />
-      );
-    });
-  }
+    // innerHtml is used until I can figure out why innerText doesnt work
+    createRoot(root).render(<ProfessorPopup professor={inst.innerHTML} />);
+  });
 });
 
 console.log(document.URL);
