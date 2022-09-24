@@ -76,7 +76,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
 function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   return (
     <>
-      <h1>{props.professorName}</h1>
+      <h1>{ProfessorNameFiltering(props.professorName)}</h1>
       {dummyData}
       <Button
         onClick={props.handleTooltipClose}
@@ -90,4 +90,12 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       </Button>
     </>
   );
+}
+// filters out duplicate professor names and To be Announced
+function ProfessorNameFiltering(profName: string): string {
+  // removes all commas then splits set elements by every new line
+  const set = new Set(profName.split(',').join('').split('\n'));
+  set.delete('To be Announced');
+  // set to array to string with chosen separator
+  return Array.from(set).join(' & ');
 }
