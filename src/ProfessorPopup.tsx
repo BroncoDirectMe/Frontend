@@ -1,5 +1,5 @@
 import { Button, ClickAwayListener, Tooltip } from '@mui/material';
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 
 const dummyData: String =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
