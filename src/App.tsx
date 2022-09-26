@@ -10,7 +10,7 @@ export default function App()
           onClick={() => 
           {
             // Placeholder for Proper Popup
-            alert("Clicked");
+            alert("Clicked, welcome to the settings panel!");
           }}  
         ><SettingsIcon/>
         </IconButton>
