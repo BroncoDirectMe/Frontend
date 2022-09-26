@@ -2,7 +2,7 @@ import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { ReactElement } from 'react';
-import { PopUp } from './components/settingsPanel/settingsPanel.components';
+import { PopUp } from './components/settingsPanel/settingsPanel.component';
 
 
 export function App(): ReactElement
