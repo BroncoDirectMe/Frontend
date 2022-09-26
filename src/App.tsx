@@ -1,19 +1,26 @@
 import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { ReactElement } from 'react';
+import { PopUp } from './components/settingsPanel/settingsPanel.components';
 
-export default function App() 
+
+export function App(): ReactElement
 {
+const [isSPModalOpen, setSPModalState] = React.useState(false);
+const toggleSPModal = () => setSPModalState(!isSPModalOpen);
+
   return (
-    <div style={{display: "flex"}}>
-      <IconButton style={{marginRight: "auto"}} aria-label="settings"
-          onClick={() => 
-          {
-            // Placeholder for Proper Popup
-            alert("Clicked, welcome to the settings panel!");
-          }}  
+    <div>
+      <IconButton className='settingsButton'
+          onClick={toggleSPModal}
         ><SettingsIcon/>
         </IconButton>
+        <PopUp
+          title={"Painful Popup"}
+          isOpen={isSPModalOpen}
+          onClose={toggleSPModal}
+        > Pain </PopUp>
       </div>
   );
 }
