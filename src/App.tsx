@@ -9,6 +9,7 @@ export default function App()
       <IconButton style={{marginRight: "auto"}} aria-label="settings"
           onClick={() => 
           {
+            // Placeholder for Proper Popup
             alert("Clicked");
           }}  
         ><SettingsIcon/>
