@@ -1,4 +1,4 @@
-.PopUp
+.Modal
 {
     position: fixed;
     top: 0;
@@ -10,7 +10,7 @@
     height: 100vw;
 }
 
-.PopUpOverlay
+.ModalOverlay
 {
     position: absolute;
     top: 0;
@@ -21,7 +21,7 @@
     cursor: pointer;
 }
 
-.PopUpBox
+.ModalBox
 {
     position: relative;
     width: 80%;

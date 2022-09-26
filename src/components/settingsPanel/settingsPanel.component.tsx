@@ -1,7 +1,8 @@
+import { Button } from "@mui/material";
 import React from "react";
 import './settingsPanel.component.css';
 
-interface settingsPanelProps
+interface ModalProps
 {
     title: string;
     isOpen: boolean;
@@ -9,20 +10,21 @@ interface settingsPanelProps
     children: React.ReactNode;
 }
 
-export const PopUp: React.FC<settingsPanelProps> = ({ title, isOpen, onClose, children }) => isOpen ?
+export const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose, children }) => isOpen ?
 (
-    <div className={'PopUp'}>
-        <div className={'PopUpOverlay'} />
-        <div className={'PopUpBox'}>
-            <div className={'PopUpTitle'}>
+    <div className={'Modal'}>
+        <div className={'ModalOverlay'} />
+        <div className={'ModalBox'}>
+            <div className={'ModalTitle'}>
                 { title }
             </div>
-            <div className={'PopUpContent'}>
+            <div className={'ModalContent'}>
                 { children }
             </div>
-            <div className="PopUpCloseBtn">
-                Close
-            </div>
+            <Button 
+                onClick={onClose}
+                className="ModalCloseBtn"
+                > Close </Button>
         </div>
     </div>
 ) : null; 

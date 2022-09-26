@@ -2,25 +2,25 @@ import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { ReactElement } from 'react';
-import { PopUp } from './components/settingsPanel/settingsPanel.component';
+import { Modal } from './components/settingsPanel/settingsPanel.component';
 
 
 export function App(): ReactElement
 {
-const [isSPModalOpen, setSPModalState] = React.useState(false);
-const toggleSPModal = () => setSPModalState(!isSPModalOpen);
+const [isModalOpen, setModalState] = React.useState(false);
+const toggleModal = () => setModalState(!isModalOpen);
 
   return (
     <div>
       <IconButton className='settingsButton'
-          onClick={toggleSPModal}
+          onClick={toggleModal}
         ><SettingsIcon/>
         </IconButton>
-        <PopUp
-          title={"Painful Popup"}
-          isOpen={isSPModalOpen}
-          onClose={toggleSPModal}
-        > Pain </PopUp>
+        <Modal
+          title={"Settings"}
+          isOpen={isModalOpen}
+          onClose={toggleModal}
+        > Insert settings stuff here </Modal>
       </div>
   );
 }
