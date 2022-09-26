@@ -1,4 +1,4 @@
-.Modal
+.modal
 {
     position: fixed;
     top: 0;
@@ -10,7 +10,7 @@
     height: 100vw;
 }
 
-.ModalOverlay
+.modalOverlay
 {
     position: absolute;
     top: 0;
@@ -21,7 +21,7 @@
     cursor: pointer;
 }
 
-.ModalBox
+.modalBox
 {
     position: relative;
     width: 80%;

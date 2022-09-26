@@ -12,18 +12,18 @@ interface ModalProps
 
 export const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose, children }) => isOpen ?
 (
-    <div className={'Modal'}>
-        <div className={'ModalOverlay'} />
-        <div className={'ModalBox'}>
-            <div className={'ModalTitle'}>
+    <div className={'modal'}>
+        <div className={'modalOverlay'} />
+        <div className={'modalBox'}>
+            <div className={'modalTitle'}>
                 { title }
             </div>
-            <div className={'ModalContent'}>
+            <div className={'modalContent'}>
                 { children }
             </div>
             <Button 
                 onClick={onClose}
-                className="ModalCloseBtn"
+                className="modalCloseBtn"
                 > Close </Button>
         </div>
     </div>
