@@ -1,5 +1,11 @@
 import React, { ReactElement } from 'react';
 
+import  { ToggleButton }  from './ToggleButton'
+
 export function App(): ReactElement {
-  return <h1>Hello World</h1>;
+  return (
+    <div className='App'>
+      <ToggleButton/>
+    </div>
+  );
 }
