@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React from "react";
-import './settingsPanel.component.css';
+import './Modal.component.css';
 
 interface ModalProps
 {

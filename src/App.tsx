@@ -2,8 +2,7 @@ import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { ReactElement } from 'react';
-import { Modal } from './components/settingsPanel/settingsPanel.component';
-
+import { Modal } from './components/Modal/Modal.component';
 
 export function App(): ReactElement
 {
@@ -20,7 +19,8 @@ const toggleModal = () => setModalState(!isModalOpen);
           title={"Settings"}
           isOpen={isModalOpen}
           onClose={toggleModal}
-        > Insert settings stuff here </Modal>
+        > Insert settings stuff here 
+        </Modal>
       </div>
   );
 }
