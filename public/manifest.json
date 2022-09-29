@@ -15,7 +15,8 @@
   "content_scripts": [
     {
       "js": ["content.js"],
-      "matches": ["https://cmsweb.cms.cpp.edu/*"]
+      "matches": ["https://cmsweb.cms.cpp.edu/*"],
+      "run_at": "document_end"
     }
   ]
 }
