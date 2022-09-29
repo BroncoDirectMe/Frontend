@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './panel.component.css';
 
 interface PanelProps
 {
