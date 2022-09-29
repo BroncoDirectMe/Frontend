@@ -8,7 +8,7 @@ export function App(): ReactElement
 {
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = () => setPanelState(!isPanelOpen);
-  
+
   return (
     <div>
       <IconButton className='settingsButton'
