@@ -18,7 +18,7 @@ if (
   iframe?.contentWindow?.addEventListener('message', () => {
     const insts: NodeListOf<HTMLElement> | undefined =
       iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
-    if (insts?.length == 0) console.log('- Enter Search Criteria Page');
+    if (insts?.length === 0) console.log('- Enter Search Criteria Page');
     else console.log('- Search Results Page');
     // iterate through insts and create new instance of ProfessorPopup for each inst
     insts?.forEach((inst) => {
