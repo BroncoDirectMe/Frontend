@@ -1,6 +1,13 @@
 import React from 'react';
 
-export default function ListPage(props: any): JSX.Element {
+interface person {
+  professorName: string;
+  overallRating: number;
+  difficulty: number;
+  reviewCount: number;
+}
+
+export default function ListPage(props: { list: person[] }): JSX.Element {
   {
     return (
       //Looks of Page
@@ -10,7 +17,7 @@ export default function ListPage(props: any): JSX.Element {
         </div>
 
         {/* does the indexing work for you */}
-        {props.list.map((person: any, index: number) => (
+        {props.list.map((person: person, index: number) => (
           <div
             style={{
               backgroundColor: 'dark grey',

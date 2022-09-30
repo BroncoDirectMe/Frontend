@@ -30,7 +30,7 @@ const personArray = [
     professorName: 'Professor Yimmy',
     overallRating: 4.2,
     difficulty: 18,
-    reviewCount: 800,
+    reviewCount: 12,
   },
 ];
 
