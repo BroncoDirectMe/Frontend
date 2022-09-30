@@ -4,11 +4,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: {
     script: './src/Index.tsx',
-    content: './src/Content.ts',
+    content: './src/Content.tsx',
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'script.js',
+    filename: '[name].js',
   },
   devServer: {
     static: {
