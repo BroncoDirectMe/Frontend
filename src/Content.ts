@@ -7,7 +7,6 @@ window.onload = (event) => {
         'https://cmsweb.cms.cpp.edu/psp/CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?'
       )
     ) {
-      console.log(' - Current BroncoDirect Page: Enter Search Criteria');
       const iframe = document.getElementById(
         'ptifrmtgtframe'
       ) as HTMLIFrameElement;
@@ -22,8 +21,8 @@ window.onload = (event) => {
         insts = iframe.contentWindow?.document.querySelectorAll(
           '*[id^="MTG_INSTR$"]'
         );
-        if (insts?.length == 0) console.log('Enter Criteria Page');
-        else console.log('Search Results');
+        if (insts?.length == 0) console.log('- Enter Search Criteria Page');
+        else console.log('- Search Results Page');
       });
       // const iframe = document.getElementById(
       //   'ptifrmtgtframe'
