@@ -21,13 +21,17 @@ iframe?.contentWindow?.addEventListener('message', () => {
     upvoteRoot.style.float = 'left: 0';
     parentElem?.append(upvoteRoot);
 
-    createRoot(upvoteRoot).render(<UpvoteButton professorName={inst.innerText}/>);
+    createRoot(upvoteRoot).render(
+      <UpvoteButton professorName={inst.innerText} />
+    );
 
     //Downvote Button
     downvoteRoot.setAttribute('id', 'downvoteRoot');
     downvoteRoot.style.float = 'left: 1';
     parentElem?.append(downvoteRoot);
 
-    createRoot(downvoteRoot).render(<DownvoteButton professorName={inst.innerText}/>);
+    createRoot(downvoteRoot).render(
+      <DownvoteButton professorName={inst.innerText} />
+    );
   });
 });

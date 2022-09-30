@@ -21,7 +21,9 @@ export function DownvoteButton(props: { professorName: string }): JSX.Element {
     <Button
       color="warning"
       onClick={() => {
-        console.log('Downvote: Professor ' + ProfessorNameFiltering(props.professorName));
+        console.log(
+          'Downvote: Professor ' + ProfessorNameFiltering(props.professorName)
+        );
       }}
     >
       v
