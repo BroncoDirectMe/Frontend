@@ -18,8 +18,11 @@ if (
   iframe?.contentWindow?.addEventListener('message', () => {
     const insts: NodeListOf<HTMLElement> | undefined =
       iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
-    if (insts?.length === 0) console.log('- Enter Search Criteria Page');
-    else console.log('- Search Results Page');
+
+      const header: HTMLElement | undefined = iframe.contentWindow?.document.querySelector('.gh-page-header-headings')
+      if(header != undefined)
+        console.log(header.children[2].innerText)
+
     // iterate through insts and create new instance of ProfessorPopup for each inst
     insts?.forEach((inst) => {
       // append a new root container under inst.parent to retain original span element
