@@ -12,7 +12,7 @@ export function App(): ReactElement
 
   return (
     <div>
-      <IconButton className='settingsButton'
+      <IconButton
           onClick={togglePanel}
         ><SettingsIcon/>
         </IconButton>

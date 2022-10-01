@@ -17,8 +17,12 @@ export const Panel: React.FC<PanelProps> = ({title, isOpen, onClose, children}) 
         </div>
         <div className={'content'}>
             {children}
+
+        // Appearance & Design
         <Button className={'closeBtn'} 
-            onClick={onClose}>Close</Button>
+            onClick={onClose}></Button>
+
+
         </div>
     </div>
 ) : null;
