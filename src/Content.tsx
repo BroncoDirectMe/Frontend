@@ -19,9 +19,12 @@ if (
     const insts: NodeListOf<HTMLElement> | undefined =
       iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
 
-      const header: HTMLElement | undefined = iframe.contentWindow?.document.querySelector('.gh-page-header-headings')
-      if(header != undefined)
-        console.log(header.children[2].innerText)
+    const header: HTMLElement | null | undefined =
+      iframe.contentWindow?.document.querySelector('.gh-page-header-headings');
+
+    if (header != undefined)
+      console.log((header.children[2] as HTMLElement).innerText);
+    else console.log('undefined');
 
     // iterate through insts and create new instance of ProfessorPopup for each inst
     insts?.forEach((inst) => {
