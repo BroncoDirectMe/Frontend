@@ -35,7 +35,6 @@ const personArray = [
   },
 ];
 
-
 export function App(): ReactElement {
   return (
     <div className="App">
