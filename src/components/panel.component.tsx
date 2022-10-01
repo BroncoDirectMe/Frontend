@@ -9,7 +9,7 @@ interface PanelProps
     children: React.ReactNode;
 }
 
-export const Panel: React.FC<PanelProps> = ({title, isOpen, onClose, children}) => isOpen ?
+export const Panel: React.FC<PanelProps> = ({title, isOpen, onClose, children}) =>
 (
 <div className={'panel'}>
         <div className={'title'}>
@@ -21,4 +21,4 @@ export const Panel: React.FC<PanelProps> = ({title, isOpen, onClose, children}) 
             onClick={onClose}>Close</Button>
         </div>
     </div>
-) : null;
+);
