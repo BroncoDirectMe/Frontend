@@ -1,8 +1,9 @@
-import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { ReactElement } from 'react';
 import { Panel } from './components/panel.component';
+import React from 'react';
+
 
 export function App(): ReactElement
 {
@@ -17,9 +18,10 @@ export function App(): ReactElement
         </IconButton>
 
         <Panel
-          title={'Settings'}
-          isOpen={isPanelOpen}
-          onClose={togglePanel}> Settings stuff woooooo~ </Panel>
+        title={'Settings'}
+        isOpen={isPanelOpen}
+        onClose={togglePanel} 
+        children={"Filler"}></Panel>
       </div>
   );
 }

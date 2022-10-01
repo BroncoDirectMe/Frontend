@@ -1,5 +1,5 @@
+import { Button } from '@mui/material';
 import React from 'react';
-import './panel.component.css';
 
 interface PanelProps
 {
@@ -12,16 +12,13 @@ interface PanelProps
 export const Panel: React.FC<PanelProps> = ({title, isOpen, onClose, children}) => isOpen ?
 (
 <div className={'panel'}>
-    <div className={'panelOverlay'} />
-    <div className={'panelBox'}>
-        <div className={'panelCloseBtn'}>
-        </div>
-        <div className={'panelTitle'}>
+        <Button className={'closeBtn'} 
+                onClick={onClose}>Close</Button>
+        <div className={'title'}>
             {title}
         </div>
-        <div className={'panelContent'}>
+        <div className={'content'}>
             {children}
         </div>
     </div>
-</div>
 ) : null;
