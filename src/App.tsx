@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import ListPage from './ListItem';
+import { ToggleButton } from './ToggleButton';
 
 const personArray = [
   {
@@ -34,7 +35,6 @@ const personArray = [
   },
 ];
 
-import { ToggleButton } from './ToggleButton';
 
 export function App(): ReactElement {
   return (
