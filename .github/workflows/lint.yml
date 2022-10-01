@@ -27,7 +27,7 @@ jobs:
         with:
           eslint: true
           eslint_auto_fix: false
-          eslint_extensions: js,ts
+          eslint_extensions: js,ts,jsx,tsx
 
           prettier: true
           prettier_auto_fix: false
