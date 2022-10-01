@@ -12,13 +12,13 @@ interface PanelProps
 export const Panel: React.FC<PanelProps> = ({title, isOpen, onClose, children}) => isOpen ?
 (
 <div className={'panel'}>
-        <Button className={'closeBtn'} 
-                onClick={onClose}>Close</Button>
         <div className={'title'}>
             {title}
         </div>
         <div className={'content'}>
             {children}
+        <Button className={'closeBtn'} 
+            onClick={onClose}>Close</Button>
         </div>
     </div>
 ) : null;
