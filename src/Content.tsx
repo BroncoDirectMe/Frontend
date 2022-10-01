@@ -9,9 +9,9 @@ const iframe = document.getElementById('ptifrmtgtframe') as HTMLIFrameElement;
 iframe?.contentWindow?.addEventListener('message', () => {
   const insts: NodeListOf<HTMLElement> | undefined =
     iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
-  // iterate through insts and create new instance of ProfessorPopup for each inst
+  //Iterate through insts to get their roots
   insts?.forEach((inst) => {
-    // append new root containers under inst.parent to retain original span element
+    //New root containers under inst.parent
     const upvoteRoot = document.createElement('div');
     const downvoteRoot = document.createElement('div');
     const parentElem = inst.parentElement as HTMLDivElement;
