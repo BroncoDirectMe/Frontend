@@ -22,7 +22,7 @@ if (
     const header: HTMLElement | null | undefined =
       iframe.contentWindow?.document.querySelector('.gh-page-header-headings');
 
-    //Log to console the current page of Bronco Direct (using the header of the page)
+    // Log to console the current page of Bronco Direct (using the header of the page)
     if (header !== undefined && header !== null)
       console.log((header.children[2] as HTMLElement).innerText);
     else console.log('undefined');
