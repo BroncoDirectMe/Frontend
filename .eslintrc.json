@@ -15,7 +15,9 @@
     "project": ["tsconfig.json"]
   },
   "plugins": ["react"],
-  "rules": {},
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": 0
+  },
   "settings": {
     "react": {
       "version": "detect"
