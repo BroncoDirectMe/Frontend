@@ -1,33 +1,28 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { UpvoteButton } from './UpvoteDownvoteButtons';
-import { DownvoteButton } from './UpvoteDownvoteButtons';
+import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
-//Page iframe
+// Page iframe
 const iframe = document.getElementById('ptifrmtgtframe') as HTMLIFrameElement;
 
 iframe?.contentWindow?.addEventListener('message', () => {
   const insts: NodeListOf<HTMLElement> | undefined =
     iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
-  //Iterate through insts to get their roots
+  // iterate through insts and create new instance of ProfessorPopup for each inst
   insts?.forEach((inst) => {
-    //New root containers under inst.parent
-    const upvoteRoot = document.createElement('div');
-    const downvoteRoot = document.createElement('div');
+    //Root container
+    const upvoteDownvoteRoot = document.createElement('div');
     const parentElem = inst.parentElement as HTMLDivElement;
 
-    //Upvote Button
-    upvoteRoot.setAttribute('id', 'upvoteRoot');
-    upvoteRoot.style.float = 'left: 0';
-    parentElem?.append(upvoteRoot);
+    //Upvote and Downvote Buttons
+    upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
+    upvoteDownvoteRoot.style.float = 'left';
+    upvoteDownvoteRoot.style.padding = '2%';
 
-    createRoot(upvoteRoot).render(<UpvoteButton professorName={inst.innerText}/>);
+    parentElem?.prepend(upvoteDownvoteRoot);
 
-    //Downvote Button
-    downvoteRoot.setAttribute('id', 'downvoteRoot');
-    downvoteRoot.style.float = 'left: 1';
-    parentElem?.append(downvoteRoot);
-
-    createRoot(downvoteRoot).render(<DownvoteButton professorName={inst.innerText}/>);
+    createRoot(upvoteDownvoteRoot).render(
+      <UpvoteDownvoteButton professorName={inst.innerText} />
+    );
   });
 });
