@@ -10,11 +10,11 @@ iframe?.contentWindow?.addEventListener('message', () => {
     iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
   // iterate through insts and create new instance of ProfessorPopup for each inst
   insts?.forEach((inst) => {
-    //Root container
+    // Root container
     const upvoteDownvoteRoot = document.createElement('div');
     const parentElem = inst.parentElement as HTMLDivElement;
 
-    //Upvote and Downvote Buttons
+    // Upvote and Downvote Buttons
     upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
     upvoteDownvoteRoot.style.float = 'left';
     upvoteDownvoteRoot.style.padding = '2%';

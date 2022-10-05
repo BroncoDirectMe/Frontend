@@ -38,7 +38,7 @@ function DownvoteButton(props: { professorName: string }): JSX.Element {
   );
 }
 
-//Same name filter method as in ProfessorPopup except as a string arrayo
+// Same name filter method as in ProfessorPopup except as a string arrayo
 function ProfessorNameFiltering(profName: string): String[] {
   const set = new Set(profName.split(',').join('').split('\n'));
   set.delete('To be Announced');
