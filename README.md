@@ -6,7 +6,8 @@
 
 <p> This repository contains all required code to drive the frontend for the BroncoDirectMe Chromium extension. This mainly includes the composition and rendering of the user interface.</p>
 
-<h2> Recommended IDE Settings for Various IDEs </h2> 
+##Recommended IDE Settings for Various IDEs
+
 <h3> Recommanded <code> .vscode/settings.json </code> Setup</h3>
 <code>
 {
