@@ -8,7 +8,7 @@ const iframe = document.getElementById('ptifrmtgtframe') as HTMLIFrameElement;
 iframe?.contentWindow?.addEventListener('message', () => {
   const insts: NodeListOf<HTMLElement> | undefined =
     iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
-    
+
   // iterate through insts
   insts?.forEach((inst) => {
     const upvoteDownvoteRoot = document.createElement('div');
