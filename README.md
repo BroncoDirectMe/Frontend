@@ -1,4 +1,4 @@
-#BroncoDirectMe
+<h1> BroncoDirectMe </h1>
 
 <p> An extension for Chrome that is an alternative frontend for the BroncoDirect website. This extension allows Cal Poly Pomona students to access BroncoDirect information from anywhere while browsing the web. </p>
 
@@ -9,13 +9,13 @@
 ##Recommended IDE Settings for Various IDEs
 
 <h3> Recommanded <code> .vscode/settings.json </code> Setup</h3>
-```
+<code>
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
-```
-##Features
+</code>
+<h2> Features </h2>
 
 <h3> Content Script </h3>
 <p> Function: allows Developers to modify the DOM of the app. </p>
@@ -33,7 +33,7 @@
 <li> Logging passes state to parents. </li>
 </ul>
 
-<h3> Dynamic search results </h3>+
+<h3> Dynamic search results </h3>
 <p> Function: This module allows the user to have a list of professors generated based on their search query. </p>
 
 <h3> Popup search bar </h3> 
