@@ -3,7 +3,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { ReactElement } from 'react';
 import { Panel } from './components/panel.component';
 import React from 'react';
+import CSS from 'csstype';
 
+const SettingsBtnStyle: CSS.Properties = {
+  position: 'fixed',
+  right: 0
+};
 
 export function App(): ReactElement
 {
@@ -14,6 +19,7 @@ export function App(): ReactElement
     <div>
       <IconButton
           onClick={togglePanel}
+          style={SettingsBtnStyle}
         ><SettingsIcon/>
         </IconButton>
 
