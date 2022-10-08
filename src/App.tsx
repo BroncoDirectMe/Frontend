@@ -10,9 +10,6 @@ const SettingsBtnStyle: CSS.Properties = {
   right: 0,
   top: 0
 };
-const WrapContent: CSS.Properties = {
-  inlineSize: 'min-content'
-};
 
 export function App(): ReactElement
 {
@@ -20,7 +17,7 @@ export function App(): ReactElement
   const togglePanel = () => setPanelState(!isPanelOpen);
 
   return (
-    <div style={WrapContent}>
+    <div>
       <IconButton
           onClick={togglePanel}
           style={SettingsBtnStyle}
