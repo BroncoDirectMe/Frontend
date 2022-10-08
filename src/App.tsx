@@ -6,7 +6,7 @@ import React from 'react';
 import CSS from 'csstype';
 
 const SettingsBtnStyle: CSS.Properties = {
-  position: 'fixed',
+  position: 'absolute',
   right: 0
 };
 
