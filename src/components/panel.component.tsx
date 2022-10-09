@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import CSS from 'csstype';
+import { BorderStyle } from '@mui/icons-material';
 
 interface PanelProps
 {
@@ -13,14 +14,15 @@ interface PanelProps
 const PanelStyle: CSS.Properties = {
     height: '200px',
     width: '200px',
-    border: '2px gray',
-    borderRadius: '5px'
   };
 
 const ButtonStyle: CSS.Properties = {
     position: 'absolute',
     bottom: 0,
-    textAlign: 'center'
+    textAlign: 'center',
+    borderStyle: 'dashed',
+    borderWidth: '2px',
+    borderRadius: '5px'
 };
 
 export const Panel: React.FC<PanelProps> = ({title, isOpen, onClose, children}) => isOpen ?
