@@ -7,8 +7,8 @@ import CSS from 'csstype';
 
 const SettingsBtnStyle: CSS.Properties = {
   position: 'fixed',
-  right: 0,
-  top: 0
+  right: '2px',
+  top: '2px'
 };
 
 export function App(): ReactElement
