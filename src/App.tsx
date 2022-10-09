@@ -6,7 +6,7 @@ import React from 'react';
 import CSS from 'csstype';
 
 const SettingsBtnStyle: CSS.Properties = {
-  position: 'relative',
+  position: 'fixed',
   right: 0,
   top: 0
 };

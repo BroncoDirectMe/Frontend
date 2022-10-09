@@ -13,10 +13,7 @@ interface PanelProps
 const PanelStyle: CSS.Properties = {
     display: 'flex',
     height: '200px',
-    width: '200px',
-    borderStyle: 'dashed',
-    borderWidth: '2px',
-    borderRadius: '2px'
+    width: '200px'
   };
 
 const ButtonStyle: CSS.Properties = {
