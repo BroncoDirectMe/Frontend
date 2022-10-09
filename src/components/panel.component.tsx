@@ -1,7 +1,6 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import CSS from 'csstype';
-import { BorderAllRounded, BorderStyle } from '@mui/icons-material';
 
 interface PanelProps
 {
@@ -12,6 +11,7 @@ interface PanelProps
 }
 
 const PanelStyle: CSS.Properties = {
+    display: 'flex',
     height: '200px',
     width: '200px',
     borderStyle: 'dashed',
@@ -21,12 +21,17 @@ const PanelStyle: CSS.Properties = {
 
 const ButtonStyle: CSS.Properties = {
     position: 'absolute',
-    bottom: 0,
+    marginBottom: '12px',
     textAlign: 'center',
+    bottom: 0
 };
 
 const MarginStyle: CSS.Properties = {
     margin: '5px 5px 5px 5px'
+};
+
+const TitleStyle: CSS.Properties = {
+    fontWeight: 'bold'
 };
 
 
@@ -36,12 +41,13 @@ export const Panel: React.FC<PanelProps> = ({title, isOpen, onClose, children}) 
          className={'panel'}>
         <div className={'margin'}
              style={MarginStyle}>
-                <text className={'title'}
-                      style={{fontWeight: 'bold'}}>
+                <text 
+                    style={TitleStyle}
+                    className={'title'}>
                     {title}
                 </text>
                 <div className={'content'}>
-                    <br>{children}</br>
+                    {children}
                 <Button 
                     style={ButtonStyle}
                     className={'closeBtn'} 
