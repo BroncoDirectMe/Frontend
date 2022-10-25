@@ -15,19 +15,24 @@ export function App(): ReactElement
 {
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = () => setPanelState(!isPanelOpen);
+  
+  const [isSettingsButtonOpen, setSettingsButtonState] = React.useState(true);
 
   return (
     <div>
+      {
+        isSettingsButtonOpen ? 
       <IconButton
-          onClick={togglePanel}
+          onClick={() => { togglePanel(); setSettingsButtonState(false); }}
           style={SettingsBtnStyle}
         ><SettingsIcon/>
-        </IconButton>
+        </IconButton> : null
+      }
 
         <Panel
         title={'Settings'}
         isOpen={isPanelOpen}
-        onClose={togglePanel} 
+        onClose={() => { togglePanel(); setSettingsButtonState(true); }} 
         children={"Filler"}></Panel>
       </div>
   );
