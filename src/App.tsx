@@ -1,7 +1,7 @@
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { ReactElement } from 'react';
-import { Panel } from './components/panel.component';
+import { Panel } from './components/panel_component';
 import React from 'react';
 import CSS from 'csstype';
 
@@ -32,7 +32,11 @@ export function App(): ReactElement
         <Panel
         title={'Settings'}
         isOpen={isPanelOpen}
-        onClose={() => { togglePanel(); setSettingsButtonState(true); }} 
+        onClose={() => 
+        { 
+          togglePanel(); 
+          setSettingsButtonState(true); 
+        }} 
         children={"Filler"}></Panel>
       </div>
   );
