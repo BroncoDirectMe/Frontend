@@ -23,7 +23,11 @@ export function App(): ReactElement
       {
         isSettingsButtonOpen ? 
       <IconButton
-          onClick={() => { togglePanel(); setSettingsButtonState(false); }}
+          onClick={() => 
+          { 
+            togglePanel();
+            setSettingsButtonState(false); 
+          }}
           style={SettingsBtnStyle}
         ><SettingsIcon/>
         </IconButton> : null
