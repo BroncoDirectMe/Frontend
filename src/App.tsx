@@ -34,14 +34,14 @@ export function App(): ReactElement
       }
 
         <Panel
-        title={'Settings'}
-        isOpen={isPanelOpen}
-        onClose={() => 
-        { 
-          togglePanel(); 
-          setSettingsButtonState(true); 
-        }} 
-        children={"Filler"}></Panel>
+          title={'Settings'}
+          isOpen={isPanelOpen}
+          onClose={() => 
+          { 
+            togglePanel(); 
+            setSettingsButtonState(true); 
+          }} 
+          children={"Filler"}></Panel>
       </div>
   );
 }
