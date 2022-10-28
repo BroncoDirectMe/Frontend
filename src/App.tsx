@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import ListPage from './ListItem';
 import { ToggleButton } from './ToggleButton';
+import SearchBar from './SearchBar';
 
 const personArray = [
   {
@@ -39,6 +40,7 @@ export function App(): ReactElement {
   return (
     <div className="App">
       <ToggleButton />
+      <SearchBar />
       <ListPage list={personArray} />
     </div>
   );
