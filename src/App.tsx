@@ -14,6 +14,7 @@ const personArray = [
     overallRating: 5.0,
     difficulty: 31,
     reviewCount: 60,
+    
   },
   {
     professorName: 'Dr. Marshal',
