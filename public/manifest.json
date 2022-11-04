@@ -12,6 +12,7 @@
       "128": "/images/icon.png"
     }
   },
+  "permissions": ["activeTab", "storage", "tabs", "identity", "identity.email"],
   "content_scripts": [
     {
       "js": ["content.js"],
