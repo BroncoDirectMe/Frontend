@@ -1,8 +1,12 @@
 import { Button, ClickAwayListener, Tooltip } from '@mui/material';
 import React from 'react';
 
-const dummyData: String =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+
+
+
+const response = await fetch("http://localhost:3000/",{method: 'POST', body: JSON.stringify({"name" : "professor"})})
+const data = await response.json()
+
 
 interface professorPopupTooltipProps {
   professorName: string;
