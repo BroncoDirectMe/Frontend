@@ -1,12 +1,21 @@
 import { Button, ClickAwayListener, Tooltip } from '@mui/material';
 import React from 'react';
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+async function fetchProfessorData() {
+  const url = "http://localhost:3000/professor";
+  const body = {
+    method: 'POST', 
+    headers:{'Content-Type': 'application/json'},
+    body: JSON.stringify({"name" : "Thanh Nguyen"})
+  }
 
+  console.log('Yo whats up this somewhat works I guess');
+  const response = await fetch(url, body);
+  const json = await response.json();
 
-
-const response = await fetch("http://localhost:3000/",{method: 'POST', body: JSON.stringify({"name" : "professor"})})
-const data = await response.json()
-
+  return "Hello";
+}
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -78,10 +87,15 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
 }
 // component that shows the info inside the popup
 function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
+  const data = fetchProfessorData().then(function(result){
+    return result;
+  })
+  console.log("first ", data);
+
   return (
     <>
       <h1>{ProfessorNameFiltering(props.professorName)}</h1>
-      {dummyData}
+      {data}
       <Button
         onClick={props.handleTooltipClose}
         style={{
