@@ -15,7 +15,8 @@ const msalConfig: Configuration = {
   auth: {
     clientId: '2f9b4faf-5895-49db-ad35-40120df164f9',
     authority:
-      'https://login.microsoftonline.com/164ba61e-39ec-4f5d-89ff-aa1f00a521b4',
+    'https://login.microsoftonline.com/consumers',
+      // 'https://login.microsoftonline.com/164ba61e-39ec-4f5d-89ff-aa1f00a521b4',
     // authority URL generated with CPP's tenant ID from https://www.whatismytenantid.com/
     redirectUri,
     postLogoutRedirectUri: redirectUri,
@@ -33,36 +34,35 @@ export const msalInstance = new PublicClientApplication(msalConfig);
  * @param {} url Url to navigate to.
  */
 async function launchWebAuthFlow(url: string): Promise<void> {
-  // return await new Promise((resolve, reject) => {
-  //   chrome.identity.launchWebAuthFlow(
-  //     {
-  //       interactive: true,
-  //       url,
-  //     },
-  //     (responseUrl) => {
-  //       // Response urls includes a hash (login, acquire token calls)
-  //       if (responseUrl?.includes('#')) {
-  //         msalInstance
-  //           .handleRedirectPromise(`#${responseUrl.split('#')[1]}`)
-  //           .then(resolve)
-  //           .catch(reject);
-  //       } else {
-  //         // Logout calls
-  //         resolve(null);
-  //       }
-  //     }
-  //   );
-  // });
-  console.log(chrome.identity);
-  chrome.identity.launchWebAuthFlow(
-    {
-      interactive: true,
-      url,
-    },
-    (responseUrl) => {
-      console.log(responseUrl);
-    }
-  );
+  return await new Promise((resolve, reject) => {
+    chrome.identity.launchWebAuthFlow(
+      {
+        interactive: true,
+        url,
+      },
+      (responseUrl) => {
+        // Response urls includes a hash (login, acquire token calls)
+        if (responseUrl?.includes('#')) {
+          msalInstance
+            .handleRedirectPromise(`#${responseUrl.split('#')[1]}`)
+            .then(resolve)
+            .catch(reject);
+        } else {
+          // Logout calls
+          resolve(null);
+        }
+      }
+    );
+  });
+  // chrome.identity.launchWebAuthFlow(
+  //   {
+  //     interactive: true,
+  //     url,
+  //   },
+  //   (responseUrl) => {
+  //     console.log(responseUrl);
+  //   }
+  // );
 }
 
 /**
@@ -140,9 +140,9 @@ async function signIn(): Promise<void> {
     scopes: ['user.read'],
   };
   const url = await getLoginUrl(signInRequest);
-  console.log(url);
+  // console.log(url);
   const result = await launchWebAuthFlow(url);
-  console.log(result);
+  // console.log(result);
 
   // console.log(result?.account?.username);
   // const { accessToken } = await acquireToken({
@@ -156,6 +156,7 @@ export function MicrosoftOAuth(): JSX.Element {
   return (
     <button
       onClick={() => {
+        console.log("redirectURI: " + redirectUri)
         void (async () => await signIn())();
       }}
     >
