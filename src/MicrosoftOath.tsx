@@ -58,24 +58,29 @@ async function launchWebAuthFlow(
 /**
  * Returns the user sign into the browser.
  */
-async function getSignedInUser(): Promise<chrome.identity.UserInfo | null> {
-  return await new Promise((resolve) => {
-    if (chrome?.identity) {
-      // Running in extension popup
-      chrome.identity.getProfileUserInfo((user) => {
-        if (user) {
-          resolve(user);
-        } else {
-          resolve(null);
-        }
-      });
-    } else {
-      // Running on localhost
-      resolve(null);
-    }
-  });
-}
+// async function getSignedInUser(): Promise<chrome.identity.UserInfo | null> {
+//   return await new Promise((resolve) => {
+//     if (chrome?.identity) {
+//       // Running in extension popup
+//       chrome.identity.getProfileUserInfo((user) => {
+//         if (user) {
+//           resolve(user);
+//         } else {
+//           resolve(null);
+//         }
+//       });
+//     } else {
+//       // Running on localhost
+//       resolve(null);
+//     }
+//   });
+// }
 
+/**
+ *
+ * @param request RedirectRequest specifying the scope of the login (what information should be obtained)
+ * @returns URL that actually redirects user to Microsoft page to input login credentials
+ */
 async function getLoginUrl(request: RedirectRequest): Promise<string> {
   return await new Promise((resolve, reject) => {
     msalInstance
@@ -90,6 +95,9 @@ async function getLoginUrl(request: RedirectRequest): Promise<string> {
   });
 }
 
+/**
+ * Initiates Microsoft Authentication. Use this function to prompt users to login
+ */
 async function signIn(): Promise<void> {
   const signInRequest: RedirectRequest = {
     scopes: ['user.read'],
