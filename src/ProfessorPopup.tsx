@@ -1,4 +1,9 @@
-import { Button, ClickAwayListener, Tooltip } from '@mui/material';
+import {
+  Button,
+  ClickAwayListener,
+  Tooltip,
+  CircularProgress,
+} from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 interface professorPopupTooltipProps {
@@ -62,6 +67,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
         <ProfessorPopupInfo
           professorName={props.professorName}
           handleTooltipClose={props.handleTooltipClose}
+          aasd
         />
       }
     >
@@ -71,23 +77,33 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
 }
 // component that shows the info inside the popup
 function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
-  const url = "http://localhost:3000/professor";
+  const url = 'http://localhost:3000/professor';
   const body = {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({'name': props.professorName})
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: props.professorName }),
   };
 
-  const [data, setData] = useState(""); // professor data
+  const [avgDifficulty, setAvgDifficulty] = useState(null); // avgDifficulty
+  const [avgRating, setAvgRating] = useState(null); // avgRating
+  const [numRatings, setNumRatings] = useState(null); // numRatings
+  const [retentionPercent, setRetentionPercent] = useState(null); // wouldTakeAgainPercent
 
-  // Gets professor data from backend 'server.ts/professor' function in JSON format (currently returns it as a string)
+  const [loading, setLoading] = useState(false);
+
+  // Gets professor data from backend 'server.ts/professor' function and sets data to their respective useState
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const getProfessorData = async () => {
     const response = await fetch(url, body);
     const json = await response.json();
 
-    setData(JSON.stringify(json)); // convert entire json to a string
-  }
+    setAvgDifficulty(json.avgDifficulty);
+    setAvgRating(json.avgRating);
+    setNumRatings(json.numRatings);
+    setRetentionPercent(json.wouldTakeAgainPercent.toFixed(2)); // truncate to 2 decimal points (dont think it rounds atm)
+
+    setLoading(true); // data finished loading
+  };
 
   // Runs getProfessorData upon page reload
   useEffect(() => {
@@ -97,7 +113,27 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   return (
     <>
       <h1>{ProfessorNameFiltering(props.professorName)}</h1>
-      {data}
+      {loading ? (
+        <h3>
+          Score: {avgRating} / 5
+          <br />
+          Difficulty: {avgDifficulty} / 5
+          <br />
+          Ratings: {numRatings}
+          <br />
+          {retentionPercent}% would take again
+        </h3>
+      ) : (
+        <CircularProgress
+          size={40}
+          thickness={5}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+          }}
+        />
+      )}
       <Button
         onClick={props.handleTooltipClose}
         style={{
