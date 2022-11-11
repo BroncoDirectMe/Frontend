@@ -67,7 +67,6 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
         <ProfessorPopupInfo
           professorName={props.professorName}
           handleTooltipClose={props.handleTooltipClose}
-          aasd
         />
       }
     >
