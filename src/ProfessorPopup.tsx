@@ -1,21 +1,5 @@
 import { Button, ClickAwayListener, Tooltip } from '@mui/material';
-import React from 'react';
-
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-async function fetchProfessorData() {
-  const url = "http://localhost:3000/professor";
-  const body = {
-    method: 'POST', 
-    headers:{'Content-Type': 'application/json'},
-    body: JSON.stringify({"name" : "Thanh Nguyen"})
-  }
-
-  console.log('Yo whats up this somewhat works I guess');
-  const response = await fetch(url, body);
-  const json = await response.json();
-
-  return "Hello";
-}
+import React, { useState, useEffect } from 'react';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -87,10 +71,28 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
 }
 // component that shows the info inside the popup
 function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
-  const data = fetchProfessorData().then(function(result){
-    return result;
-  })
-  console.log("first ", data);
+  const url = "http://localhost:3000/professor";
+  const body = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({'name': props.professorName})
+  };
+
+  const [data, setData] = useState(""); // professor data
+
+  // Gets professor data from backend 'server.ts/professor' function in JSON format (currently returns it as a string)
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const getProfessorData = async () => {
+    const response = await fetch(url, body);
+    const json = await response.json();
+
+    setData(JSON.stringify(json)); // convert entire json to a string
+  }
+
+  // Runs getProfessorData upon page reload
+  useEffect(() => {
+    void getProfessorData();
+  }, []);
 
   return (
     <>
