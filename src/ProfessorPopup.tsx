@@ -99,7 +99,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     setAvgDifficulty(json.avgDifficulty);
     setAvgRating(json.avgRating);
     setNumRatings(json.numRatings);
-    setRetentionPercent(json.wouldTakeAgainPercent.toFixed(2)); // truncate to 2 decimal points (dont think it rounds atm)
+    setRetentionPercent(json.wouldTakeAgainPercent.toFixed(2)); // truncate to 2 decimal points (don't think it rounds atm)
 
     setLoading(true); // data finished loading
   };
