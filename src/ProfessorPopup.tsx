@@ -1,5 +1,6 @@
 import { Button, ClickAwayListener, Tooltip } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import loadingImg from '../public/images/loading_spinner.gif';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -133,9 +134,10 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     </>
   ) : (
     <img
-      src="https://cdn.discordapp.com/attachments/1040840130954526722/1040846100598362193/dbeskkq-64f9f640-e272-4770-8812-f696022a86bd.gif" // this gif is 1:1
+      src={loadingImg} // this gif is 1:1
       width="175"
       height="175"
+      alt="Loading..."
     />
   );
 }
