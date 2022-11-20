@@ -1,6 +1,8 @@
 import React, { ReactElement } from 'react';
 import ListPage from './ListItem';
 import { ToggleButton } from './ToggleButton';
+import { MsalProvider } from '@azure/msal-react';
+import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
 
 const personArray = [
   {
@@ -37,9 +39,12 @@ const personArray = [
 
 export function App(): ReactElement {
   return (
-    <div className="App">
-      <ToggleButton />
-      <ListPage list={personArray} />
-    </div>
+    <MsalProvider instance={msalInstance}>
+      <div className="App">
+        <ToggleButton />
+        <ListPage list={personArray} />
+        <MicrosoftOAuth />
+      </div>
+    </MsalProvider>
   );
 }
