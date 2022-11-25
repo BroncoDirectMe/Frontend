@@ -1,6 +1,9 @@
 import React, { ReactElement } from 'react';
 import ListPage from './ListItem';
 import { ToggleButton } from './ToggleButton';
+import Button from './components/MissingButton';
+import Form from './components/Form';
+import { useState } from 'react';
 
 const personArray = [
   {
@@ -39,10 +42,33 @@ const personArray = [
  * @returns Main app component
  */
 export function App(): ReactElement {
+  const [buttonPopup, setButtonPopup] = useState(false);
   return (
-    <div className="App">
-      <ToggleButton />
-      <ListPage list={personArray} />
-    </div>
+    <>
+      <div className="App">
+        <ToggleButton />
+        <ListPage list={personArray} />
+      </div>
+      <>
+        <br />
+        <button className="closebtn" onClick={() => setButtonPopup(false)}>
+          Close
+        </button>
+        <br />
+        <Button
+          border="solid"
+          color="red"
+          height="100px"
+          onClick={() => setButtonPopup(true)}
+          radius="15px"
+          width="300px"
+          children="Report Missing Professor"
+          align-items="center"
+        />
+        {buttonPopup && <Form />}
+      </>
+    </>
   );
 }
+
+export default App;
