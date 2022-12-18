@@ -1,24 +1,19 @@
 import { ToggleButton } from '../ToggleButton';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+// import { configure, shallow } from 'enzyme';
+// import Adapter from 'enzyme-adapter-react-16';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-global.TextEncoder = require("util").TextEncoder;
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-global.TextDecoder = require("util").TextDecoder;
+// configure({ adapter: new Adapter() });
 
-configure({ adapter: new Adapter() });
-
-describe('Test Button component', () => {
-  it('Test click event', () => {
-    const mockCallBack = jest.fn();
-    const button = shallow((<ToggleButton />));
-    button.find('button').simulate('click');
-    expect(mockCallBack.mock.calls.length).toEqual(1);
-  });
-});
+// describe('Test Button component', () => {
+//   it('Test click event', () => {
+//     const mockCallBack = jest.fn();
+//     const button = shallow((<ToggleButton />));
+//     button.find('button').simulate('click');
+//     expect(mockCallBack.mock.calls.length).toEqual(1);
+//   });
+// });
 
 describe('Testing button', () => {
   it('Check for button', () => {
