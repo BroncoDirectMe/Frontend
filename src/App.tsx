@@ -40,14 +40,10 @@ const personArray = [
 
 export function App(): ReactElement {
   return (
-    <div className="App">
-      <ToggleButton />
-      <SearchBar />
-      <ListPage list={personArray} />
-    </div>
     <MsalProvider instance={msalInstance}>
       <div className="App">
         <ToggleButton />
+        <SearchBar />
         <ListPage list={personArray} />
         <MicrosoftOAuth />
       </div>
