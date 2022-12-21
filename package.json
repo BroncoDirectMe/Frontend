@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZombiMigz/BroncoDirectMe.git"
+    "url": "git+https://github.com/BroncoDirectMe/Frontend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ZombiMigz/BroncoDirectMe/issues"
+    "url": "https://github.com/BroncoDirectMe/Frontend/issues"
   },
-  "homepage": "https://github.com/ZombiMigz/BroncoDirectMe#readme",
+  "homepage": "https://github.com/BroncoDirectMe/Frontend#readme",
   "devDependencies": {
     "@babel/core": "^7.18.13",
     "@babel/preset-env": "^7.18.10",
@@ -47,8 +47,11 @@
     "webpack-dev-server": "^4.10.1"
   },
   "dependencies": {
+    "@azure/msal-browser": "^2.29.0",
+    "@azure/msal-react": "^1.4.8",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.14",
     "@mui/material": "^5.10.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
