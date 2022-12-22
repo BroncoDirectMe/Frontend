@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import ListPage from './ListItem';
 import { ToggleButton } from './ToggleButton';
+import SearchBar from './SearchBar';
 import { MsalProvider } from '@azure/msal-react';
 import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
 
@@ -42,6 +43,7 @@ export function App(): ReactElement {
     <MsalProvider instance={msalInstance}>
       <div className="App">
         <ToggleButton />
+        <SearchBar />
         <ListPage list={personArray} />
         <MicrosoftOAuth />
       </div>
