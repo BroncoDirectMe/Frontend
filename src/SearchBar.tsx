@@ -26,7 +26,7 @@ export default function SearchBar(): JSX.Element {
     searchView = {
       display: 'none',
     };
-  }, [count])
+  }, [count]);
   // attempt at trying to render a 'no results' element when the search has no results
 
   return (
@@ -73,8 +73,8 @@ export default function SearchBar(): JSX.Element {
                 reviewCount: numRatings,
               });
             } catch {
-              console.log("no work")
-              hasResult((count) => count ++)
+              console.log('no work');
+              hasResult((count) => count++);
               // Case when the search yields no results
             }
           }
