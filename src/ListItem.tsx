@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface person {
+export interface person {
   professorName: string;
   overallRating: number;
   difficulty: number;
   reviewCount: number;
 }
 
-export default function ListPage(props: { list: person[] }): JSX.Element {
+export function ListPage(props: { list: person[] }): JSX.Element {
   return (
     // Looks of Page
     <>
