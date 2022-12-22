@@ -15,9 +15,20 @@ export default function SearchBar(): JSX.Element {
           onChange={(e) => {
             setsearchText(e.target.value);
           }}
-          onKeyUp={(e) => {
-            if (e.key === 'Enter') console.log(searchText);
-            // run search function when backend is implemented
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onKeyUp={async (e) => {
+            if (e.key === 'Enter') {
+              const request = await fetch('http://localhost:3000/professor', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ test: 0 }),
+              });
+              // POST request to the backend with endpoint /professor
+              const response = await request.json();
+              console.log(response)
+            }
           }}
         />
       </div>
