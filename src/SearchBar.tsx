@@ -1,33 +1,20 @@
 import { TextField } from '@mui/material';
-import React, { CSSProperties, useState, useEffect } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { ListPage, person } from './ListItem';
 
 let searchView: CSSProperties = {
   display: 'none',
 };
-let noResultsView: CSSProperties = {
-  display: 'none',
-};
-
 export default function SearchBar(): JSX.Element {
-  const [searchText, setsearchText] = useState('');
-  const [count, hasResult] = useState(0);
+  const [searchText, setSearchText] = useState('');
+  const [hasResult, setResult] = useState(true);
+  const [loading, isLoading] = useState(false);
   const [searchResult, newResult] = useState<person>({
     professorName: 'professor',
     overallRating: 1.0,
     difficulty: 1.0,
     reviewCount: 1,
   });
-
-  useEffect(() => {
-    noResultsView = {
-      display: 'block',
-    };
-    searchView = {
-      display: 'none',
-    };
-  }, [count]);
-  // attempt at trying to render a 'no results' element when the search has no results
 
   return (
     <div>
@@ -37,11 +24,13 @@ export default function SearchBar(): JSX.Element {
         value={searchText}
         fullWidth
         onChange={(e) => {
-          setsearchText(e.target.value);
+          setSearchText(e.target.value);
         }}
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onKeyUp={async (e) => {
           if (e.key === 'Enter') {
+            isLoading(true);
+            setResult(true);
             try {
               const request = await fetch('http://localhost:3000/professor', {
                 method: 'POST',
@@ -58,13 +47,6 @@ export default function SearchBar(): JSX.Element {
                 lastName,
                 numRatings,
               } = await request.json();
-
-              searchView = {
-                display: 'block',
-              };
-              noResultsView = {
-                display: 'none',
-              };
               newResult({
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                 professorName: `${firstName} ${lastName}`,
@@ -72,19 +54,38 @@ export default function SearchBar(): JSX.Element {
                 difficulty: avgDifficulty,
                 reviewCount: numRatings,
               });
+              // Deconstructs fetch response to fit interface used for ListPage component
+
+              searchView = {
+                display: 'block',
+              };
+              isLoading(false);
             } catch {
-              console.log('no work');
-              hasResult((count) => count++);
+              setResult(false);
+              isLoading(false);
               // Case when the search yields no results
             }
           }
         }}
       />
 
-      <section id="searchResult" style={searchView}>
-        <ListPage list={[searchResult]} />
-      </section>
-      <p style={noResultsView}>The query yielded no results</p>
+      {loading && (
+        <img
+          src="https://i.imgur.com/AO3PZss.gif"
+          width="175"
+          height="175"
+          alt="Loading..."
+        />
+      )}
+      {/* Conditional rendering for loading image */}
+
+      {hasResult && (
+        <section id="searchResult" style={searchView}>
+          <ListPage list={[searchResult]} />
+        </section>
+      )}
+      {!hasResult && <p>The query yielded no results</p>}
+      {/* Conditional React rendering for result and no result */}
     </div>
   );
 }
