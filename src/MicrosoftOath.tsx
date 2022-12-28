@@ -6,12 +6,10 @@ import {
 } from '@azure/msal-browser';
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/system';
 import { App } from './App';
+import { Button, Alert, IconButton, Collapse } from '@mui/material';
 
 const redirectUri =
   typeof chrome !== 'undefined' && chrome.identity
@@ -174,13 +172,16 @@ async function signIn(): Promise<void> {
  */
 export function MicrosoftOAuth(): JSX.Element {
   return (
-    <button
+    <Button
+      variant="contained"
       onClick={() => {
         void (async () => await signIn())();
       }}
+      sx={{ margin: '0 auto', display: 'flex', marginTop: "10%" }}
+      size="large"
     >
       Sign In
-    </button>
+    </Button>
     // Onclick function is an IIFE function that allows async functions to run in global scope
   );
 }

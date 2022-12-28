@@ -18,14 +18,14 @@ export default function SearchBar(): JSX.Element {
 
   return (
     <div>
-      <h1>BroncoDirectMe Search Bar</h1>
       <TextField
         type="text"
         value={searchText}
-        fullWidth
         onChange={(e) => {
           setSearchText(e.target.value);
         }}
+        sx={{ width: '75vw', marginBottom: '4%' }}
+        placeholder="Search Professor Name"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onKeyUp={async (e) => {
           if (e.key === 'Enter') {
@@ -79,7 +79,7 @@ export default function SearchBar(): JSX.Element {
       )}
       {/* Conditional rendering for loading image */}
 
-      {hasResult && (
+      {!loading && hasResult && (
         <section id="searchResult" style={searchView}>
           <ListPage list={[searchResult]} />
         </section>
