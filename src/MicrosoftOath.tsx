@@ -177,7 +177,7 @@ export function MicrosoftOAuth(): JSX.Element {
       onClick={() => {
         void (async () => await signIn())();
       }}
-      sx={{ margin: '0 auto', display: 'flex', marginTop: "10%" }}
+      sx={{ margin: '0 auto', display: 'flex', marginTop: '10%' }}
       size="large"
     >
       Sign In
