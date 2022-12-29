@@ -1,3 +1,5 @@
+dist/
+
 # --------- react gitignore ---------
 
 .DS_STORE
