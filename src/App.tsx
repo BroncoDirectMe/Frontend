@@ -1,3 +1,8 @@
+import React, { ReactElement } from 'react';
+import { ToggleButton } from './ToggleButton';
+import SearchBar from './SearchBar';
+import { MsalProvider } from '@azure/msal-react';
+import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { ReactElement } from 'react';
@@ -11,8 +16,8 @@ const SettingsBtnStyle: CSS.Properties = {
   top: '2px'
 };
 
-export function App(): ReactElement
-{
+export function App(): ReactElement {
+
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = () => setPanelState(!isPanelOpen);
   
@@ -43,5 +48,13 @@ export function App(): ReactElement
           }} 
           children={"Filler"}></Panel>
       </div>
+  
+    <MsalProvider instance={msalInstance}>
+      <div className="App">
+        <ToggleButton />
+        <SearchBar />
+        <MicrosoftOAuth />
+      </div>
+    </MsalProvider>
   );
 }

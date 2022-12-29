@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: {
     script: './src/Index.tsx',
-    content: './src/Content.ts',
+    content: './src/Content.tsx',
   },
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -29,6 +29,18 @@ module.exports = {
         use: {
           loader: 'babel-loader',
         },
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images/',
+              name: '[name][hash].[ext]',
+            },
+          },
+        ],
       },
     ],
   },
