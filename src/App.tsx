@@ -38,15 +38,14 @@ export function App(): ReactElement {
             </IconButton>
           ) : null}
 
-          <Panel
+          <Panel 
             title={'Settings'}
             isOpen={isPanelOpen}
             onClose={() => {
               togglePanel();
               setSettingsButtonState(true);
             }}
-            children={'Filler'}
-          ></Panel>
+          >children={'Filler'}</Panel>
         </div>
       </div>
     </MsalProvider>
