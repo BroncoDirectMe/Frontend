@@ -17,7 +17,7 @@ const SettingsBtnStyle: CSS.Properties = {
 export function App(): ReactElement {
 
   const [isPanelOpen, setPanelState] = React.useState(false);
-  const togglePanel = () => setPanelState(!isPanelOpen);
+  const togglePanel = (): void => setPanelState(!isPanelOpen);
   
   const [isSettingsButtonOpen, setSettingsButtonState] = React.useState(true);
 
