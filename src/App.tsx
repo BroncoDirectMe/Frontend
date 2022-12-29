@@ -11,14 +11,13 @@ import CSS from 'csstype';
 const SettingsBtnStyle: CSS.Properties = {
   position: 'fixed',
   right: '2px',
-  top: '2px'
+  top: '2px',
 };
 
 export function App(): ReactElement {
-
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = (): void => setPanelState(!isPanelOpen);
-  
+
   const [isSettingsButtonOpen, setSettingsButtonState] = React.useState(true);
 
   return (
@@ -28,28 +27,27 @@ export function App(): ReactElement {
         <SearchBar />
         <MicrosoftOAuth />
         <div>
-        {
-          isSettingsButtonOpen ? 
-          <IconButton
-          onClick={() => 
-          { 
-            togglePanel();
-            setSettingsButtonState(false); 
-          }}
-          style={SettingsBtnStyle}
-          ><SettingsIcon/>
-          </IconButton> : null
-        }
+          {isSettingsButtonOpen ? (
+            <IconButton
+              onClick={() => {
+                togglePanel();
+                setSettingsButtonState(false);
+              }}
+              style={SettingsBtnStyle}
+            >
+              <SettingsIcon />
+            </IconButton>
+          ) : null}
 
-        <Panel
-          title={'Settings'}
-          isOpen={isPanelOpen}
-          onClose={() => 
-          { 
-            togglePanel(); 
-            setSettingsButtonState(true); 
-          }} 
-          children={"Filler"}></Panel>
+          <Panel
+            title={'Settings'}
+            isOpen={isPanelOpen}
+            onClose={() => {
+              togglePanel();
+              setSettingsButtonState(true);
+            }}
+            children={'Filler'}
+          ></Panel>
         </div>
       </div>
     </MsalProvider>
