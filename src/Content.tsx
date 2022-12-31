@@ -29,7 +29,7 @@ if (
     if (header !== undefined && header !== null) {
       console.log((header.children[2] as HTMLElement).innerText);
 
-      if ((header!.children[2] as HTMLElement).innerText === 'Search Results') {
+      if ((header.children[2] as HTMLElement).innerText === 'Search Results') {
         if (!searchResultsTrue) {
           // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
           insts?.forEach((inst) => {
