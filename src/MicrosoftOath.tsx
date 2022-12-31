@@ -4,7 +4,7 @@ import {
   PublicClientApplication,
   RedirectRequest,
 } from '@azure/msal-browser';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/system';
@@ -24,7 +24,7 @@ const msalConfig: Configuration = {
     postLogoutRedirectUri: redirectUri,
   },
   cache: {
-    cacheLocation: 'sessionStorage',
+    cacheLocation: 'localStorage',
     storeAuthStateInCookie: false,
   },
 };
@@ -148,7 +148,7 @@ async function signOut(): Promise<void> {
 /**
  * Initiates Microsoft Authentication. Use this function to prompt users to login
  */
-async function signIn(): Promise<void> {
+async function signIn(): Promise<boolean> {
   const signInRequest: RedirectRequest = {
     scopes: ['user.read'],
   };
@@ -162,22 +162,23 @@ async function signIn(): Promise<void> {
     const userEmail: string | undefined = result?.account?.username;
 
     if (validateEmail(userEmail)) {
-      await fetch('/user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify({ accessToken }),
-      });
+      // await fetch('/user', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json;charset=utf-8',
+      //   },
+      //   body: JSON.stringify({ accessToken }),
+      // });
       // POST request to the backend with endpoint /user
 
-      return await new Promise((resolve) => resolve());
+      return await new Promise((resolve) => resolve(true));
       // Empty promise to make guard clause work
     }
 
     if (userEmail === undefined) {
+      console.log('I have reached this point!');
       sessionStorage.clear();
-      return await new Promise((resolve) => resolve());
+      return await new Promise((resolve) => resolve(false));
       // Guard clause when the user begins the login process but closes the authentication window
     }
 
@@ -191,9 +192,11 @@ async function signIn(): Promise<void> {
 
     await signOut();
     // Microsoft Authentication will force the user to sign out when the user does not have a CPP-associated account
+    return await new Promise((resolve) => resolve(false));
   } catch {
     console.log('The login interaction failed.');
     sessionStorage.clear();
+    return await new Promise((resolve) => resolve(false));
     // Clears session storage to allow user to open login popup in the same extension window
   }
 }
@@ -202,37 +205,35 @@ async function signIn(): Promise<void> {
  * Creates Sign in Button element that triggers a pop up window prompting users to login with their Microsoft Account
  */
 export function MicrosoftOAuth(): JSX.Element {
+  const [signedIn, changeSignInStatus] = useState(false);
+  useEffect(() => {
+    const activeAccount = msalInstance.getAllAccounts();
+    if (activeAccount.length > 0) {
+      msalInstance.setActiveAccount(activeAccount[0]);
+      changeSignInStatus(true);
+    }
+  }, []);
+  // Updates login status based on cached login information after component has loaded (runs on extension load)
+
   return (
-<<<<<<< HEAD
     <Button
       variant="contained"
-      onClick={() => {
-        void (async () => await signIn())();
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onClick={async () => {
+        if (signedIn) {
+          void (async () => await signOut())();
+          changeSignInStatus(false);
+        }
+
+        changeSignInStatus(await signIn());
       }}
       sx={{ margin: '0 auto', display: 'flex', marginTop: '10%' }}
       size="large"
     >
-      Sign In
+      {!signedIn && 'Sign In'}
+      {signedIn && 'Sign Out'}
+      {/* Changes button text depending on whether the user has clicked the log in button */}
     </Button>
-=======
-    <section>
-      <button
-        onClick={() => {
-          void (async () => await signIn())();
-        }}
-      >
-        Sign In
-      </button>
-
-      <button
-        onClick={() => {
-          void (async () => await signOut())();
-        }}
-      >
-        Sign Out
-      </button>
-    </section>
->>>>>>> origin/dev
     // Onclick function is an IIFE function that allows async functions to run in global scope
   );
 }

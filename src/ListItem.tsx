@@ -46,71 +46,70 @@ export function ListPage(props: { list: person[] }): JSX.Element {
               <b>Review Count: </b>
               {person.reviewCount}
             </Typography>
-            {/* <AuthenticatedTemplate> */}
-            <Typography sx={{ display: 'flex' }}>
-              <b style={{ alignSelf: 'center' }}>User Rating: </b>
-              <IconButton
-                aria-label="upvote"
-                onClick={() => {
-                  changeUpvote(true);
-                  changeDownvote(false);
-                }}
-              >
-                {!upvoteClicked && (
-                  <ArrowUpwardIcon
-                    sx={{
-                      fontSize: '2rem',
-                      stroke: '#000000',
-                      strokeWidth: 2.5,
-                    }}
-                  />
-                )}
-                {/* Upvote button not selected (default icon) */}
+            <AuthenticatedTemplate>
+              <Typography sx={{ display: 'flex' }}>
+                <b style={{ alignSelf: 'center' }}>User Rating: </b>
+                <IconButton
+                  aria-label="upvote"
+                  onClick={() => {
+                    changeUpvote(true);
+                    changeDownvote(false);
+                  }}
+                >
+                  {!upvoteClicked && (
+                    <ArrowUpwardIcon
+                      sx={{
+                        fontSize: '2rem',
+                        stroke: '#000000',
+                        strokeWidth: 2.5,
+                      }}
+                    />
+                  )}
+                  {/* Upvote button not selected (default icon) */}
 
-                {upvoteClicked && (
-                  <ArrowUpwardIcon
-                    sx={{
-                      fontSize: '2rem',
-                      stroke: '#008000',
-                      strokeWidth: 2.5,
-                    }}
-                  />
-                )}
-                {/* Clicked Upvote button icon */}
-              </IconButton>
+                  {upvoteClicked && (
+                    <ArrowUpwardIcon
+                      sx={{
+                        fontSize: '2rem',
+                        stroke: '#008000',
+                        strokeWidth: 2.5,
+                      }}
+                    />
+                  )}
+                  {/* Clicked Upvote button icon */}
+                </IconButton>
 
-              <IconButton
-                aria-label="downvote"
-                onClick={() => {
-                  changeUpvote(false);
-                  changeDownvote(true);
-                }}
-              >
-                {!downvoteClicked && (
-                  <ArrowDownwardIcon
-                    sx={{
-                      fontSize: '2rem',
-                      stroke: '#000000',
-                      strokeWidth: 2.5,
-                    }}
-                  />
-                )}
-                {/* Downvote button not selected (default icon) */}
+                <IconButton
+                  aria-label="downvote"
+                  onClick={() => {
+                    changeUpvote(false);
+                    changeDownvote(true);
+                  }}
+                >
+                  {!downvoteClicked && (
+                    <ArrowDownwardIcon
+                      sx={{
+                        fontSize: '2rem',
+                        stroke: '#000000',
+                        strokeWidth: 2.5,
+                      }}
+                    />
+                  )}
+                  {/* Downvote button not selected (default icon) */}
 
-                {downvoteClicked && (
-                  <ArrowDownwardIcon
-                    sx={{
-                      fontSize: '2rem',
-                      stroke: '#ff0000',
-                      strokeWidth: 2.5,
-                    }}
-                  />
-                )}
-                {/* Clicked Downvote button icon */}
-              </IconButton>
-            </Typography>
-            {/* </AuthenticatedTemplate> */}
-            {/* TODO: Enable on production */}
+                  {downvoteClicked && (
+                    <ArrowDownwardIcon
+                      sx={{
+                        fontSize: '2rem',
+                        stroke: '#ff0000',
+                        strokeWidth: 2.5,
+                      }}
+                    />
+                  )}
+                  {/* Clicked Downvote button icon */}
+                </IconButton>
+              </Typography>
+            </AuthenticatedTemplate>
           </AccordionDetails>
         </Accordion>
       ))}
