@@ -1,8 +1,5 @@
 import { Button, ClickAwayListener, Tooltip } from '@mui/material';
-import React from 'react';
-
-const dummyData: String =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+import React, { useState, useEffect } from 'react';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -74,10 +71,55 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
 }
 // component that shows the info inside the popup
 function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
-  return (
+  const url = 'http://localhost:3000/professor';
+  const body = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: props.professorName }),
+  };
+
+  const [avgDifficulty, setAvgDifficulty] = useState(null); // avgDifficulty
+  const [avgRating, setAvgRating] = useState(null); // avgRating
+  const [numRatings, setNumRatings] = useState(null); // numRatings
+  const [retentionPercent, setRetentionPercent] = useState(null); // wouldTakeAgainPercent
+
+  const [loading, setLoading] = useState(false);
+
+  // Gets professor data from backend 'server.ts/professor' function and sets data to their respective useState
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const getProfessorData = async () => {
+    try {
+      const response = await fetch(url, body);
+      const json = await response.json();
+
+      setAvgDifficulty(json.avgDifficulty);
+      setAvgRating(json.avgRating);
+      setNumRatings(json.numRatings);
+      setRetentionPercent(json.wouldTakeAgainPercent.toFixed(2)); // truncate to 2 decimal points (don't think it rounds atm)
+
+      setLoading(true); // data finished loading
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Runs getProfessorData upon page reload
+  useEffect(() => {
+    void getProfessorData();
+  }, []);
+
+  return loading ? (
     <>
       <h1>{ProfessorNameFiltering(props.professorName)}</h1>
-      {dummyData}
+      <h3>
+        Score: {avgRating} / 5
+        <br />
+        Difficulty: {avgDifficulty} / 5
+        <br />
+        Ratings: {numRatings}
+        <br />
+        {retentionPercent}% would take again
+      </h3>
       <Button
         onClick={props.handleTooltipClose}
         style={{
@@ -89,6 +131,13 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         Close
       </Button>
     </>
+  ) : (
+    <img
+      src="https://i.imgur.com/AO3PZss.gif" // this gif is 1:1
+      width="175"
+      height="175"
+      alt="Loading..."
+    />
   );
 }
 // filters out duplicate professor names and To be Announced

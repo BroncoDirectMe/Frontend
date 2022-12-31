@@ -88,7 +88,25 @@ async function getLoginUrl(request: RedirectRequest): Promise<string> {
 }
 
 /**
- * Creates Login Error element in the extension window using MUI
+ * @param request RedirectRequest specifying the scope of the login (what information should be obtained)
+ * @returns URL that actually redirects user to Microsoft page to input login credentials
+ */
+async function getLogoutUrl(request: RedirectRequest): Promise<string> {
+  return await new Promise((resolve, reject) => {
+    msalInstance
+      .logoutRedirect({
+        ...request,
+        onRedirectNavigate: (url) => {
+          resolve(url);
+          return false;
+        },
+      })
+      .catch(reject);
+  });
+}
+
+/**
+ * Creates Login Error element in the extension window using Material UI (MUI)
  */
 function LoginErrorElement(): JSX.Element {
   const [open, setOpen] = React.useState(true);
@@ -118,6 +136,15 @@ function LoginErrorElement(): JSX.Element {
   );
 }
 
+async function signOut(): Promise<void> {
+  const signOutRequest: RedirectRequest = {
+    scopes: ['user.read'],
+    prompt: 'none',
+  };
+  const url: string = await getLogoutUrl(signOutRequest);
+  await launchWebAuthFlow(url);
+}
+
 /**
  * Initiates Microsoft Authentication. Use this function to prompt users to login
  */
@@ -126,6 +153,7 @@ async function signIn(): Promise<void> {
     scopes: ['user.read'],
   };
   const url: string = await getLoginUrl(signInRequest);
+
   try {
     const result: AuthenticationResult | null = await launchWebAuthFlow(url);
     // Launches Google Chrome extension's Popup window where the user can login
@@ -147,11 +175,11 @@ async function signIn(): Promise<void> {
       // Empty promise to make guard clause work
     }
 
-    const currentAccount = msalInstance.getAccountByHomeId(
-      result?.account?.homeAccountId ?? 'homeID'
-    );
-    await msalInstance.logoutPopup({ account: currentAccount });
-    // Enables prompt-less logout -- Microsoft Authentication will force the user to sign out
+    if (userEmail === undefined) {
+      sessionStorage.clear();
+      return await new Promise((resolve) => resolve());
+      // Guard clause when the user begins the login process but closes the authentication window
+    }
 
     const appContainer = document.getElementById('app') as HTMLElement;
     createRoot(appContainer).render(
@@ -160,6 +188,9 @@ async function signIn(): Promise<void> {
         <App />
       </Box>
     );
+
+    await signOut();
+    // Microsoft Authentication will force the user to sign out when the user does not have a CPP-associated account
   } catch {
     console.log('The login interaction failed.');
     sessionStorage.clear();
@@ -172,6 +203,7 @@ async function signIn(): Promise<void> {
  */
 export function MicrosoftOAuth(): JSX.Element {
   return (
+<<<<<<< HEAD
     <Button
       variant="contained"
       onClick={() => {
@@ -182,6 +214,25 @@ export function MicrosoftOAuth(): JSX.Element {
     >
       Sign In
     </Button>
+=======
+    <section>
+      <button
+        onClick={() => {
+          void (async () => await signIn())();
+        }}
+      >
+        Sign In
+      </button>
+
+      <button
+        onClick={() => {
+          void (async () => await signOut())();
+        }}
+      >
+        Sign Out
+      </button>
+    </section>
+>>>>>>> origin/dev
     // Onclick function is an IIFE function that allows async functions to run in global scope
   );
 }
