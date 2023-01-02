@@ -4,6 +4,6 @@ import { App } from './App';
 
 const rootNode = document.getElementById('app');
 
-if (rootNode) {
+if (rootNode != null) {
   createRoot(rootNode).render(<App />);
 }
