@@ -15,26 +15,30 @@ export function App(): ReactElement {
   return (
     <MsalProvider instance={msalInstance}>
       <div className="App">
-        <Grid container>
-          <Grid item xs={11}>
-            <h1>BroncoDirectMe</h1>
-          </Grid>
-          <Grid item xs={1} style={{ display: 'flex' }}>
-            {isSettingsButtonOpen && (
-              <IconButton
-                onClick={() => {
-                  togglePanel();
-                  setSettingsButtonState(false);
-                }}
-                sx={{ padding: '0' }}
-              >
-                <SettingsIcon sx={{ fontSize: '2rem' }} />
-              </IconButton>
-            )}
-          </Grid>
-        </Grid>
-        <SearchBar />
-        <MicrosoftOAuth />
+        {!isPanelOpen && (
+          <section>
+            <Grid container>
+              <Grid item xs={11}>
+                <h1>BroncoDirectMe</h1>
+              </Grid>
+              <Grid item xs={1} style={{ display: 'flex' }}>
+                {isSettingsButtonOpen && (
+                  <IconButton
+                    onClick={() => {
+                      togglePanel();
+                      setSettingsButtonState(false);
+                    }}
+                    sx={{ padding: '0' }}
+                  >
+                    <SettingsIcon sx={{ fontSize: '2rem' }} />
+                  </IconButton>
+                )}
+              </Grid>
+            </Grid>
+            <SearchBar />
+            <MicrosoftOAuth />
+          </section>
+        )}
         <Panel
           title={'Settings'}
           isOpen={isPanelOpen}
