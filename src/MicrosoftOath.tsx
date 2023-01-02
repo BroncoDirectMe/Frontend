@@ -162,13 +162,13 @@ async function signIn(): Promise<boolean> {
     const userEmail: string | undefined = result?.account?.username;
 
     if (validateEmail(userEmail)) {
-      // await fetch('/user', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json;charset=utf-8',
-      //   },
-      //   body: JSON.stringify({ accessToken }),
-      // });
+      await fetch('/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify({ accessToken }),
+      });
       // POST request to the backend with endpoint /user
 
       return await new Promise((resolve) => resolve(true));

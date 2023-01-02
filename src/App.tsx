@@ -26,7 +26,7 @@ export function App(): ReactElement {
                   togglePanel();
                   setSettingsButtonState(false);
                 }}
-                sx={{padding: "0" }}
+                sx={{ padding: '0' }}
               >
                 <SettingsIcon sx={{ fontSize: '2rem' }} />
               </IconButton>
