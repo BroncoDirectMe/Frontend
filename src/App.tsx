@@ -39,6 +39,8 @@ export function App(): ReactElement {
             <MicrosoftOAuth />
           </section>
         )}
+        {/* Hides main app components when setting panel opens */}
+
         <Panel
           title={'Settings'}
           isOpen={isPanelOpen}

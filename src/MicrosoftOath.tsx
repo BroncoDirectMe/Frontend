@@ -28,6 +28,7 @@ const msalConfig: Configuration = {
     storeAuthStateInCookie: false,
   },
 };
+// localStorage persists after extension window has been closed
 
 export const msalInstance: PublicClientApplication =
   new PublicClientApplication(msalConfig);
@@ -136,6 +137,9 @@ function LoginErrorElement(): JSX.Element {
   );
 }
 
+/**
+ * Microsoft Authentication logout function
+ */
 async function signOut(): Promise<void> {
   const signOutRequest: RedirectRequest = {
     scopes: ['user.read'],
@@ -147,6 +151,7 @@ async function signOut(): Promise<void> {
 
 /**
  * Initiates Microsoft Authentication. Use this function to prompt users to login
+ * @returns True if there's no issues with logging in with Microsoft Authentication.
  */
 async function signIn(): Promise<boolean> {
   const signInRequest: RedirectRequest = {
@@ -176,7 +181,6 @@ async function signIn(): Promise<boolean> {
     }
 
     if (userEmail === undefined) {
-      console.log('I have reached this point!');
       sessionStorage.clear();
       return await new Promise((resolve) => resolve(false));
       // Guard clause when the user begins the login process but closes the authentication window
