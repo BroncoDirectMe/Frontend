@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZombiMigz/BroncoDirectMe.git"
+    "url": "git+https://github.com/BroncoDirectMe/Frontend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ZombiMigz/BroncoDirectMe/issues"
+    "url": "https://github.com/BroncoDirectMe/Frontend/issues"
   },
-  "homepage": "https://github.com/ZombiMigz/BroncoDirectMe#readme",
+  "homepage": "https://github.com/BroncoDirectMe/Frontend#readme",
   "devDependencies": {
     "@babel/core": "^7.18.13",
     "@babel/preset-env": "^7.18.10",
@@ -39,6 +39,7 @@
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.1",
+    "file-loader": "^6.2.0",
     "prettier": "^2.7.1",
     "regenerator-runtime": "^0.13.9",
     "typescript": "^4.8.2",
@@ -47,9 +48,12 @@
     "webpack-dev-server": "^4.10.1"
   },
   "dependencies": {
+    "@azure/msal-browser": "^2.29.0",
+    "@azure/msal-react": "^1.4.8",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
-    "@mui/material": "^5.10.3",
+    "@mui/material": "^5.10.6",
+    "@mui/icons-material": "^5.10.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
