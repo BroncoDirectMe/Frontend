@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import React from 'react';
 import CSS from 'csstype';
 
@@ -26,10 +26,6 @@ const MarginStyle: CSS.Properties = {
   margin: '5px 5px 5px 5px',
 };
 
-const TitleStyle: CSS.Properties = {
-  fontWeight: 'bold',
-};
-
 export const Panel: React.FC<PanelProps> = ({
   title,
   isOpen,
@@ -39,9 +35,9 @@ export const Panel: React.FC<PanelProps> = ({
   isOpen ? (
     <div style={PanelStyle} className={'panel'}>
       <div className={'margin'} style={MarginStyle}>
-        <text style={TitleStyle} className={'title'}>
+        <Typography variant="h5" className={'title'}>
           {title}
-        </text>
+        </Typography>
         <div className={'content'}>
           {children}
           <Button style={ButtonStyle} className={'closeBtn'} onClick={onClose}>
