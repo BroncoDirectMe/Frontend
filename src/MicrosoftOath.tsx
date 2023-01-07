@@ -7,8 +7,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/system';
-import { App } from './App';
 import { Button, Alert, IconButton, Collapse } from '@mui/material';
 
 const redirectUri =
