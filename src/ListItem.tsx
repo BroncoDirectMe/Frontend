@@ -33,8 +33,9 @@ export function ListPage(props: { list: person[] }): JSX.Element {
             id="panel1a-header"
           >
             <Typography>
-              {person.professorName}{' '}
-              <b>{person.overallRating} / 5 Overall Rating</b>
+              {person.professorName}
+              <br />
+              <b>Rating {person.overallRating} / 5 </b>
             </Typography>
           </AccordionSummary>
           <AccordionDetails>

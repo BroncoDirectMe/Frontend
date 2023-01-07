@@ -17,6 +17,7 @@ export function App(): ReactElement {
       <div className="App">
         {!isPanelOpen && (
           <section>
+            <div id="errorElm"></div>
             <Grid container>
               <Grid item xs={11}>
                 <h1>BroncoDirectMe</h1>

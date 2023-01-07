@@ -186,13 +186,8 @@ async function signIn(): Promise<boolean> {
       // Guard clause when the user begins the login process but closes the authentication window
     }
 
-    const appContainer = document.getElementById('app') as HTMLElement;
-    createRoot(appContainer).render(
-      <Box>
-        <LoginErrorElement />
-        <App />
-      </Box>
-    );
+    const appContainer = document.getElementById('errorElm') as HTMLElement;
+    createRoot(appContainer).render(<LoginErrorElement />);
 
     await signOut();
     // Microsoft Authentication will force the user to sign out when the user does not have a CPP-associated account
