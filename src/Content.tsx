@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import ProfessorPopup from './ProfessorPopup';
+import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
 if (document.URL.includes('https://cmsweb.cms.cpp.edu/'))
   console.log('BroncoDirect Page Loaded');
@@ -27,18 +28,29 @@ if (
       console.log((header.children[2] as HTMLElement).innerText);
     else console.log('undefined');
 
-    // iterate through insts and create new instance of ProfessorPopup for each inst
+    // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
     insts?.forEach((inst) => {
-      // append a new root container under inst.parent to retain original span element
-      const root = document.createElement('div');
+      // append new root containers under inst.parent to retain original span element
+      const professorPopupRoot = document.createElement('div');
+      const upvoteDownvoteRoot = document.createElement('div');
       const parentElem = inst.parentElement as HTMLDivElement;
 
       // styling for the ProfessorPopup Button
-      root.setAttribute('id', 'root');
-      root.style.float = 'right';
-      parentElem?.append(root);
+      professorPopupRoot.setAttribute('id', 'professorPopupRoot');
+      professorPopupRoot.style.float = 'right';
+      parentElem?.append(professorPopupRoot);
 
-      createRoot(root).render(
+      // Styling for the UpvoteDownvote Button
+      upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
+      upvoteDownvoteRoot.style.float = 'left';
+      upvoteDownvoteRoot.style.padding = '2%';
+      parentElem?.prepend(upvoteDownvoteRoot);
+
+      createRoot(upvoteDownvoteRoot).render(
+        <UpvoteDownvoteButton professorName={inst.innerText} />
+      );
+
+      createRoot(professorPopupRoot).render(
         <ProfessorPopup professorName={inst.innerText} />
       );
     });

@@ -1,70 +1,56 @@
 import React, { ReactElement } from 'react';
-import ListPage from './ListItem';
 import { ToggleButton } from './ToggleButton';
-import Button from './components/MissingButton';
-import Form from './components/Form';
-import { useState } from 'react';
+import SearchBar from './SearchBar';
+import { MsalProvider } from '@azure/msal-react';
+import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
+import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Panel } from './components/panel_component';
+import CSS from 'csstype';
 
-const personArray = [
-  {
-    professorName: 'Dr. Billy',
-    overallRating: 4.5,
-    difficulty: 18,
-    reviewCount: 50,
-  },
-  {
-    professorName: 'Professor Bobby',
-    overallRating: 5.0,
-    difficulty: 31,
-    reviewCount: 60,
-  },
-  {
-    professorName: 'Dr. Marshal',
-    overallRating: 1.2,
-    difficulty: 27,
-    reviewCount: 80,
-  },
-  {
-    professorName: 'Dr. J',
-    overallRating: 5,
-    difficulty: 19,
-    reviewCount: 190,
-  },
-  {
-    professorName: 'Professor Yimmy',
-    overallRating: 4.2,
-    difficulty: 18,
-    reviewCount: 12,
-  },
-];
+const SettingsBtnStyle: CSS.Properties = {
+  position: 'fixed',
+  right: '2px',
+  top: '2px',
+};
 
 export function App(): ReactElement {
-  const [buttonPopup, setButtonPopup] = useState(false);
+  const [isPanelOpen, setPanelState] = React.useState(false);
+  const togglePanel = (): void => setPanelState(!isPanelOpen);
+  const [isSettingsButtonOpen, setSettingsButtonState] = React.useState(true);
+
   return (
-    <>
+    <MsalProvider instance={msalInstance}>
       <div className="App">
         <ToggleButton />
-        <ListPage list={personArray} />
+        <SearchBar />
+        <MicrosoftOAuth />
+        <div>
+          {isSettingsButtonOpen ? (
+            <IconButton
+              onClick={() => {
+                togglePanel();
+                setSettingsButtonState(false);
+              }}
+              style={SettingsBtnStyle}
+            >
+              <SettingsIcon />
+            </IconButton>
+          ) : null}
+
+          <Panel
+            title={'Settings'}
+            isOpen={isPanelOpen}
+            onClose={() => {
+              togglePanel();
+              setSettingsButtonState(true);
+            }}
+          >
+            children={'Filler'}
+          </Panel>
+        </div>
       </div>
-      <>
-        <br />
-        <button className="closebtn" onClick={() => setButtonPopup(false)}>
-          Close
-        </button>
-        <br />
-        <Button
-          border="solid"
-          color="red"
-          height="100px"
-          onClick={() => setButtonPopup(true)}
-          radius="15px"
-          width="300px"
-          children="Report Missing Professor"
-          align-items="center"
-        />
-        {buttonPopup && <Form />}
-      </>
-    </>
+    </MsalProvider>
   );
 }
 
