@@ -164,7 +164,7 @@ async function signIn(): Promise<void> {
     const userEmail: string | undefined = result?.account?.username;
 
     if (validateEmail(userEmail)) {
-      await fetch('/user', {
+      await fetch('/checkAuthentication', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',

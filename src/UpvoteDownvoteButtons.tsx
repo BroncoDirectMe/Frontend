@@ -1,6 +1,24 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
+/**
+ * Handles uploading professor rating client-side to server-side with a GET request
+ * @param professor Professor Name
+ * @param voteType Upvote (true)  Downvote (false)
+ */
+async function uploadProfRating(
+  professor: String,
+  voteType: boolean
+): Promise<void> {
+  await fetch('http://localhost:3000/vote', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ professor, voteType }),
+  });
+}
+
 export default function UpvoteDownvoteButton(props: {
   professorName: string;
 }): JSX.Element {
@@ -17,7 +35,11 @@ function UpvoteButton(props: { professorName: string }): JSX.Element {
     <Button
       color="success"
       onClick={() => {
-        console.log('Upvoted:', ProfessorNameFiltering(props.professorName));
+        void (async () =>
+          await uploadProfRating(
+            ProfessorNameFiltering(props.professorName)[0],
+            true
+          ))();
       }}
     >
       ^
@@ -30,7 +52,11 @@ function DownvoteButton(props: { professorName: string }): JSX.Element {
     <Button
       color="warning"
       onClick={() => {
-        console.log('Downvoted:', ProfessorNameFiltering(props.professorName));
+        void (async () =>
+          await uploadProfRating(
+            ProfessorNameFiltering(props.professorName)[0],
+            false
+          ))();
       }}
     >
       v
