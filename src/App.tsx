@@ -3,16 +3,9 @@ import { ToggleButton } from './ToggleButton';
 import SearchBar from './SearchBar';
 import { MsalProvider } from '@azure/msal-react';
 import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
-import IconButton from '@mui/material/IconButton';
+import { Grid, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
-import CSS from 'csstype';
-
-const SettingsBtnStyle: CSS.Properties = {
-  position: 'fixed',
-  right: '2px',
-  top: '2px',
-};
 
 export function App(): ReactElement {
   const [isPanelOpen, setPanelState] = React.useState(false);
@@ -22,33 +15,43 @@ export function App(): ReactElement {
   return (
     <MsalProvider instance={msalInstance}>
       <div className="App">
-        <ToggleButton />
-        <SearchBar />
-        <MicrosoftOAuth />
-        <div>
-          {isSettingsButtonOpen ? (
-            <IconButton
-              onClick={() => {
-                togglePanel();
-                setSettingsButtonState(false);
-              }}
-              style={SettingsBtnStyle}
-            >
-              <SettingsIcon />
-            </IconButton>
-          ) : null}
+        {!isPanelOpen && (
+          <section>
+            <div id="errorElm"></div>
+            <Grid container>
+              <Grid item xs={11}>
+                <h1>BroncoDirectMe</h1>
+              </Grid>
+              <Grid item xs={1} style={{ display: 'flex' }}>
+                {isSettingsButtonOpen && (
+                  <IconButton
+                    onClick={() => {
+                      togglePanel();
+                      setSettingsButtonState(false);
+                    }}
+                    sx={{ padding: '0' }}
+                  >
+                    <SettingsIcon sx={{ fontSize: '2rem' }} />
+                  </IconButton>
+                )}
+              </Grid>
+            </Grid>
+            <SearchBar />
+            <MicrosoftOAuth />
+          </section>
+        )}
+        {/* Hides main app components when setting panel opens */}
 
-          <Panel
-            title={'Settings'}
-            isOpen={isPanelOpen}
-            onClose={() => {
-              togglePanel();
-              setSettingsButtonState(true);
-            }}
-          >
-            children={'Filler'}
-          </Panel>
-        </div>
+        <Panel
+          title={'Settings'}
+          isOpen={isPanelOpen}
+          onClose={() => {
+            togglePanel();
+            setSettingsButtonState(true);
+          }}
+        >
+          <ToggleButton />
+        </Panel>
       </div>
     </MsalProvider>
   );
