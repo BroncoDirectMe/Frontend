@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import ProfessorPopup from './ProfessorPopup';
-import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
+// import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
 let searchResultsTrue = false;
 
