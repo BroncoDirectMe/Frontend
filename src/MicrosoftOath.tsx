@@ -151,7 +151,7 @@ async function signOut(): Promise<void> {
  * Initiates Microsoft Authentication. Use this function to prompt users to login
  * @returns True if there's no issues with logging in with Microsoft Authentication.
  */
-async function signIn(): Promise<boolean> {
+export async function signIn(): Promise<boolean> {
   const signInRequest: RedirectRequest = {
     scopes: ['user.read'],
   };

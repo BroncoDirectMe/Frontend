@@ -1,8 +1,10 @@
 import { IconButton } from '@mui/material';
 import React, { useState } from 'react';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+// import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { AuthenticatedTemplate } from '@azure/msal-react';
+import { signIn } from './MicrosoftOath';
+import Button from '@mui/material/Button';
 
 /**
  * Handles uploading professor rating client-side to server-side with a GET request
@@ -30,26 +32,28 @@ export default function UpvoteDownvoteButton(props: {
   const sendUpvote = (): void => {
     changeUpvote(true);
     changeDownvote(false);
-    void (async () =>
-      await uploadProfRating(
-        ProfessorNameFiltering(props.professorName)[0],
-        true
-      ))();
+    void (async () => await signIn())();
+    // void (async () =>
+    //   await uploadProfRating(
+    //     ProfessorNameFiltering(props.professorName)[0],
+    //     true
+    //   ))();
   };
   const sendDownvote = (): void => {
     changeUpvote(false);
     changeDownvote(true);
-    void (async () =>
-      await uploadProfRating(
-        ProfessorNameFiltering(props.professorName)[0],
-        false
-      ))();
+    void (async () => await signIn())();
+    // void (async () =>
+    //   await uploadProfRating(
+    //     ProfessorNameFiltering(props.professorName)[0],
+    //     false
+    //   ))();
   };
 
   return (
-    <AuthenticatedTemplate>
-      <IconButton aria-label="upvote" onClick={sendUpvote}>
-        {!upvoteClicked && (
+    <>
+      <Button aria-label="upvote" onClick={sendUpvote}>
+        {/* {!upvoteClicked && (
           <ArrowUpwardIcon
             sx={{
               fontSize: '2rem',
@@ -57,10 +61,9 @@ export default function UpvoteDownvoteButton(props: {
               strokeWidth: 2.5,
             }}
           />
-        )}
+        )} */}
         {/* Upvote button not selected (default icon) */}
-
-        {upvoteClicked && (
+        {/* {upvoteClicked && (
           <ArrowUpwardIcon
             sx={{
               fontSize: '2rem',
@@ -68,16 +71,17 @@ export default function UpvoteDownvoteButton(props: {
               strokeWidth: 2.5,
             }}
           />
-        )}
+        )} */}
         {/* Clicked Upvote button icon */}
-      </IconButton>
+        UPVOTE
+      </Button>
 
-      <IconButton
+      <Button
         aria-label="downvote"
         onClick={sendDownvote}
-        sx={{ display: { xs: 'block', sm: 'none!important' } }}
       >
-        {!downvoteClicked && (
+        DOWNVOTE
+        {/* {!downvoteClicked && (
           <ArrowDownwardIcon
             sx={{
               fontSize: '2rem',
@@ -85,9 +89,9 @@ export default function UpvoteDownvoteButton(props: {
               strokeWidth: 2.5,
             }}
           />
-        )}
+        )} */}
         {/* Downvote button not selected (default icon) */}
-        {downvoteClicked && (
+        {/* {downvoteClicked && (
           <ArrowDownwardIcon
             sx={{
               fontSize: '2rem',
@@ -95,10 +99,10 @@ export default function UpvoteDownvoteButton(props: {
               strokeWidth: 2.5,
             }}
           />
-        )}
+        )} */}
         {/* Clicked Downvote button icon */}
-      </IconButton>
-    </AuthenticatedTemplate>
+      </Button>
+    </>
   );
 }
 
