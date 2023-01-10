@@ -35,7 +35,7 @@ if (
           insts?.forEach((inst) => {
             // append new root containers under inst.parent to retain original span element
             const professorPopupRoot = document.createElement('div');
-            const upvoteDownvoteRoot = document.createElement('div');
+            // const upvoteDownvoteRoot = document.createElement('div');
             const parentElem = inst.parentElement as HTMLDivElement;
 
             // styling for the ProfessorPopup Button
@@ -44,14 +44,14 @@ if (
             parentElem?.append(professorPopupRoot);
 
             // Styling for the UpvoteDownvote Button
-            upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
-            upvoteDownvoteRoot.style.float = 'left';
-            upvoteDownvoteRoot.style.padding = '2%';
-            parentElem?.prepend(upvoteDownvoteRoot);
+            // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
+            // upvoteDownvoteRoot.style.float = 'left';
+            // upvoteDownvoteRoot.style.padding = '2%';
+            // parentElem?.prepend(upvoteDownvoteRoot);
 
-            createRoot(upvoteDownvoteRoot).render(
-              <UpvoteDownvoteButton professorName={inst.innerText} />
-            );
+            // createRoot(upvoteDownvoteRoot).render(
+            //   <UpvoteDownvoteButton professorName={inst.innerText} />
+            // );
 
             createRoot(professorPopupRoot).render(
               <ProfessorPopup professorName={inst.innerText} />
