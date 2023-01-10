@@ -7,6 +7,7 @@ import {
   IconButton,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { UpvoteDownvoteButton } from './UpvoteDownvoteButtons';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { AuthenticatedTemplate } from '@azure/msal-react';

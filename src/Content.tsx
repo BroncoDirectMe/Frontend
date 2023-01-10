@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import ProfessorPopup from './ProfessorPopup';
-import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
+import { broncoDirectUpvoteDownvoteButton } from './UpvoteDownvoteButtons';
 
 let searchResultsTrue = false;
 
@@ -29,29 +29,18 @@ if (
     if (header !== undefined && header !== null) {
       console.log((header.children[2] as HTMLElement).innerText);
 
-      if ((header.children[2] as HTMLElement).innerText === 'Search Results') {
-        if (!searchResultsTrue) {
-          // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
-          insts?.forEach((inst) => {
-            // append new root containers under inst.parent to retain original span element
-            const professorPopupRoot = document.createElement('div');
-            const upvoteDownvoteRoot = document.createElement('div');
-            const parentElem = inst.parentElement as HTMLDivElement;
+    // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
+    insts?.forEach((inst) => {
+      // append new root containers under inst.parent to retain original span element
+      const professorPopupRoot = document.createElement('div');
+      const parentElem = inst.parentElement as HTMLDivElement;
 
             // styling for the ProfessorPopup Button
             professorPopupRoot.setAttribute('id', 'professorPopupRoot');
             professorPopupRoot.style.float = 'right';
             parentElem?.append(professorPopupRoot);
 
-            // Styling for the UpvoteDownvote Button
-            upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
-            upvoteDownvoteRoot.style.float = 'left';
-            upvoteDownvoteRoot.style.padding = '2%';
-            parentElem?.prepend(upvoteDownvoteRoot);
-
-            createRoot(upvoteDownvoteRoot).render(
-              <UpvoteDownvoteButton professorName={inst.innerText} />
-            );
+      parentElem?.prepend(broncoDirectUpvoteDownvoteButton());
 
             createRoot(professorPopupRoot).render(
               <ProfessorPopup professorName={inst.innerText} />
