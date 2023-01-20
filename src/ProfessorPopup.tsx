@@ -139,7 +139,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         <Typography
           style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#008970' }}
         >
-          {props.professorName.toUpperCase()}
+          {ProfessorNameFiltering(props.professorName.toUpperCase())}
         </Typography>
       </Paper>
       <Divider style={{ margin: '10px 0' }} />
