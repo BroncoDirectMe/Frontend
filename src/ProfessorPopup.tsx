@@ -127,20 +127,19 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     color: '#1c1c1c',
   };
 
+  const centerItems = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
   return loading ? (
     <>
-      <Paper
-        style={{
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <Paper style={{ ...centerItems, marginTop: '10px' }}>
         <Typography
-          style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'black' }}
+          style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#008970' }}
         >
-          {props.professorName}
+          {props.professorName.toUpperCase()}
         </Typography>
       </Paper>
       <Divider style={{ margin: '10px 0' }} />
@@ -159,6 +158,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       <span style={boldStyle}>{retentionPercent}% </span>
       <span style={unboldStyle}>would take again</span>
       <Divider style={{ margin: '10px 0' }} />
+      <Paper style={centerItems}>
+        <Button onClick={props.handleTooltipClose}>Close</Button>
+      </Paper>
     </>
   ) : (
     <img
