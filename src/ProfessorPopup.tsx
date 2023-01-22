@@ -1,4 +1,11 @@
-import { Button, ClickAwayListener, Tooltip } from '@mui/material';
+import {
+  Button,
+  ClickAwayListener,
+  Divider,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 interface professorPopupTooltipProps {
@@ -80,7 +87,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
 
   const [avgDifficulty, setAvgDifficulty] = useState(null); // avgDifficulty
   const [avgRating, setAvgRating] = useState(null); // avgRating
-  const [numRatings, setNumRatings] = useState(null); // numRatings
+  const [numReviews, setNumReviews] = useState(null); // numReviews
   const [retentionPercent, setRetentionPercent] = useState(null); // wouldTakeAgainPercent
 
   const [loading, setLoading] = useState(false);
@@ -94,7 +101,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
 
       setAvgDifficulty(json.avgDifficulty);
       setAvgRating(json.avgRating);
-      setNumRatings(json.numRatings);
+      setNumReviews(json.numRatings);
       setRetentionPercent(json.wouldTakeAgainPercent.toFixed(2)); // truncate to 2 decimal points (don't think it rounds atm)
 
       setLoading(true); // data finished loading
@@ -108,28 +115,52 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     void getProfessorData();
   }, []);
 
+  const boldStyle = {
+    fontSize: '1.25rem',
+    fontWeight: 'bold',
+    color: 'black',
+  };
+
+  const unboldStyle = {
+    fontSize: '1.25rem',
+    fontWeight: 'normal',
+    color: '#1c1c1c',
+  };
+
+  const centerItems = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
   return loading ? (
     <>
-      <h1>{ProfessorNameFiltering(props.professorName)}</h1>
-      <h3>
-        Score: {avgRating} / 5
-        <br />
-        Difficulty: {avgDifficulty} / 5
-        <br />
-        Ratings: {numRatings}
-        <br />
-        {retentionPercent}% would take again
-      </h3>
-      <Button
-        onClick={props.handleTooltipClose}
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-        }}
-      >
-        Close
-      </Button>
+      <Paper style={{ ...centerItems, marginTop: '10px' }}>
+        <Typography
+          style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#008970' }}
+        >
+          {ProfessorNameFiltering(props.professorName.toUpperCase())}
+        </Typography>
+      </Paper>
+      <Divider style={{ margin: '10px 0' }} />
+      <Typography>
+        <span style={boldStyle}>Rating: </span>
+        <span style={unboldStyle}>{avgRating}</span>
+      </Typography>
+      <Typography>
+        <span style={boldStyle}>Difficulty: </span>
+        <span style={unboldStyle}>{avgDifficulty}</span>
+      </Typography>
+      <Typography>
+        <span style={boldStyle}>Reviews: </span>
+        <span style={unboldStyle}>{numReviews}</span>
+      </Typography>
+      <span style={boldStyle}>{retentionPercent}% </span>
+      <span style={unboldStyle}>would take again</span>
+      <Divider style={{ margin: '10px 0' }} />
+      <Paper style={centerItems}>
+        <Button onClick={props.handleTooltipClose}>Close</Button>
+      </Paper>
     </>
   ) : (
     <img
