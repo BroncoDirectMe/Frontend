@@ -32,13 +32,16 @@ export default function SearchBar(): JSX.Element {
             isLoading(true);
             setResult(true);
             try {
-              const request = await fetch('http://localhost:3000/professor', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name: searchText }),
-              });
+              const request = await fetch(
+                'http://54.186.43.33:3000/professor',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ name: searchText }),
+                }
+              );
               // POST request to the backend with endpoint /professor
               const {
                 avgRating,

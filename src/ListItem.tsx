@@ -20,7 +20,7 @@ async function uploadProfRating(
   professor: String,
   voteType: boolean
 ): Promise<void> {
-  await fetch('http://localhost:3000/vote', {
+  await fetch('http://54.186.43.33:3000/vote', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
