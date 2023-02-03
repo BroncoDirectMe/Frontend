@@ -78,7 +78,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
 }
 // component that shows the info inside the popup
 function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
-  const url = 'http://44.229.151.84:3000/professor';
+  const url = 'https://api.cppbroncodirect.me/professor';
   const body = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
