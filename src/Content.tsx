@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import ProfessorPopup from './ProfessorPopup';
+import RateMyProfessorButton from './RateMyProfessorButton';
 // import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
 let searchResultsTrue = false;
@@ -35,6 +36,7 @@ if (
           insts?.forEach((inst) => {
             // append new root containers under inst.parent to retain original span element
             const professorPopupRoot = document.createElement('div');
+            const rateMyProfessorRoot = document.createElement('div')
             // const upvoteDownvoteRoot = document.createElement('div');
             const parentElem = inst.parentElement as HTMLDivElement;
 
@@ -42,6 +44,12 @@ if (
             professorPopupRoot.setAttribute('id', 'professorPopupRoot');
             professorPopupRoot.style.float = 'right';
             parentElem?.append(professorPopupRoot);
+
+            // styling for RateMyProfessor Button
+            rateMyProfessorRoot.setAttribute('id', 'rateMyProfessorRoot')
+            rateMyProfessorRoot.style.flex = 'right';
+            parentElem?.append(rateMyProfessorRoot);
+
 
             // Styling for the UpvoteDownvote Button
             // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
@@ -52,6 +60,10 @@ if (
             // createRoot(upvoteDownvoteRoot).render(
             //   <UpvoteDownvoteButton professorName={inst.innerText} />
             // );
+
+            createRoot(rateMyProfessorRoot).render(
+              <RateMyProfessorButton professorName={inst.innerText} />
+            )
 
             createRoot(professorPopupRoot).render(
               <ProfessorPopup professorName={inst.innerText} />
