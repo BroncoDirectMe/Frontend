@@ -36,7 +36,7 @@ if (
           insts?.forEach((inst) => {
             // append new root containers under inst.parent to retain original span element
             const professorPopupRoot = document.createElement('div');
-            const rateMyProfessorRoot = document.createElement('div')
+            const rateMyProfessorRoot = document.createElement('div');
             // const upvoteDownvoteRoot = document.createElement('div');
             const parentElem = inst.parentElement as HTMLDivElement;
 
@@ -46,10 +46,9 @@ if (
             parentElem?.append(professorPopupRoot);
 
             // styling for RateMyProfessor Button
-            rateMyProfessorRoot.setAttribute('id', 'rateMyProfessorRoot')
+            rateMyProfessorRoot.setAttribute('id', 'rateMyProfessorRoot');
             rateMyProfessorRoot.style.flex = 'right';
             parentElem?.append(rateMyProfessorRoot);
-
 
             // Styling for the UpvoteDownvote Button
             // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
@@ -63,7 +62,7 @@ if (
 
             createRoot(rateMyProfessorRoot).render(
               <RateMyProfessorButton professorName={inst.innerText} />
-            )
+            );
 
             createRoot(professorPopupRoot).render(
               <ProfessorPopup professorName={inst.innerText} />

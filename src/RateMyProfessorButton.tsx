@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 
-export default function RateMyProfessorButton(props: { professorName: string }): JSX.Element {
+export default function RateMyProfessorButton(props: {
+  professorName: string;
+}): JSX.Element {
   const [loading, setLoading] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -19,7 +21,9 @@ export default function RateMyProfessorButton(props: { professorName: string }):
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({name: ProfessorNameFiltering(props.professorName)}),
+        body: JSON.stringify({
+          name: ProfessorNameFiltering(props.professorName),
+        }),
       });
 
       if (!request.ok) {
@@ -52,7 +56,7 @@ export default function RateMyProfessorButton(props: { professorName: string }):
 // filters out duplicate professor names and To be Announced
 function ProfessorNameFiltering(profName: string): string {
   // removes all commas then splits set elements by every new line
-  console.log('Professor name: ' + profName)
+  console.log('Professor name: ' + profName);
   const set = new Set(profName.split(',').join('').split('\n'));
   set.delete('To be Announced');
   // set to array to string with chosen separator
