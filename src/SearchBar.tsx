@@ -33,7 +33,7 @@ export default function SearchBar(): JSX.Element {
             setResult(true);
             try {
               const request = await fetch(
-                'http://54.186.43.33:3000/professor',
+                'https://api.cppbroncodirect.me/professor',
                 {
                   method: 'POST',
                   headers: {
