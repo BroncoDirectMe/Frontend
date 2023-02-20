@@ -1,7 +1,7 @@
 {
   "name": "BroncoDirectMe",
-  "description": "Test Description",
-  "version": "1.0",
+  "description": "A Chrome Extension for BroncoDirect to be used by Cal Poly Pomona students.",
+  "version": "1.0.1",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html",
@@ -12,11 +12,17 @@
       "128": "/images/icon.png"
     }
   },
-  "permissions": ["activeTab", "storage", "tabs", "identity", "identity.email"],
+  "icons": {
+    "16": "/images/icon.png",
+    "48": "/images/icon.png",
+    "128": "/images/icon.png"
+  },
+  "permissions": ["storage", "identity", "identity.email"],
   "content_scripts": [
     {
       "js": ["content.js"],
-      "matches": ["https://cmsweb.cms.cpp.edu/*"]
+      "matches": ["https://cmsweb.cms.cpp.edu/*"],
+      "all_frames": true
     }
   ],
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsLI8exOzJjueuW38zjxD5blonDds7/7WF0bX+VanMM6RGyVyiXcWYYkxJX7y+ZXYYt8TNhDfKmkei3WZmQEMuepj6p9voxxptgrqOqFpD2FxeytLhReuXHW/YnJJDQ+VCj5I5wMUaMiA7zmUNaKrEWq4Uz97494l3f5LPKp3cPCY0G/cTgtvNPKICk7HRGgT9MZ93zaRpUQ/V/FYKVPDhbHr4v3Nnmd6flFs2ScuFVNvuLOTdZ8k+9e3GGVsNG0xn1cEj0x8b/NfNecRymy1WZZqYGc2dYfc9FA3a4jove5KmHynL4VW6kzxu4pgROMad9v4eaRgtF+DjHln+bdF9wIDAQAB"
