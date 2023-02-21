@@ -82,7 +82,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   const body = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: props.professorName }),
+    body: JSON.stringify({ name: ProfessorNameFiltering(props.professorName) }),
   };
 
   const [avgDifficulty, setAvgDifficulty] = useState(null); // avgDifficulty
@@ -139,7 +139,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         <Typography
           style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#008970' }}
         >
-          {ProfessorNameFiltering(props.professorName.toUpperCase())}
+          {ProfessorNameFiltering(props.professorName).toUpperCase()}
         </Typography>
       </Paper>
       <Divider style={{ margin: '10px 0' }} />
