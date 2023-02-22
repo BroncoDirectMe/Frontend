@@ -25,5 +25,8 @@
       "all_frames": true
     }
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsLI8exOzJjueuW38zjxD5blonDds7/7WF0bX+VanMM6RGyVyiXcWYYkxJX7y+ZXYYt8TNhDfKmkei3WZmQEMuepj6p9voxxptgrqOqFpD2FxeytLhReuXHW/YnJJDQ+VCj5I5wMUaMiA7zmUNaKrEWq4Uz97494l3f5LPKp3cPCY0G/cTgtvNPKICk7HRGgT9MZ93zaRpUQ/V/FYKVPDhbHr4v3Nnmd6flFs2ScuFVNvuLOTdZ8k+9e3GGVsNG0xn1cEj0x8b/NfNecRymy1WZZqYGc2dYfc9FA3a4jove5KmHynL4VW6kzxu4pgROMad9v4eaRgtF+DjHln+bdF9wIDAQAB"
 }

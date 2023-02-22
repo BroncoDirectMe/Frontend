@@ -10,6 +10,10 @@ export default function RateMyProfessorButton(props: {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleButtonClick = async () => {
     console.log('Clicked RMP Button');
+    chrome.runtime.sendMessage({ data: 'hello' }, function (response) {
+      console.log(response);
+    });
+
     if (!props.professorName) {
       console.log('Empty professor name');
       return;
