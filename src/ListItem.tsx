@@ -12,6 +12,24 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { AuthenticatedTemplate } from '@azure/msal-react';
 
+/**
+ * Handles uploading professor rating client-side to server-side with a GET request
+ * @param professor Professor Name
+ * @param voteType Upvote (true)  Downvote (false)
+ */
+async function uploadProfRating(
+  professor: String,
+  voteType: boolean
+): Promise<void> {
+  await fetch('https://api.cppbroncodirect.me/vote', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ professor, voteType }),
+  });
+}
+
 export interface person {
   professorName: string;
   overallRating: number;
@@ -54,8 +72,10 @@ export function ListPage(props: { list: person[] }): JSX.Element {
                 <IconButton
                   aria-label="upvote"
                   onClick={() => {
-                    changeUpvote(true);
+                    changeUpvote(!upvoteClicked);
                     changeDownvote(false);
+                    void (async () =>
+                      await uploadProfRating(person.professorName, true))();
                   }}
                 >
                   {!upvoteClicked && (
@@ -84,8 +104,10 @@ export function ListPage(props: { list: person[] }): JSX.Element {
                 <IconButton
                   aria-label="downvote"
                   onClick={() => {
+                    changeDownvote(!downvoteClicked);
                     changeUpvote(false);
-                    changeDownvote(true);
+                    void (async () =>
+                      await uploadProfRating(person.professorName, false))();
                   }}
                 >
                   {!downvoteClicked && (
