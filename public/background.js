@@ -5,11 +5,7 @@
  * @param professor Professor Name
  * @param voteType Upvote (true)  Downvote (false)
  */
-async function uploadProfRating(
-  professor,
-  voteType,
-  token
-) {
+async function uploadProfRating(professor, voteType, token) {
   await fetch('https://api.cppbroncodirect.me/vote', {
     method: 'POST',
     headers: {
@@ -18,7 +14,6 @@ async function uploadProfRating(
     body: JSON.stringify({ professor, voteType, token }),
   });
 }
-
 
 async function getToken() {
   try {
@@ -43,7 +38,7 @@ chrome.runtime.onMessage.addListener(async function (
   sendResponse
 ) {
   const authToken = await getToken();
-  await uploadProfRating(request.professor, request.vote, authToken)
+  await uploadProfRating(request.professor, request.vote, authToken);
 
   await sendResponse('Request successful.');
 });

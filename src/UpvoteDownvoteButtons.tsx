@@ -1,96 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// import { IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import React, { useState } from 'react';
-// import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 // import { AuthenticatedTemplate } from '@azure/msal-react';
-import { signIn } from './MicrosoftOath';
-import Button from '@mui/material/Button';
-
-export function UpvoteDownvoteButton(props: {
-  professorName: string;
-}): JSX.Element {
-  const [upvoteClicked, changeUpvote] = useState(false);
-  const [downvoteClicked, changeDownvote] = useState(false);
-  const sendUpvote = (): void => {
-    changeUpvote(true);
-    changeDownvote(false);
-    void (async () => await signIn())();
-    // void (async () =>
-    //   await uploadProfRating(
-    //     ProfessorNameFiltering(props.professorName)[0],
-    //     true
-    //   ))();
-    chrome.runtime.sendMessage(
-      { professor: '', vote: true },
-      function (response) {
-        console.log(response);
-      }
-    );
-  };
-  const sendDownvote = (): void => {
-    changeUpvote(false);
-    changeDownvote(true);
-    void (async () => await signIn())();
-    // void (async () =>
-    //   await uploadProfRating(
-    //     ProfessorNameFiltering(props.professorName)[0],
-    //     false
-    //   ))();
-  };
-
-  return (
-    <>
-      <Button aria-label="upvote" onClick={sendUpvote}>
-        {/* {!upvoteClicked && (
-          <ArrowUpwardIcon
-            sx={{
-              fontSize: '2rem',
-              stroke: '#000000',
-              strokeWidth: 2.5,
-            }}
-          />
-        )} */}
-        {/* Upvote button not selected (default icon) */}
-        {/* {upvoteClicked && (
-          <ArrowUpwardIcon
-            sx={{
-              fontSize: '2rem',
-              stroke: '#008000',
-              strokeWidth: 2.5,
-            }}
-          />
-        )} */}
-        {/* Clicked Upvote button icon */}
-        UPVOTE
-      </Button>
-
-      <Button aria-label="downvote" onClick={sendDownvote}>
-        DOWNVOTE
-        {/* {!downvoteClicked && (
-          <ArrowDownwardIcon
-            sx={{
-              fontSize: '2rem',
-              stroke: '#000000',
-              strokeWidth: 2.5,
-            }}
-          />
-        )} */}
-        {/* Downvote button not selected (default icon) */}
-        {/* {downvoteClicked && (
-          <ArrowDownwardIcon
-            sx={{
-              fontSize: '2rem',
-              stroke: '#ff0000',
-              strokeWidth: 2.5,
-            }}
-          />
-        )} */}
-        {/* Clicked Downvote button icon */}
-      </Button>
-    </>
-  );
-}
 
 // Same name filter method as in ProfessorPopup except as a string array
 function ProfessorNameFiltering(profName: string): String[] {
@@ -99,6 +11,15 @@ function ProfessorNameFiltering(profName: string): String[] {
   return Array.from(set);
 }
 
+/**
+ * Creates a SVG image using DOM manipulation
+ * @param width SVG pixel value
+ * @param fill Color String -- default is `currentColor`
+ * @param viewBox default is `0 0 16 16`
+ * @param pathD property used for inner SVG element
+ * @param fillRule used to alternate between filled and outlined SVG element
+ * @returns 
+ */
 function generateSVG(
   width: string,
   fill: string,
@@ -119,6 +40,93 @@ function generateSVG(
   svgPath.setAttribute('fill-rule', fillRule);
   svgIcon.appendChild(svgPath);
   return svgIcon;
+}
+
+/**
+ * Creates the Upvote and Downvote buttons for the extension page using MUI
+ * @param props professorName
+ * @returns Upvote and Downvote buttons in a container
+ */
+export function UpvoteDownvoteButton(props: {
+  professorName: string;
+}): JSX.Element {
+  const [upvoteClicked, changeUpvote] = useState(false);
+  const [downvoteClicked, changeDownvote] = useState(false);
+  const sendUpvote = (): void => {
+    changeUpvote(!upvoteClicked);
+    changeDownvote(false);
+
+    chrome.runtime.sendMessage(
+      { professor: ProfessorNameFiltering(props.professorName)[0], vote: true },
+      function (response) {
+        console.log(response);
+      }
+    );
+  };
+  const sendDownvote = (): void => {
+    changeUpvote(false);
+    changeDownvote(!downvoteClicked);
+
+    chrome.runtime.sendMessage(
+      {
+        professor: ProfessorNameFiltering(props.professorName)[0],
+        vote: false,
+      },
+      function (response) {
+        console.log(response);
+      }
+    );
+  };
+
+  return (
+    <>
+      <IconButton aria-label="upvote" onClick={sendUpvote}>
+        {!upvoteClicked && (
+          <ArrowUpwardIcon
+            sx={{
+              fontSize: '2rem',
+              stroke: '#000000',
+              strokeWidth: 2.5,
+            }}
+          />
+        )}
+        {/* Upvote button not selected (default icon) */}
+        {upvoteClicked && (
+          <ArrowUpwardIcon
+            sx={{
+              fontSize: '2rem',
+              stroke: '#008000',
+              strokeWidth: 2.5,
+            }}
+          />
+        )}
+        {/* Clicked Upvote button icon */}
+      </IconButton>
+
+      <IconButton aria-label="downvote" onClick={sendDownvote}>
+        {!downvoteClicked && (
+          <ArrowDownwardIcon
+            sx={{
+              fontSize: '2rem',
+              stroke: '#000000',
+              strokeWidth: 2.5,
+            }}
+          />
+        )}
+        {/* Downvote button not selected (default icon) */}
+        {downvoteClicked && (
+          <ArrowDownwardIcon
+            sx={{
+              fontSize: '2rem',
+              stroke: '#ff0000',
+              strokeWidth: 2.5,
+            }}
+          />
+        )}
+        {/* Clicked Downvote button icon */}
+      </IconButton>
+    </>
+  );
 }
 
 /**
