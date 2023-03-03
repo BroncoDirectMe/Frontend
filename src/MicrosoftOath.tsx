@@ -165,15 +165,15 @@ export async function signIn(): Promise<boolean> {
     const userEmail: string | undefined = result?.account?.username;
 
     if (validateEmail(userEmail)) {
-      await fetch('/checkAuthentication', {
+      const token = await fetch('/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
         },
         body: JSON.stringify({ accessToken }),
       });
-      // POST request to the backend with endpoint /user
-      void chrome.storage.local.set({userAuth: accessToken})
+      // POST request to the backend with endpoint /login
+      void chrome.storage.local.set({ userAuth: token });
 
       return await new Promise((resolve) => resolve(true));
       // Empty promise to make guard clause work
@@ -210,7 +210,7 @@ export function MicrosoftOAuth(): JSX.Element {
       msalInstance.setActiveAccount(activeAccount[0]);
       changeSignInStatus(true);
       // void chrome.storage.local.set({userAuth: activeAccount[0].username})
-      // TODO: Add redundancy to add JWT instead of username
+      // TODO: Add redundancy to add JWT instead of username (research if needed)
     }
   }, []);
   // Updates login status based on cached login information after component has loaded (runs on extension load)
