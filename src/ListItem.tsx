@@ -46,7 +46,7 @@ export function ListPage(props: { list: person[] }): JSX.Element {
               <Typography sx={{ display: 'flex' }}>
                 <b style={{ alignSelf: 'center' }}>User Rating: </b>
               </Typography>
-              <UpvoteDownvoteButton professorName={person.professorName}/>
+              <UpvoteDownvoteButton professorName={person.professorName} />
             </AuthenticatedTemplate>
           </AccordionDetails>
         </Accordion>

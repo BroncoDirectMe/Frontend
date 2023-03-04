@@ -18,7 +18,6 @@ function ProfessorNameFiltering(profName: string): String[] {
  * @param viewBox default is `0 0 16 16`
  * @param pathD property used for inner SVG element
  * @param fillRule used to alternate between filled and outlined SVG element
- * @returns 
  */
 function generateSVG(
   width: string,
@@ -133,18 +132,13 @@ export function UpvoteDownvoteButton(props: {
  * Separate function for BroncoDirect Upvote / Downvote because React styling doesn't apply
  * @returns Div container holding upvote and downvote buttons
  */
-export function broncoDirectUpvoteDownvoteButton(): HTMLDivElement {
+export function broncoDirectUpvoteDownvoteButton(
+  professorName: string
+): HTMLDivElement {
   const ratingContainer = document.createElement('div');
   ratingContainer.id = 'upvoteDownvoteRoot';
   ratingContainer.style.float = 'left';
   ratingContainer.style.padding = '2%';
-
-  // chrome.runtime.sendMessage(
-  //   { professor: '', vote: true },
-  //   function (response) {
-  //     console.log(response);
-  //   }
-  // );
 
   const clickedUpvoteIcon = generateSVG(
     '24',
@@ -180,13 +174,22 @@ export function broncoDirectUpvoteDownvoteButton(): HTMLDivElement {
   upvoteButton.appendChild(unclickedUpvoteIcon);
   // Sets initial button state to unclicked Upvote icon
 
-  upvoteButton.addEventListener('click', () => {
+  upvoteButton.addEventListener('click', (event) => {
+    event.preventDefault();
     upvoteState = !upvoteState;
     upvoteButton.textContent = '';
     // Clears button state
     upvoteState
       ? upvoteButton.appendChild(clickedUpvoteIcon)
       : upvoteButton.appendChild(unclickedUpvoteIcon);
+
+    console.log('I am upvoting professor: ' + professorName);
+    // chrome.runtime.sendMessage(
+    //   { professor: professorName, vote: true },
+    //   function (response) {
+    //     console.log(response);
+    //   }
+    // );
   });
   ratingContainer.appendChild(upvoteButton);
 
@@ -197,13 +200,23 @@ export function broncoDirectUpvoteDownvoteButton(): HTMLDivElement {
   downvoteButton.appendChild(unclickedDownvoteIcon);
   // Sets initial button state to unclicked Downvote icon
 
-  downvoteButton.addEventListener('click', () => {
+  downvoteButton.addEventListener('click', (event) => {
+    event.preventDefault();
     downvoteState = !downvoteState;
     downvoteButton.textContent = '';
     // Clears button state
     downvoteState
       ? downvoteButton.appendChild(clickedDownvoteIcon)
       : downvoteButton.appendChild(unclickedDownvoteIcon);
+
+    console.log('I am downvoting professor: ' + professorName);
+
+    // chrome.runtime.sendMessage(
+    //   { professor: professorName, vote: false },
+    //   function (response) {
+    //     console.log(response);
+    //   }
+    // );
   });
   ratingContainer.appendChild(downvoteButton);
 

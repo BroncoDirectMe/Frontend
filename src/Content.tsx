@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import ProfessorPopup from './ProfessorPopup';
 import RateMyProfessorButton from './RateMyProfessorButton';
-// import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
+import { broncoDirectUpvoteDownvoteButton } from './UpvoteDownvoteButtons';
 
 let searchResultsTrue = false;
 
@@ -49,8 +49,8 @@ function injectButtons(): void {
               // append new root containers under inst.parent to retain original span element
               const professorPopupRoot = document.createElement('div');
               const rateMyProfessorRoot = document.createElement('div');
-              // const upvoteDownvoteRoot = document.createElement('div');
               const parentElem = inst.parentElement as HTMLDivElement;
+              const professor = inst.innerText;
 
               // styling for the ProfessorPopup Button
               professorPopupRoot.setAttribute('id', 'professorPopupRoot');
@@ -62,22 +62,15 @@ function injectButtons(): void {
               rateMyProfessorRoot.style.flex = 'right';
               parentElem?.append(rateMyProfessorRoot);
 
-              // Styling for the UpvoteDownvote Button
-              // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
-              // upvoteDownvoteRoot.style.float = 'left';
-              // upvoteDownvoteRoot.style.padding = '2%';
-              // parentElem?.prepend(upvoteDownvoteRoot);
-
-              // createRoot(upvoteDownvoteRoot).render(
-              //   <UpvoteDownvoteButton professorName={inst.innerText} />
-              // );
+              // Adds the UpvoteDownvote Button element
+              parentElem?.prepend(broncoDirectUpvoteDownvoteButton(professor));
 
               createRoot(rateMyProfessorRoot).render(
-                <RateMyProfessorButton professorName={inst.innerText} />
+                <RateMyProfessorButton professorName={professor} />
               );
 
               createRoot(professorPopupRoot).render(
-                <ProfessorPopup professorName={inst.innerText} />
+                <ProfessorPopup professorName={professor} />
               );
             });
             searchResultsTrue = true;
