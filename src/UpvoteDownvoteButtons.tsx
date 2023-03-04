@@ -183,13 +183,12 @@ export function broncoDirectUpvoteDownvoteButton(
       ? upvoteButton.appendChild(clickedUpvoteIcon)
       : upvoteButton.appendChild(unclickedUpvoteIcon);
 
-    console.log('I am upvoting professor: ' + professorName);
-    // chrome.runtime.sendMessage(
-    //   { professor: professorName, vote: true },
-    //   function (response) {
-    //     console.log(response);
-    //   }
-    // );
+    chrome.runtime.sendMessage(
+      { professor: professorName, vote: true },
+      function (response) {
+        console.log(response);
+      }
+    );
   });
   ratingContainer.appendChild(upvoteButton);
 
@@ -209,14 +208,12 @@ export function broncoDirectUpvoteDownvoteButton(
       ? downvoteButton.appendChild(clickedDownvoteIcon)
       : downvoteButton.appendChild(unclickedDownvoteIcon);
 
-    console.log('I am downvoting professor: ' + professorName);
-
-    // chrome.runtime.sendMessage(
-    //   { professor: professorName, vote: false },
-    //   function (response) {
-    //     console.log(response);
-    //   }
-    // );
+    chrome.runtime.sendMessage(
+      { professor: professorName, vote: false },
+      function (response) {
+        console.log(response);
+      }
+    );
   });
   ratingContainer.appendChild(downvoteButton);
 
