@@ -95,18 +95,20 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   const [loading, setLoading] = useState(false);
 
   // Gets professor data from backend 'server.ts/professor' function and sets data to their respective useState
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const getProfessorData = async () => {
+  const getProfessorData = async (): Promise<void> => {
     try {
       const response = await fetch(url, body);
       const { avgDifficulty, avgRating, numRatings, wouldTakeAgainPercent } =
         await response.json();
 
       setProfessorData({
-        difficulty: avgDifficulty,
-        rating: avgRating,
-        reviews: numRatings,
-        retention: wouldTakeAgainPercent,
+        difficulty: numRatings > 0 ? avgDifficulty : 'N/A', // if there are 0 reviews, there can't be any data
+        rating: numRatings > 0 ? avgRating : 'N/A',
+        reviews: numRatings > 0 ? numRatings : 'N/A',
+        retention:
+          numRatings > 0 || wouldTakeAgainPercent < 0
+            ? wouldTakeAgainPercent
+            : 'N/A', // RMP can return wouldTakeAgainPercent as -1
       });
 
       setLoading(true); // data finished loading
