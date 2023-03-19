@@ -85,10 +85,12 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     body: JSON.stringify({ name: ProfessorNameFiltering(props.professorName) }),
   };
 
-  const [avgDifficulty, setAvgDifficulty] = useState(null); // avgDifficulty
-  const [avgRating, setAvgRating] = useState(null); // avgRating
-  const [numReviews, setNumReviews] = useState(null); // numReviews
-  const [retentionPercent, setRetentionPercent] = useState(null); // wouldTakeAgainPercent
+  const [professorData, setProfessorData] = useState({
+    difficulty: null, // avgDifficulty
+    rating: null, // avgRating
+    reviews: null, // numRatings
+    retention: null, // wouldTakeAgainPercent
+  });
 
   const [loading, setLoading] = useState(false);
 
@@ -97,12 +99,15 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   const getProfessorData = async () => {
     try {
       const response = await fetch(url, body);
-      const json = await response.json();
+      const { avgDifficulty, avgRating, numRatings, wouldTakeAgainPercent } =
+        await response.json();
 
-      setAvgDifficulty(json.avgDifficulty);
-      setAvgRating(json.avgRating);
-      setNumReviews(json.numRatings);
-      setRetentionPercent(json.wouldTakeAgainPercent.toFixed(2)); // truncate to 2 decimal points (don't think it rounds atm)
+      setProfessorData({
+        difficulty: avgDifficulty,
+        rating: avgRating,
+        reviews: numRatings,
+        retention: wouldTakeAgainPercent,
+      });
 
       setLoading(true); // data finished loading
     } catch (error) {
@@ -145,17 +150,17 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       <Divider style={{ margin: '10px 0' }} />
       <Typography>
         <span style={boldStyle}>Rating: </span>
-        <span style={unboldStyle}>{avgRating}</span>
+        <span style={unboldStyle}>{professorData.rating}</span>
       </Typography>
       <Typography>
         <span style={boldStyle}>Difficulty: </span>
-        <span style={unboldStyle}>{avgDifficulty}</span>
+        <span style={unboldStyle}>{professorData.difficulty}</span>
       </Typography>
       <Typography>
         <span style={boldStyle}>Reviews: </span>
-        <span style={unboldStyle}>{numReviews}</span>
+        <span style={unboldStyle}>{professorData.reviews}</span>
       </Typography>
-      <span style={boldStyle}>{retentionPercent}% </span>
+      <span style={boldStyle}>{professorData.retention}% </span>
       <span style={unboldStyle}>would take again</span>
       <Divider style={{ margin: '10px 0' }} />
       <Paper style={centerItems}>
