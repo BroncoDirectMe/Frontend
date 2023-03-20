@@ -93,10 +93,12 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   });
 
   const [loading, setLoading] = useState(false);
+  const [hasResult, setHasResult] = useState(true);
 
   // Gets professor data from backend 'server.ts/professor' function and sets data to their respective useState
   const getProfessorData = async (): Promise<void> => {
     try {
+      setHasResult(true);
       const response = await fetch(url, body);
       const { avgDifficulty, avgRating, numRatings, wouldTakeAgainPercent } =
         await response.json();
@@ -114,6 +116,8 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       setLoading(true); // data finished loading
     } catch (error) {
       console.log(error);
+      setHasResult(false);
+      setLoading(true);
     }
   };
 
@@ -140,42 +144,57 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     alignItems: 'center',
   };
 
-  return loading ? (
+  return (
     <>
-      <Paper style={{ ...centerItems, marginTop: '10px' }}>
-        <Typography
-          style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#008970' }}
-        >
-          {ProfessorNameFiltering(props.professorName).toUpperCase()}
-        </Typography>
-      </Paper>
-      <Divider style={{ margin: '10px 0' }} />
-      <Typography>
-        <span style={boldStyle}>Rating: </span>
-        <span style={unboldStyle}>{professorData.rating}</span>
-      </Typography>
-      <Typography>
-        <span style={boldStyle}>Difficulty: </span>
-        <span style={unboldStyle}>{professorData.difficulty}</span>
-      </Typography>
-      <Typography>
-        <span style={boldStyle}>Reviews: </span>
-        <span style={unboldStyle}>{professorData.reviews}</span>
-      </Typography>
-      <span style={boldStyle}>{professorData.retention}% </span>
-      <span style={unboldStyle}>would take again</span>
-      <Divider style={{ margin: '10px 0' }} />
-      <Paper style={centerItems}>
-        <Button onClick={props.handleTooltipClose}>Close</Button>
-      </Paper>
+      {/* Display loading while data is being fetched */}
+      {!loading && (
+        <img
+          src="https://i.imgur.com/AO3PZss.gif" // this gif is 1:1
+          width="175"
+          height="175"
+          alt="Loading..."
+        />
+      )}
+
+      {/* Display professor data if no errors were caught during fetch */}
+      {loading && hasResult && (
+        <>
+          <Paper style={{ ...centerItems, marginTop: '10px' }}>
+            <Typography
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                color: '#008970',
+              }}
+            >
+              {ProfessorNameFiltering(props.professorName).toUpperCase()}
+            </Typography>
+          </Paper>
+          <Divider style={{ margin: '10px 0' }} />
+          <Typography>
+            <span style={boldStyle}>Rating: </span>
+            <span style={unboldStyle}>{professorData.rating}</span>
+          </Typography>
+          <Typography>
+            <span style={boldStyle}>Difficulty: </span>
+            <span style={unboldStyle}>{professorData.difficulty}</span>
+          </Typography>
+          <Typography>
+            <span style={boldStyle}>Reviews: </span>
+            <span style={unboldStyle}>{professorData.reviews}</span>
+          </Typography>
+          <span style={boldStyle}>{professorData.retention}% </span>
+          <span style={unboldStyle}>would take again</span>
+          <Divider style={{ margin: '10px 0' }} />
+          <Paper style={centerItems}>
+            <Button onClick={props.handleTooltipClose}>Close</Button>
+          </Paper>
+        </>
+      )}
+
+      {/* Display if error was caught during fetch process */}
+      {!hasResult && <p>The query yielded no results</p>}
     </>
-  ) : (
-    <img
-      src="https://i.imgur.com/AO3PZss.gif" // this gif is 1:1
-      width="175"
-      height="175"
-      alt="Loading..."
-    />
   );
 }
 // filters out duplicate professor names and To be Announced
