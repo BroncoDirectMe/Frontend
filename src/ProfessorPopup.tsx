@@ -1,5 +1,4 @@
 import {
-  Button,
   ClickAwayListener,
   Divider,
   Paper,
@@ -9,6 +8,7 @@ import {
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -86,12 +86,11 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
           alignItems: 'center',
           borderRadius: '50%',
           border: 'none',
-          outline: 'none',
           boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
         }}
         size="medium"
       >
-        <AssignmentIndIcon style={{ color: 'gray' }} />
+        <AssignmentIndIcon />
       </IconButton>
     </Tooltip>
   );
@@ -207,7 +206,20 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
           <span style={unboldStyle}>would take again</span>
           <Divider style={{ margin: '10px 0' }} />
           <Paper style={centerItems}>
-            <Button onClick={props.handleTooltipClose}>Close</Button>
+            <IconButton
+              onClick={props.handleTooltipClose}
+              style={{
+                minHeight: '34px',
+                minWidth: '34px',
+                display: 'flex',
+                alignItems: 'center',
+                borderRadius: '50%',
+                border: 'none',
+                boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </Paper>
         </>
       )}
