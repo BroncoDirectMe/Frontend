@@ -9,6 +9,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CloseIcon from '@mui/icons-material/Close';
+import FmdBadIcon from '@mui/icons-material/FmdBad';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -225,7 +226,22 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       )}
 
       {/* Display if error was caught during fetch process */}
-      {!hasResult && <p>The query yielded no results</p>}
+      {/* TODO: Shrink tooltip size if error occurs */}
+      {!hasResult && (
+        <div
+          style={{
+            ...centerItems,
+            height: '100%',
+            flexDirection: 'column',
+            marginTop: '70px', // Manual adjustment to center items vertically - temporary?
+          }}
+        >
+          <FmdBadIcon style={{ width: '28px', height: '28px' }} />
+          <Typography style={{ marginTop: '6px' }}>
+            Failed to fetch data
+          </Typography>
+        </div>
+      )}
     </>
   );
 }
