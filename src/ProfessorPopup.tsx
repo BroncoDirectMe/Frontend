@@ -49,6 +49,17 @@ export default function ProfessorPopup(props: {
     </ClickAwayListener>
   );
 }
+
+const iconButtonStyle = {
+  minHeight: '34px',
+  minWidth: '34px',
+  display: 'flex',
+  alignItems: 'center',
+  borderRadius: '50%',
+  border: 'none',
+  boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
+};
+
 // component that shows popup
 function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
   return (
@@ -80,15 +91,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
     >
       <IconButton
         onClick={props.handleTooltipOpen}
-        style={{
-          minHeight: '34px',
-          minWidth: '34px',
-          display: 'flex',
-          alignItems: 'center',
-          borderRadius: '50%',
-          border: 'none',
-          boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
-        }}
+        style={iconButtonStyle}
         size="medium"
       >
         <AssignmentIndIcon />
@@ -209,15 +212,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
           <Paper style={centerItems}>
             <IconButton
               onClick={props.handleTooltipClose}
-              style={{
-                minHeight: '34px',
-                minWidth: '34px',
-                display: 'flex',
-                alignItems: 'center',
-                borderRadius: '50%',
-                border: 'none',
-                boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
-              }}
+              style={iconButtonStyle}
             >
               <CloseIcon />
             </IconButton>
