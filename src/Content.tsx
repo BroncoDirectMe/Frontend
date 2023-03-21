@@ -55,6 +55,7 @@ function injectButtons(): void {
               // styling for the ProfessorPopup Button
               professorPopupRoot.setAttribute('id', 'professorPopupRoot');
               professorPopupRoot.style.float = 'right';
+              professorPopupRoot.style.marginLeft = '10px';
               parentElem?.append(professorPopupRoot);
 
               // styling for RateMyProfessor Button
