@@ -5,8 +5,10 @@ import {
   Paper,
   Tooltip,
   Typography,
+  IconButton,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -55,8 +57,11 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
         style: {
           backgroundColor: 'white',
           color: 'black',
-          border: '1px solid',
           padding: '0.5em',
+          minWidth: '200px',
+          minHeight: '200px',
+          boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
+          borderRadius: '10px',
         },
       }}
       onClose={props.handleTooltipClose}
@@ -72,7 +77,22 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
         />
       }
     >
-      <Button onClick={props.handleTooltipOpen}>Click</Button>
+      <IconButton
+        onClick={props.handleTooltipOpen}
+        style={{
+          minHeight: '34px',
+          minWidth: '34px',
+          display: 'flex',
+          alignItems: 'center',
+          borderRadius: '50%',
+          border: 'none',
+          outline: 'none',
+          boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
+        }}
+        size="medium"
+      >
+        <AssignmentIndIcon style={{ color: 'gray' }} />
+      </IconButton>
     </Tooltip>
   );
 }
