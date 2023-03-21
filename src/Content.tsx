@@ -17,7 +17,7 @@ function injectButtons(): void {
 
   if (
     document.URL.includes(
-      'https://cmsweb.cms.cpp.edu/psp/CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?'
+      'CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?'
     )
   ) {
     const iframe = document.getElementById(
