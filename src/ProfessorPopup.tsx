@@ -1,7 +1,6 @@
 import {
   ClickAwayListener,
   Divider,
-  Paper,
   Tooltip,
   Typography,
   IconButton,
@@ -182,7 +181,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       {/* Display professor data if no errors were caught during fetch */}
       {loading && hasResult && (
         <>
-          <Paper style={{ ...centerItems, marginTop: '10px' }}>
+          <div style={{ ...centerItems, marginTop: '10px' }}>
             <Typography
               style={{
                 fontSize: '1.5rem',
@@ -192,7 +191,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
             >
               {ProfessorNameFiltering(props.professorName).toUpperCase()}
             </Typography>
-          </Paper>
+          </div>
           <Divider style={{ margin: '10px 0' }} />
           <Typography>
             <span style={boldStyle}>Rating: </span>
@@ -209,14 +208,14 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
           <span style={boldStyle}>{professorData.retention}% </span>
           <span style={unboldStyle}>would take again</span>
           <Divider style={{ margin: '10px 0' }} />
-          <Paper style={centerItems}>
+          <div style={centerItems}>
             <IconButton
               onClick={props.handleTooltipClose}
               style={iconButtonStyle}
             >
               <CloseIcon />
             </IconButton>
-          </Paper>
+          </div>
         </>
       )}
 
