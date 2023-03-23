@@ -1,6 +1,7 @@
-import { TextField } from '@mui/material';
+import { TextField, Autocomplete, createFilterOptions } from '@mui/material';
 import React, { CSSProperties, useState } from 'react';
 import { ListPage, person } from './ListItem';
+import { professorOptions } from './data/options';
 
 let searchView: CSSProperties = {
   display: 'none',
@@ -18,58 +19,74 @@ export default function SearchBar(): JSX.Element {
 
   return (
     <div>
-      <TextField
-        type="text"
+      <Autocomplete
+        freeSolo
+        disableClearable
+        filterOptions={createFilterOptions({
+          matchFrom: 'any',
+          limit: 50,
+        })}
+        options={professorOptions}
         value={searchText}
-        onChange={(e) => {
-          setSearchText(e.target.value);
+        onInputChange={(e, value) => {
+          setSearchText(value);
         }}
         sx={{ width: '75vw', marginBottom: '4%' }}
-        placeholder="Search Professor Name"
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onKeyUp={async (e) => {
-          if (e.key === 'Enter') {
-            isLoading(true);
-            setResult(true);
-            try {
-              const request = await fetch(
-                'https://api.cppbroncodirect.me/professor',
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ name: searchText }),
-                }
-              );
-              // POST request to the backend with endpoint /professor
-              const {
-                avgRating,
-                avgDifficulty,
-                firstName,
-                lastName,
-                numRatings,
-              } = await request.json();
-              newResult({
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                professorName: `${firstName} ${lastName}`,
-                overallRating: avgRating,
-                difficulty: avgDifficulty,
-                reviewCount: numRatings,
-              });
-              // Deconstructs fetch response to fit interface used for ListPage component
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            type="text"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+            placeholder="Search Professor Name"
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onKeyUp={async (e) => {
+              if (e.key === 'Enter') {
+                isLoading(true);
+                setResult(true);
+                try {
+                  const request = await fetch(
+                    'https://api.cppbroncodirect.me/professor',
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ name: searchText }),
+                    }
+                  );
+                  // POST request to the backend with endpoint /professor
+                  const {
+                    avgRating,
+                    avgDifficulty,
+                    firstName,
+                    lastName,
+                    numRatings,
+                  } = await request.json();
+                  newResult({
+                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                    professorName: `${firstName} ${lastName}`,
+                    overallRating: avgRating,
+                    difficulty: avgDifficulty,
+                    reviewCount: numRatings,
+                  });
+                  // Deconstructs fetch response to fit interface used for ListPage component
 
-              searchView = {
-                display: 'block',
-              };
-              isLoading(false);
-            } catch {
-              setResult(false);
-              isLoading(false);
-              // Case when the search yields no results
-            }
-          }
-        }}
+                  searchView = {
+                    display: 'block',
+                  };
+                  isLoading(false);
+                } catch {
+                  setResult(false);
+                  isLoading(false);
+                  // Case when the search yields no results
+                }
+              }
+            }}
+          />
+        )}
       />
 
       {loading && (
