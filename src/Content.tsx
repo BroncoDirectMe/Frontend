@@ -1,7 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import ProfessorPopup from './ProfessorPopup';
-import RateMyProfessorButton from './RateMyProfessorButton';
 // import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
 let searchResultsTrue = false;
@@ -47,21 +46,9 @@ function injectButtons(): void {
             // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
             insts?.forEach((inst) => {
               // append new root containers under inst.parent to retain original span element
-              const professorPopupRoot = document.createElement('div');
-              const rateMyProfessorRoot = document.createElement('div');
               // const upvoteDownvoteRoot = document.createElement('div');
               const parentElem = inst.parentElement as HTMLDivElement;
-
-              // styling for the ProfessorPopup Button
-              professorPopupRoot.setAttribute('id', 'professorPopupRoot');
-              professorPopupRoot.style.float = 'right';
-              professorPopupRoot.style.marginLeft = '10px';
-              parentElem?.append(professorPopupRoot);
-
-              // styling for RateMyProfessor Button
-              rateMyProfessorRoot.setAttribute('id', 'rateMyProfessorRoot');
-              rateMyProfessorRoot.style.flex = 'right';
-              parentElem?.append(rateMyProfessorRoot);
+              inst.style.display = 'none';
 
               // Styling for the UpvoteDownvote Button
               // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
@@ -73,11 +60,7 @@ function injectButtons(): void {
               //   <UpvoteDownvoteButton professorName={inst.innerText} />
               // );
 
-              createRoot(rateMyProfessorRoot).render(
-                <RateMyProfessorButton professorName={inst.innerText} />
-              );
-
-              createRoot(professorPopupRoot).render(
+              createRoot(parentElem).render(
                 <ProfessorPopup professorName={inst.innerText} />
               );
             });

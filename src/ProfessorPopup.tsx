@@ -4,11 +4,13 @@ import {
   Tooltip,
   Typography,
   IconButton,
+  Button,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CloseIcon from '@mui/icons-material/Close';
 import FmdBadIcon from '@mui/icons-material/FmdBad';
+import RateMyProfessorButton from './RateMyProfessorButton';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -59,6 +61,13 @@ const iconButtonStyle = {
   boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
 };
 
+const professorIconStyle = {
+  minHeight: '16px',
+  minWidth: '16px',
+  height: '24px',
+  display: 'flex',
+};
+
 // component that shows popup
 function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
   return (
@@ -88,13 +97,15 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
         />
       }
     >
-      <IconButton
-        onClick={props.handleTooltipOpen}
-        style={iconButtonStyle}
+      <Button
+        variant="outlined"
+        startIcon={<AssignmentIndIcon style={professorIconStyle} />}
         size="medium"
+        style={{ display: 'flex', alignItems: 'center' }}
+        onClick={props.handleTooltipOpen}
       >
-        <AssignmentIndIcon />
-      </IconButton>
+        {props.professorName}
+      </Button>
     </Tooltip>
   );
 }
@@ -191,6 +202,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
             >
               {ProfessorNameFiltering(props.professorName).toUpperCase()}
             </Typography>
+            <RateMyProfessorButton professorName={props.professorName} />
           </div>
           <Divider style={{ margin: '10px 0' }} />
           <Typography>
