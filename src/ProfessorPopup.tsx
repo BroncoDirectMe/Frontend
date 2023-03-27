@@ -104,7 +104,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
         style={{ display: 'flex', alignItems: 'center' }}
         onClick={props.handleTooltipOpen}
       >
-        {props.professorName}
+        {ProfessorNameFiltering(props.professorName)}
       </Button>
     </Tooltip>
   );
@@ -251,7 +251,12 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     </>
   );
 }
-// filters out duplicate professor names and To be Announced
+
+/**
+ * Filters out duplicate professor names and "To be Announced"
+ * @param profName Professor names that may contain duplicates 
+ * @returns Unique professor names
+ */
 function ProfessorNameFiltering(profName: string): string {
   // removes all commas then splits set elements by every new line
   const set = new Set(profName.split(',').join('').split('\n'));
