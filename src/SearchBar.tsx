@@ -1,7 +1,6 @@
 import { TextField, Autocomplete, createFilterOptions } from '@mui/material';
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useState, useEffect } from 'react';
 import { ListPage, person } from './ListItem';
-import { professorOptions } from './data/options';
 
 let searchView: CSSProperties = {
   display: 'none',
@@ -16,18 +15,29 @@ export default function SearchBar(): JSX.Element {
     difficulty: 1.0,
     reviewCount: 1,
   });
+  const [profList, setProfList] = useState([]);
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetch('http://localhost:3000/professor/names')
+      // eslint-disable-next-line @typescript-eslint/promise-function-async
+      .then((response) => response.json())
+      .then((data) => setProfList(data))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div>
       <Autocomplete
         freeSolo
-        disableClearable
+        selectOnFocus
         filterOptions={createFilterOptions({
           matchFrom: 'any',
-          limit: 50,
+          limit: 25,
         })}
-        options={professorOptions}
-        value={searchText}
+        getOptionLabel={(option) => option?.broncoDirectName || searchText}
+        options={profList}
+        inputValue={searchText}
         onInputChange={(e, value) => {
           setSearchText(value);
         }}
@@ -48,7 +58,7 @@ export default function SearchBar(): JSX.Element {
                 setResult(true);
                 try {
                   const request = await fetch(
-                    'https://api.cppbroncodirect.me/professor',
+                    'http://localhost:3000/professor',
                     {
                       method: 'POST',
                       headers: {
