@@ -19,7 +19,7 @@ export default function SearchBar(): JSX.Element {
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetch('http://localhost:3000/professor/names')
+    fetch('https://api.cppbroncodirect.me/professor/names')
       // eslint-disable-next-line @typescript-eslint/promise-function-async
       .then((response) => response.json())
       .then((data) => setProfList(data))
