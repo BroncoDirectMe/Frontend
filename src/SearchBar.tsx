@@ -5,6 +5,11 @@ import { ListPage, person } from './ListItem';
 let searchView: CSSProperties = {
   display: 'none',
 };
+
+interface ProfessorName {
+  broncoDirectName: string;
+}
+
 export default function SearchBar(): JSX.Element {
   const [searchText, setSearchText] = useState('');
   const [hasResult, setResult] = useState(true);
@@ -15,7 +20,7 @@ export default function SearchBar(): JSX.Element {
     difficulty: 1.0,
     reviewCount: 1,
   });
-  const [profList, setProfList] = useState([]);
+  const [profList, setProfList] = useState<ProfessorName[]>([]);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -35,7 +40,9 @@ export default function SearchBar(): JSX.Element {
           matchFrom: 'any',
           limit: 25,
         })}
-        getOptionLabel={(option) => option?.broncoDirectName || searchText}
+        getOptionLabel={(option) =>
+          typeof option === 'string' ? option : option.broncoDirectName
+        }
         options={profList}
         inputValue={searchText}
         onInputChange={(e, value) => {
@@ -58,7 +65,7 @@ export default function SearchBar(): JSX.Element {
                 setResult(true);
                 try {
                   const request = await fetch(
-                    'http://localhost:3000/professor',
+                    'https://api.cppbroncodirect.me/professor',
                     {
                       method: 'POST',
                       headers: {
