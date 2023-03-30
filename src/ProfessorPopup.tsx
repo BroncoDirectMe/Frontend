@@ -120,7 +120,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   const [currentProfessor, setCurrent] = useState('');
   const filteredProfNames = ProfessorNameFiltering(props.professorName);
   const professorsList = filteredProfNames.split('&');
-  const [errorMessage, setErrorMessage] = useState("Something went wrong when trying to retrieve data");
+  const [errorMessage, setErrorMessage] = useState(
+    'Something went wrong when trying to retrieve data'
+  );
 
   /**
    * Gets professor data from backend 'server.ts/professor' function and sets data to their respective useState
@@ -158,7 +160,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       setLoading(true); // data finished loading
     } catch (error) {
       if (error instanceof Error) {
-        setErrorMessage("This professor does not have a RateMyProfessor page.")
+        setErrorMessage('This professor does not have a RateMyProfessor page.');
       }
       setHasResult(false);
       setLoading(true);
@@ -249,13 +251,11 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
               height: '100%',
               flexDirection: 'column',
               marginTop: '70px', // Manual adjustment to center items vertically - temporary?
-              textAlign: "center"
+              textAlign: 'center',
             }}
           >
             <FmdBadIcon style={{ width: '28px', height: '28px' }} />
-            <Typography style={{ marginTop: '6px' }}>
-              {errorMessage}
-            </Typography>
+            <Typography style={{ marginTop: '6px' }}>{errorMessage}</Typography>
           </div>
         )}
 
