@@ -36,6 +36,7 @@ export default function SearchBar(): JSX.Element {
       <Autocomplete
         freeSolo
         selectOnFocus
+        disableClearable
         filterOptions={createFilterOptions({
           matchFrom: 'any',
           limit: 25,
@@ -95,6 +96,7 @@ export default function SearchBar(): JSX.Element {
                     display: 'block',
                   };
                   isLoading(false);
+                  setSearchText("");
                 } catch {
                   setResult(false);
                   isLoading(false);
