@@ -86,14 +86,18 @@ function ProfessorNameFiltering(profName: string): string {
  * @param professor professorName
  * @returns See ProfessorInfo interface for object returned
  */
-async function professorRequest(professor: string): Promise<ProfessorInfo> {
+async function professorRequest(
+  professor: string
+): Promise<ProfessorInfo | string> {
   const url = 'https://api.cppbroncodirect.me/professor';
   const request = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name: ProfessorNameFiltering(professor) }),
   });
-
+  if (!(await request.ok)) {
+    return await request.text();
+  }
   return await request.json();
 }
 
@@ -116,6 +120,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   const [currentProfessor, setCurrent] = useState('');
   const filteredProfNames = ProfessorNameFiltering(props.professorName);
   const professorsList = filteredProfNames.split('&');
+  const [errorMessage, setErrorMessage] = useState("Something went wrong when trying to retrieve data");
 
   /**
    * Gets professor data from backend 'server.ts/professor' function and sets data to their respective useState
@@ -123,15 +128,22 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   async function getProfessorData(): Promise<void> {
     try {
       setHasResult(true);
-      const selectedProf = professorsList[page].trim()
+      const selectedProf = professorsList[page].trim();
       setCurrent(selectedProf);
+      const request = await professorRequest(selectedProf);
+      // Throws an error if request doesn't return valid RMP info
+      if (request === 'professor not found in mapping') {
+        throw Error('Professor not found on RMP');
+      }
 
+      // @ts-expect-error
+      // Suppresses TypeScript error saying that this operation cannot be done if request is a string
       const {
         avgDifficulty,
         avgRating,
         numRatings,
         wouldTakeAgainPercent,
-      }: ProfessorInfo = await professorRequest(selectedProf);
+      }: ProfessorInfo = request;
 
       setProfessorData({
         difficulty: numRatings > 0 ? avgDifficulty : 'N/A', // if there are 0 reviews, there can't be any data
@@ -145,7 +157,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
 
       setLoading(true); // data finished loading
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        setErrorMessage("This professor does not have a RateMyProfessor page.")
+      }
       setHasResult(false);
       setLoading(true);
     }
@@ -156,7 +170,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
    */
   function nextPage(): void {
     const minPage = 0;
-    if ((page + 1) >= professorsList.length) {
+    if (page + 1 >= professorsList.length) {
       setPage(minPage);
       return;
     }
@@ -168,14 +182,14 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
    */
   function previousPage(): void {
     const minPage = 0;
-    if ((page - 1) < minPage) {
+    if (page - 1 < minPage) {
       setPage(professorsList.length - 1);
       return;
     }
     setPage(page - 1);
   }
 
-  // Runs getProfessorData upon page reload
+  // Runs getProfessorData when the page number state changes
   useEffect(() => {
     void getProfessorData();
   }, [page]);
@@ -192,75 +206,79 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         />
       )}
 
-      {/* Display professor data if no errors were caught during fetch */}
-      {loading && hasResult && (
-        <>
-          <div style={{ ...centerItems, marginTop: '10px' }}>
-            <Typography
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                color: '#008970',
-              }}
-            >
-              {currentProfessor.toUpperCase()}
+      <section>
+        {/* Display professor data if no errors were caught during fetch */}
+        {loading && hasResult && (
+          <section>
+            <div style={{ ...centerItems, marginTop: '10px' }}>
+              <Typography
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                  color: '#008970',
+                }}
+              >
+                {currentProfessor.toUpperCase()}
+              </Typography>
+              <RateMyProfessorButton professorName={currentProfessor} />
+            </div>
+            <Divider style={{ margin: '10px 0' }} />
+            <Typography>
+              <span style={boldStyle}>Rating: </span>
+              <span style={unboldStyle}>{professorData.rating}</span>
             </Typography>
-            <RateMyProfessorButton professorName={currentProfessor} />
+            <Typography>
+              <span style={boldStyle}>Difficulty: </span>
+              <span style={unboldStyle}>{professorData.difficulty}</span>
+            </Typography>
+            <Typography>
+              <span style={boldStyle}>Reviews: </span>
+              <span style={unboldStyle}>{professorData.reviews}</span>
+            </Typography>
+            <span style={boldStyle}>{professorData.retention}% </span>
+            <span style={unboldStyle}>would take again</span>
+          </section>
+        )}
+
+        {/* Display if error was caught during fetch process */}
+        {/* TODO: Shrink tooltip size if error occurs */}
+        {!hasResult && (
+          <div
+            style={{
+              ...centerItems,
+              height: '100%',
+              flexDirection: 'column',
+              marginTop: '70px', // Manual adjustment to center items vertically - temporary?
+              textAlign: "center"
+            }}
+          >
+            <FmdBadIcon style={{ width: '28px', height: '28px' }} />
+            <Typography style={{ marginTop: '6px' }}>
+              {errorMessage}
+            </Typography>
           </div>
-          <Divider style={{ margin: '10px 0' }} />
-          <Typography>
-            <span style={boldStyle}>Rating: </span>
-            <span style={unboldStyle}>{professorData.rating}</span>
-          </Typography>
-          <Typography>
-            <span style={boldStyle}>Difficulty: </span>
-            <span style={unboldStyle}>{professorData.difficulty}</span>
-          </Typography>
-          <Typography>
-            <span style={boldStyle}>Reviews: </span>
-            <span style={unboldStyle}>{professorData.reviews}</span>
-          </Typography>
-          <span style={boldStyle}>{professorData.retention}% </span>
-          <span style={unboldStyle}>would take again</span>
-          <Divider style={{ margin: '10px 0' }} />
-          <div style={centerItems}>
-            <IconButton style={iconButtonStyle} onClick={previousPage}>
-              <NavigateBeforeIcon />
-            </IconButton>
-            {/* Previous page button */}
+        )}
 
-            <IconButton
-              onClick={props.handleTooltipClose}
-              style={iconButtonStyle}
-            >
-              <CloseIcon />
-            </IconButton>
+        <Divider style={{ margin: '10px 0' }} />
+        <div style={centerItems}>
+          {/* Previous page button */}
+          <IconButton style={iconButtonStyle} onClick={previousPage}>
+            <NavigateBeforeIcon />
+          </IconButton>
 
-            <IconButton style={iconButtonStyle} onClick={nextPage}>
-              <NavigateNextIcon />
-            </IconButton>
-            {/* Next page button */}
-          </div>
-        </>
-      )}
+          <IconButton
+            onClick={props.handleTooltipClose}
+            style={iconButtonStyle}
+          >
+            <CloseIcon />
+          </IconButton>
 
-      {/* Display if error was caught during fetch process */}
-      {/* TODO: Shrink tooltip size if error occurs */}
-      {!hasResult && (
-        <div
-          style={{
-            ...centerItems,
-            height: '100%',
-            flexDirection: 'column',
-            marginTop: '70px', // Manual adjustment to center items vertically - temporary?
-          }}
-        >
-          <FmdBadIcon style={{ width: '28px', height: '28px' }} />
-          <Typography style={{ marginTop: '6px' }}>
-            Failed to fetch data
-          </Typography>
+          {/* Next page button */}
+          <IconButton style={iconButtonStyle} onClick={nextPage}>
+            <NavigateNextIcon />
+          </IconButton>
         </div>
-      )}
+      </section>
     </>
   );
 }
