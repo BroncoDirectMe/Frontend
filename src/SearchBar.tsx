@@ -96,7 +96,7 @@ export default function SearchBar(): JSX.Element {
                     display: 'block',
                   };
                   isLoading(false);
-                  setSearchText("");
+                  setSearchText('');
                 } catch {
                   setResult(false);
                   isLoading(false);
