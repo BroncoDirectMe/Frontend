@@ -71,12 +71,18 @@ const centerItems: CSSProperties = {
 /**
  * Filters out duplicate professor names and "To be Announced"
  * @param profName Professor names that may contain duplicates
+ * @param filterTBA Optional option to remove To be Announced from raw professor name text
  * @returns Unique professor names as a string
  */
-function ProfessorNameFiltering(profName: string): string {
+export function ProfessorNameFiltering(
+  profName: string,
+  filterTBA: boolean = true
+): string {
   // removes all commas then splits set elements by every new line
   const set = new Set(profName.split(',').join('').split('\n'));
-  set.delete('To be Announced');
+  if (filterTBA) {
+    set.delete('To be Announced');
+  }
   // set to array to string with chosen separator
   return Array.from(set).join(' & ');
 }
@@ -117,7 +123,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [hasResult, setHasResult] = useState(true);
   const [page, setPage] = useState(0);
-  const [currentProfessor, setCurrent] = useState('');
+  const [currentProfessor, setCurrent] = useState('TBA');
   const filteredProfNames = ProfessorNameFiltering(props.professorName);
   const professorsList = filteredProfNames.split('&');
   const [errorMessage, setErrorMessage] = useState(
@@ -160,7 +166,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       setLoading(true); // data finished loading
     } catch (error) {
       if (error instanceof Error) {
-        setErrorMessage('This professor does not have a RateMyProfessor page.');
+        setErrorMessage(
+          `The professor, ${professorsList[page]}, does not have a RateMyProfessor page.`
+        );
       }
       setHasResult(false);
       setLoading(true);
@@ -243,7 +251,6 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         )}
 
         {/* Display if error was caught during fetch process */}
-        {/* TODO: Shrink tooltip size if error occurs */}
         {!hasResult && (
           <div
             style={{
@@ -301,6 +308,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
           minHeight: '200px',
           boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
           borderRadius: '10px',
+          width: '10vw',
         },
       }}
       onClose={props.handleTooltipClose}
@@ -323,7 +331,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
         style={{ display: 'flex', alignItems: 'center' }}
         onClick={props.handleTooltipOpen}
       >
-        {ProfessorNameFiltering(props.professorName)}
+        {ProfessorNameFiltering(props.professorName, false)}
       </Button>
     </Tooltip>
   );
@@ -334,9 +342,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
  * @param professorName Takes in Professor Name
  * @returns Div containing the professor popup element
  */
-export default function ProfessorPopup(props: {
-  professorName: string;
-}): JSX.Element {
+export function ProfessorPopup(props: { professorName: string }): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
   const handleTooltipClose = (): void => {

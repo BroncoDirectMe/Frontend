@@ -3,16 +3,12 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { Tooltip } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
+import { ProfessorNameFiltering } from './ProfessorPopup';
 
 const infoIconStyle = {
   minHeight: '16px',
   minWidth: '16px',
   height: '24px',
-  // display: 'flex',
-  // alignItems: 'center',
-  // borderRadius: '50%',
-  // border: 'none',
-  // boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
 };
 
 export default function RateMyProfessorButton(props: {
@@ -74,14 +70,4 @@ export default function RateMyProfessorButton(props: {
       )}
     </>
   );
-}
-
-// filters out duplicate professor names and To be Announced
-function ProfessorNameFiltering(profName: string): string {
-  // removes all commas then splits set elements by every new line
-  console.log('Professor name: ' + profName);
-  const set = new Set(profName.split(',').join('').split('\n'));
-  set.delete('To be Announced');
-  // set to array to string with chosen separator
-  return Array.from(set).join(' & ');
 }
