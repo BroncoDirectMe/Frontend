@@ -3,7 +3,7 @@ import { ToggleButton } from './ToggleButton';
 import SearchBar from './SearchBar';
 import { MsalProvider } from '@azure/msal-react';
 import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
-import { Grid, IconButton } from '@mui/material';
+import { Grid, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
 
@@ -20,7 +20,9 @@ export function App(): ReactElement {
             <div id="errorElm"></div>
             <Grid container>
               <Grid item xs={11}>
-                <h1>BroncoDirectMe</h1>
+                <Typography fontSize="1.5rem" fontWeight="600">
+                  BroncoDirectMe
+                </Typography>
               </Grid>
               <Grid item xs={1} style={{ display: 'flex' }}>
                 {isSettingsButtonOpen && (

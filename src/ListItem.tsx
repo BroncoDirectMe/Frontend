@@ -10,6 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { AuthenticatedTemplate } from '@azure/msal-react';
+import RateMyProfessorButton from './RateMyProfessorButton';
 
 /**
  * Handles uploading professor rating client-side to server-side with a GET request
@@ -44,19 +45,28 @@ export function ListPage(props: { list: person[] }): JSX.Element {
     <>
       {/* does the indexing work for you */}
       {props.list.map((person: person, index: number) => (
-        <Accordion key={index}>
+        <Accordion key={index} defaultExpanded={true}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ fontSize: '2.5rem' }} />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>
+            <Typography
+              sx={{
+                margin: 'auto 0',
+                fontWeight: 'bold',
+                fontSize: '1.2rem',
+              }}
+            >
               {person.professorName}
-              <br />
-              <b>Rating {person.overallRating} / 5 </b>
             </Typography>
+            <RateMyProfessorButton professorName={person.professorName} />
           </AccordionSummary>
           <AccordionDetails>
+            <Typography>
+              <b>Rating: </b>
+              <b>{person.overallRating} / 5 </b>
+            </Typography>
             <Typography>
               <b>Difficulty: </b>
               {person.difficulty} / 5
