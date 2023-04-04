@@ -12,17 +12,18 @@ const observer = new MutationObserver(function (mutationList) {
       );
       console.log('[BRONCODIRECT] Current Page:', currPage);
 
-      // example injection
+      // injection
       const insts: NodeListOf<HTMLElement> | undefined = (
         document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
       ).contentDocument?.querySelectorAll('*[id^="MTG_INSTR$"]');
-      testInject(insts);
+      injection(insts);
     }
   });
 });
 
-// example injection
-function testInject(insts: NodeListOf<HTMLElement> | undefined): void {
+// injection
+function injection(insts: NodeListOf<HTMLElement> | undefined): void {
+  // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
   insts?.forEach((inst) => {
     // append new root containers under inst.parent to retain original span element
     // const upvoteDownvoteRoot = document.createElement('div');

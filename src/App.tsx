@@ -14,7 +14,7 @@ export function App(): ReactElement {
 
   return (
     <MsalProvider instance={msalInstance}>
-      <div className="App">
+      <div className="App" style={{ minHeight: 250 }}>
         {!isPanelOpen && (
           <section>
             <div id="errorElm"></div>

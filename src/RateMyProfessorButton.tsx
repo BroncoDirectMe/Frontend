@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
+import { Tooltip } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import { ProfessorNameFiltering } from './ProfessorPopup';
+
+const infoIconStyle = {
+  minHeight: '16px',
+  minWidth: '16px',
+  height: '24px',
+};
 
 export default function RateMyProfessorButton(props: {
   professorName: string;
@@ -41,24 +50,24 @@ export default function RateMyProfessorButton(props: {
   };
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      className={`${loading ? 'disabled' : ''}`}
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onClick={handleButtonClick}
-    >
-      {loading ? '. . .' : 'RMP'}
-    </Button>
+    <>
+      {loading && '. . .'}
+      {!loading && (
+        <Tooltip
+          disableFocusListener
+          title="Open RateMyProfessor Page"
+          placement="top"
+        >
+          <Button
+            style={{ background: 'none', border: 'none' }}
+            className={`${loading ? 'disabled' : ''}`}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onClick={handleButtonClick}
+          >
+            <InfoIcon style={infoIconStyle} />
+          </Button>
+        </Tooltip>
+      )}
+    </>
   );
-}
-
-// filters out duplicate professor names and To be Announced
-function ProfessorNameFiltering(profName: string): string {
-  // removes all commas then splits set elements by every new line
-  console.log('Professor name: ' + profName);
-  const set = new Set(profName.split(',').join('').split('\n'));
-  set.delete('To be Announced');
-  // set to array to string with chosen separator
-  return Array.from(set).join(' & ');
 }
