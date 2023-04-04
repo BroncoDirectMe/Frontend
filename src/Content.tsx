@@ -1,5 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import ProfessorPopup from './ProfessorPopup';
+// import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
 const observer = new MutationObserver(function (mutationList) {
   mutationList.forEach((mutation) => {
@@ -11,25 +13,34 @@ const observer = new MutationObserver(function (mutationList) {
       console.log('[BRONCODIRECT] Current Page:', currPage);
 
       // example injection
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const insts = (
+      const insts: NodeListOf<HTMLElement> | undefined = (
         document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
-      ).contentDocument!.querySelectorAll('*[id^="MTG_INSTR$"]');
+      ).contentDocument?.querySelectorAll('*[id^="MTG_INSTR$"]');
       testInject(insts);
     }
   });
 });
 
 // example injection
-function testInject(insts: NodeListOf<Element>): void {
+function testInject(insts: NodeListOf<HTMLElement> | undefined): void {
   insts?.forEach((inst) => {
-    const TESTINJECTION = document.createElement('div');
+    // append new root containers under inst.parent to retain original span element
+    // const upvoteDownvoteRoot = document.createElement('div');
     const parentElem = inst.parentElement as HTMLDivElement;
-    parentElem?.append(TESTINJECTION);
-    createRoot(TESTINJECTION).render(
-      <>
-        <div>TEST INJECTION</div>
-      </>
+    inst.style.display = 'none';
+
+    // Styling for the UpvoteDownvote Button
+    // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
+    // upvoteDownvoteRoot.style.float = 'left';
+    // upvoteDownvoteRoot.style.padding = '2%';
+    // parentElem?.prepend(upvoteDownvoteRoot);
+
+    // createRoot(upvoteDownvoteRoot).render(
+    //   <UpvoteDownvoteButton professorName={inst.innerText} />
+    // );
+
+    createRoot(parentElem).render(
+      <ProfessorPopup professorName={inst.innerText} />
     );
   });
 }
