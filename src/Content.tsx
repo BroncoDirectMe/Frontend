@@ -1,43 +1,50 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import ProfessorPopup from './ProfessorPopup';
-import RateMyProfessorButton from './RateMyProfessorButton';
+// import ProfessorPopup from './ProfessorPopup';
 import TableRedesign from './components/TableRedesign';
 // import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
-let searchResultsTrue = false;
+const observer = new MutationObserver(function (mutationList) {
+  mutationList.forEach((mutation) => {
+    // runs if data-subpage attribute in document.body changes
+    if (mutation.attributeName === 'data-subpage') {
+      const currPage = (mutation.target as HTMLElement).getAttribute(
+        'data-subpage'
+      );
+      console.log('[BRONCODIRECT] Current Page:', currPage);
 
-function injectButtons(): void {
-  if (
-    window.self !== window.top || // Makes sure only the top window loads first and not the iframe window
-    !document.URL.includes('https://cmsweb.cms.cpp.edu/')
-  ) {
-    return;
-  }
-  console.log('[BRONCODIRECT] Page Loaded');
+      // injection
+      const iframeDoc = (
+        document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
+      ).contentDocument;
 
-  if (
-    document.URL.includes(
-      'https://cmsweb.cms.cpp.edu/psp/CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?'
-    )
-  ) {
-    const iframe = (
-      document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
-    ).contentWindow;
+      injection(iframeDoc);
+    }
+  });
+});
 
-    iframe?.addEventListener('click', () => {
-      const rootInjection = iframe.document.getElementById(
-        'win0divDERIVED_CLSRCH_GROUP6'
-      )!;
-      const classRows: NodeListOf<HTMLElement> =
-        iframe.document.querySelectorAll(
-          '*[data-for^="SSR_CLSRSLT_WRK_GROUPBOX2$"]'
-        );
-      createRoot(rootInjection).render(<TableRedesign classRows={classRows} />);
-    });
-    searchResultsTrue = true;
-  }
+// injection
+function injection(iframeDoc: Document | null): void {
+  if (iframeDoc == null) return;
+  const rootInjection: HTMLElement | null = iframeDoc.getElementById(
+    'win0divDERIVED_CLSRCH_GROUP6'
+  );
+  const classRows: NodeListOf<HTMLElement> = iframeDoc.querySelectorAll(
+    '*[data-for^="SSR_CLSRSLT_WRK_GROUPBOX2$"]'
+  );
+  if (rootInjection == null) return;
+  createRoot(rootInjection).render(<TableRedesign classRows={classRows} />);
 }
 
-injectButtons();
+function pageLoadCheck(): boolean {
+  // URL set on entire cpp portal so injection will work on add class page too
+  const URL = 'https://cmsweb.cms.cpp.edu/psp/'; // /CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?';
+  if (!window.location.href.includes(URL)) return false;
+  console.log('[BRONCODIRECT] Page Loaded');
+  return true;
+}
+
+if (pageLoadCheck()) {
+  observer.observe(document.body, { attributes: true });
+}
 console.log(document.URL);
