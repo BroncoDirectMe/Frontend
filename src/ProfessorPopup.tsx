@@ -141,7 +141,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       const request = await professorRequest(selectedProf);
       // Throws an error if request doesn't return valid RMP info
       if (request === 'professor not found in mapping') {
-        throw Error('Professor not found on RMP');
+        throw Error('Professor not found on Rate My Professor');
       }
 
       // @ts-expect-error
@@ -153,22 +153,32 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         wouldTakeAgainPercent,
       }: ProfessorInfo = request;
 
+      // Throws an error if professor has no ratings on Rate My Professor
+      if (wouldTakeAgainPercent < 0) {
+        throw Error('No professor reviews found on Rate My Professor');
+      }
+
       setProfessorData({
-        difficulty: numRatings > 0 ? avgDifficulty : 'N/A', // if there are 0 reviews, there can't be any data
-        rating: numRatings > 0 ? avgRating : 'N/A',
-        reviews: numRatings > 0 ? numRatings.toString() : 'N/A',
-        retention:
-          numRatings > 0 || wouldTakeAgainPercent < 0
-            ? wouldTakeAgainPercent.toString()
-            : 'N/A', // RMP can return wouldTakeAgainPercent as -1
+        difficulty: avgDifficulty,
+        rating: avgRating,
+        reviews: numRatings.toString(),
+        retention: wouldTakeAgainPercent.toString(),
       });
 
       setLoading(true); // data finished loading
     } catch (error) {
       if (error instanceof Error) {
-        setErrorMessage(
-          `The professor, ${professorsList[page]}, does not have a RateMyProfessor page.`
-        );
+        if (error.message === 'Professor not found on Rate My Professor') {
+          setErrorMessage(
+            `${professorsList[page]} does not have a RateMyProfessor page.`
+          );
+        } else if (
+          error.message === 'No professor reviews found on Rate My Professor'
+        ) {
+          setErrorMessage(
+            `${professorsList[page]} has a RateMyProfessor page with no ratings yet.`
+          );
+        }
       }
       setHasResult(false);
       setLoading(true);
