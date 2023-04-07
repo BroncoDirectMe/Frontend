@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Box, FormControlLabel, Switch } from '@mui/material';
-import { useState } from 'react';
 
 export const ToggleButton = (): JSX.Element => {
   const [checked, setChecked] = useState(false); // Default state is when the button is not enabled
