@@ -8,6 +8,11 @@ export const ToggleButton = (): JSX.Element => {
     chrome.storage.local.get('toggleExtension', (result: any) => {
       if (result.toggleExtension) {
         setChecked(result.toggleExtension === 'on');
+      } else {
+        // By default, the extension is enabled
+        chrome.storage.local.set({ toggleExtension: 'on' }, () => {
+          setChecked(true);
+        });
       }
     });
   }, []);
