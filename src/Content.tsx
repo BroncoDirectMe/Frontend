@@ -79,5 +79,3 @@ async function setupObserver(): Promise<void> {
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 setupObserver();
-
-console.log(document.URL);
