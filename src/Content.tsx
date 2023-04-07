@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import ProfessorPopup from './ProfessorPopup';
+import { ProfessorPopup } from './ProfessorPopup';
 // import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
 const observer = new MutationObserver(function (mutationList) {
@@ -54,7 +54,28 @@ function pageLoadCheck(): boolean {
   return true;
 }
 
-if (pageLoadCheck()) {
-  observer.observe(document.body, { attributes: true });
+/**
+ * Checks if extension is enabled in its settings
+ * @returns {Promise<boolean>} true if extension is enabled, false otherwise
+ */
+async function enabledCheck(): Promise<boolean> {
+  // eslint-disable-next-line @typescript-eslint/return-await
+  return new Promise((resolve) => {
+    chrome.storage.local.get('toggleExtension', (result: any) => {
+      if (result.toggleExtension) {
+        resolve(result.toggleExtension === 'on');
+      } else {
+        resolve(false);
+      }
+    });
+  });
 }
-console.log(document.URL);
+
+async function setupObserver(): Promise<void> {
+  if (pageLoadCheck() && (await enabledCheck())) {
+    observer.observe(document.body, { attributes: true });
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+setupObserver();
