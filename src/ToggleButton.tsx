@@ -31,7 +31,7 @@ export const ToggleButton = (): JSX.Element => {
   return (
     <Box>
       <FormControlLabel
-        label="Enabled"
+        label="Disable/Enable Extension"
         control={
           <Switch
             checked={checked}
