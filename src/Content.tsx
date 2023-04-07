@@ -1,76 +1,60 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { ProfessorPopup } from './ProfessorPopup';
+import ProfessorPopup from './ProfessorPopup';
 // import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
-let searchResultsTrue = false;
+const observer = new MutationObserver(function (mutationList) {
+  mutationList.forEach((mutation) => {
+    // runs if data-subpage attribute in document.body changes
+    if (mutation.attributeName === 'data-subpage') {
+      const currPage = (mutation.target as HTMLElement).getAttribute(
+        'data-subpage'
+      );
+      console.log('[BRONCODIRECT] Current Page:', currPage);
 
-function injectButtons(): void {
-  if (
-    window.self !== window.top || // Makes sure only the top window loads first and not the iframe window
-    !document.URL.includes('https://cmsweb.cms.cpp.edu/')
-  ) {
-    return;
-  }
-  console.log('[BRONCODIRECT] Page Loaded');
+      // injection
+      const insts: NodeListOf<HTMLElement> | undefined = (
+        document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
+      ).contentDocument?.querySelectorAll('*[id^="MTG_INSTR$"]');
+      injection(insts);
+    }
+  });
+});
 
-  if (
-    document.URL.includes(
-      'CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?'
-    )
-  ) {
-    const iframe = document.getElementById(
-      'ptifrmtgtframe'
-    ) as HTMLIFrameElement;
+// injection
+function injection(insts: NodeListOf<HTMLElement> | undefined): void {
+  // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
+  insts?.forEach((inst) => {
+    // append new root containers under inst.parent to retain original span element
+    // const upvoteDownvoteRoot = document.createElement('div');
+    const parentElem = inst.parentElement as HTMLDivElement;
+    inst.style.display = 'none';
 
-    // event listener on the iframe which fires on search
-    // since iframe will receive a post message of the search criteria
-    // however event will fire regardless if the search criteria is invalid and will remain on the page
-    iframe?.contentWindow?.addEventListener('click', () => {
-      const insts: NodeListOf<HTMLElement> | undefined =
-        iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
+    // Styling for the UpvoteDownvote Button
+    // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
+    // upvoteDownvoteRoot.style.float = 'left';
+    // upvoteDownvoteRoot.style.padding = '2%';
+    // parentElem?.prepend(upvoteDownvoteRoot);
 
-      const header: HTMLElement | null | undefined =
-        iframe.contentWindow?.document.querySelector(
-          '.gh-page-header-headings'
-        );
+    // createRoot(upvoteDownvoteRoot).render(
+    //   <UpvoteDownvoteButton professorName={inst.innerText} />
+    // );
 
-      // Log to console the current page of Bronco Direct (using the header of the page)
-      if (header !== undefined && header !== null) {
-        console.log((header.children[2] as HTMLElement).innerText);
-
-        if (
-          (header.children[2] as HTMLElement).innerText === 'Search Results'
-        ) {
-          if (!searchResultsTrue) {
-            // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
-            insts?.forEach((inst) => {
-              // append new root containers under inst.parent to retain original span element
-              // const upvoteDownvoteRoot = document.createElement('div');
-              const parentElem = inst.parentElement as HTMLDivElement;
-              inst.style.display = 'none';
-
-              // Styling for the UpvoteDownvote Button
-              // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
-              // upvoteDownvoteRoot.style.float = 'left';
-              // upvoteDownvoteRoot.style.padding = '2%';
-              // parentElem?.prepend(upvoteDownvoteRoot);
-
-              // createRoot(upvoteDownvoteRoot).render(
-              //   <UpvoteDownvoteButton professorName={inst.innerText} />
-              // );
-
-              createRoot(parentElem).render(
-                <ProfessorPopup professorName={inst.innerText} />
-              );
-            });
-            searchResultsTrue = true;
-          }
-        } else searchResultsTrue = false;
-      } else console.log('undefined');
-    });
-  }
+    createRoot(parentElem).render(
+      <ProfessorPopup professorName={inst.innerText} />
+    );
+  });
 }
 
-injectButtons();
+function pageLoadCheck(): boolean {
+  // URL set on entire cpp portal so injection will work on add class page too
+  const URL = 'https://cmsweb.cms.cpp.edu/psp/'; // /CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?';
+  if (!window.location.href.includes(URL)) return false;
+  console.log('[BRONCODIRECT] Page Loaded');
+  return true;
+}
+
+if (pageLoadCheck()) {
+  observer.observe(document.body, { attributes: true });
+}
 console.log(document.URL);
