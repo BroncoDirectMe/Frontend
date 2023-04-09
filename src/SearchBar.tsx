@@ -14,6 +14,67 @@ interface ProfessorName {
   broncoDirectName: string;
 }
 
+interface CircularProgressBarProps {
+  value: number;
+  color: string;
+  title: string;
+  displayPercentage: boolean;
+}
+
+function CircularProgressBar({
+  value,
+  color,
+  title,
+  displayPercentage,
+}: CircularProgressBarProps): JSX.Element {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        position: 'relative',
+      }}
+    >
+      <CircularProgress
+        variant="determinate"
+        thickness={2.5}
+        value={value}
+        size={120}
+        style={{ color }}
+      />
+
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <span style={{ fontSize: '24px', textAlign: 'center' }}>
+          {displayPercentage ? `${(value).toFixed(1)}%` : ''}
+          {!displayPercentage ? `${(value/20).toFixed(1)}/5` : ''}
+        </span>
+
+        <span
+          style={{
+            fontSize: '16px',
+            color: 'black',
+            textAlign: 'center',
+          }}
+        >
+          {title}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export default function SearchBar(): JSX.Element {
   const [searchText, setSearchText] = useState('');
   const [hasResult, setResult] = useState(true);
@@ -116,7 +177,13 @@ export default function SearchBar(): JSX.Element {
       />
 
       {loading && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '20px',
+          }}
+        >
           <CircularProgress />
         </div>
       )}
@@ -127,108 +194,46 @@ export default function SearchBar(): JSX.Element {
             {searchResult.professorName}
           </h2>
           <div style={{ display: 'flex', marginBottom: '20px' }}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                marginRight: '20px',
-                position: 'relative',
-              }}
-            >
-              <CircularProgress
-                variant="determinate"
-                thickness={2.5}
-                value={searchResult.overallRating * 20}
-                size={120}
-                style={{
-                  color:
-                    searchResult.overallRating < 5 / 3
-                      ? 'red'
-                      : searchResult.overallRating < 10 / 3
-                      ? 'blue'
-                      : 'green',
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <span style={{ fontSize: '24px', textAlign: 'center' }}>
-                  {searchResult.overallRating.toFixed(1)}/
-                  <span style={{ fontSize: '16px' }}>5</span>
-                </span>
-                <span
-                  style={{
-                    fontSize: '16px',
-                    color: 'black',
-                    textAlign: 'center',
-                  }}
-                >
-                  Rating
-                </span>
-              </div>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                marginLeft: '20px',
-                position: 'relative',
-              }}
-            >
-              <CircularProgress
-                variant="determinate"
-                thickness={2.5}
-                value={searchResult.difficulty * 20}
-                size={120}
-                style={{
-                  color:
-                    searchResult.difficulty < 5 / 3
-                      ? 'green'
-                      : searchResult.difficulty < 10 / 3
-                      ? 'blue'
-                      : 'red',
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <span style={{ fontSize: '24px', textAlign: 'center' }}>
-                  {searchResult.difficulty.toFixed(1)}/
-                  <span style={{ fontSize: '16px' }}>5</span>
-                </span>
-                <span
-                  style={{
-                    fontSize: '16px',
-                    color: 'black',
-                    textAlign: 'center',
-                  }}
-                >
-                  Difficulty
-                </span>
-              </div>
-            </div>
+            <CircularProgressBar
+              value={searchResult.overallRating * 20}
+              color={
+                searchResult.overallRating < 5 / 3
+                  ? 'red'
+                  : searchResult.overallRating < 10 / 3
+                  ? 'blue'
+                  : 'green'
+              }
+              title={`Rating`}
+              displayPercentage={false}
+            />
+            <CircularProgressBar
+              value={searchResult.difficulty * 20}
+              color={
+                searchResult.difficulty < 5 / 3
+                  ? 'green'
+                  : searchResult.difficulty < 10 / 3
+                  ? 'blue'
+                  : 'red'
+              }
+              title={`Difficulty`}
+              displayPercentage={false}
+            />
+            <CircularProgressBar
+              value={
+                searchResult.retention === 'N/A'
+                  ? 0
+                  : parseInt(searchResult.retention)
+              }
+              color={
+                parseInt(searchResult.retention) < 50
+                  ? 'red'
+                  : parseInt(searchResult.retention) < 80
+                  ? 'blue'
+                  : 'green'
+              }
+              title={searchResult.retention === 'N/A' ? 'N/A' : `Would Retake`}
+              displayPercentage={true}
+            />
           </div>
           <div
             style={{
@@ -237,67 +242,10 @@ export default function SearchBar(): JSX.Element {
               marginTop: '24px',
               fontSize: '16px',
               position: 'relative',
-              alignSelf: 'center', // new property added here
+              alignSelf: 'center',
             }}
           >
             <span>{searchResult.reviewCount} total reviews</span>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              alignItems: 'center',
-              marginLeft: '20px',
-              position: 'relative',
-              flex: 1,
-            }}
-          >
-            <CircularProgress
-              variant="determinate"
-              thickness={2.5}
-              value={
-                searchResult.retention === 'N/A'
-                  ? 0
-                  : parseInt(searchResult.retention)
-              }
-              size={120}
-              style={{
-                color:
-                  parseInt(searchResult.retention) < 50
-                    ? 'red'
-                    : parseInt(searchResult.retention) < 80
-                    ? 'blue'
-                    : 'green',
-              }}              
-            />
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <span style={{ fontSize: '24px', textAlign: 'center' }}>
-                {searchResult.retention === 'N/A'
-                  ? 'N/A'
-                  : `${searchResult.retention}%`}
-              </span>
-              <span
-                style={{
-                  fontSize: '16px',
-                  color: 'black',
-                  textAlign: 'center',
-                }}
-              >
-                Would retake
-              </span>
-            </div>
           </div>
         </section>
       )}
