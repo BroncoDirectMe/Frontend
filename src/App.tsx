@@ -18,9 +18,9 @@ export function App(): ReactElement {
         {!isPanelOpen && (
           <section>
             <div id="errorElm"></div>
-            <Grid container>
+            <Grid container alignItems="center">
               <Grid item xs={11}>
-                <h1>BroncoDirectMe</h1>
+                <h1>BroncoDirectMe Search</h1>
               </Grid>
               <Grid item xs={1} style={{ display: 'flex' }}>
                 {isSettingsButtonOpen && (
@@ -36,7 +36,11 @@ export function App(): ReactElement {
                 )}
               </Grid>
             </Grid>
-            <SearchBar />
+            <Grid container justifyContent="center">
+              <Grid item xs={10} sm={8} md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                <SearchBar />
+              </Grid>
+            </Grid>
             <MicrosoftOAuth />
           </section>
         )}
