@@ -64,28 +64,37 @@ function CircularProgressBar({
           alignItems: 'center',
         }}
       >
-        <span style={{ fontSize: '24px', textAlign: 'center' }}>
-          {displayPercentage ? `${value.toFixed(1)}%` : ''}
-          {!displayPercentage && (
+        <span
+          style={{ fontSize: '24px', textAlign: 'center', fontWeight: 'bold' }}
+        >
+          {displayPercentage ? (
             <span>
-              <span style={{ fontSize: '24px' }}>
-                {(value / 20).toFixed(1)}
-              </span>
-              <span style={{ fontSize: '18px' }}>/5</span>
+              <span>{value.toFixed(1)}</span>
+              <span style={{ fontSize: '18px', fontWeight: 'normal' }}>%</span>
+            </span>
+          ) : (
+            <span style={{ fontSize: '24px', fontWeight: 'bold' }}>
+              {(value / 20).toFixed(1)}
+              <span style={{ fontSize: '18px', fontWeight: 'normal' }}>/5</span>
             </span>
           )}
         </span>
-
-        <span
-          style={{
-            fontSize: '16px',
-            color: 'black',
-            textAlign: 'center',
-          }}
-        >
-          {title}
-        </span>
       </div>
+      <span
+        style={{
+          fontSize: '16px',
+          color: 'black',
+          textAlign: 'center',
+          position: 'absolute',
+          top: 'calc(50% + 55px)',
+          left: '50%',
+          transform: 'translate(-50%, 0)',
+          marginTop: '10px',
+          marginBottom: '10px',
+        }}
+      >
+        {title}
+      </span>
     </div>
   );
 }
@@ -130,7 +139,7 @@ export default function SearchBar(): JSX.Element {
         onInputChange={(e, value) => {
           setSearchText(value);
         }}
-        sx={{ width: '90vw', marginBottom: '10%'}}
+        sx={{ width: '90vw', marginBottom: '10%' }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -179,7 +188,6 @@ export default function SearchBar(): JSX.Element {
                     display: 'block',
                   };
                   isLoading(false);
-                  setSearchText('');
                 } catch {
                   setResult(false);
                   isLoading(false);
@@ -256,10 +264,11 @@ export default function SearchBar(): JSX.Element {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              marginTop: '24px',
+              marginTop: '55px',
               fontSize: '16px',
               position: 'relative',
               alignSelf: 'center',
+              color: '#A3A3A3',
             }}
           >
             <span>{searchResult.reviewCount} total reviews</span>
@@ -271,4 +280,3 @@ export default function SearchBar(): JSX.Element {
     </div>
   );
 }
-
