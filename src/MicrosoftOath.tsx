@@ -228,7 +228,7 @@ export function MicrosoftOAuth(): JSX.Element {
         margin: '0 auto',
         display: 'flex',
         marginTop: '10%',
-        marginBottom: '10%',
+        marginBottom: '5%',
         backgroundColor: '#3B8770',
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
       }}

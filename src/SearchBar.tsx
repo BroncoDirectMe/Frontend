@@ -217,7 +217,7 @@ export default function SearchBar(): JSX.Element {
       {/* Conditional rendering for loading circular progress */}
       {!loading && hasResult && (
         <section id="searchResult" style={searchView}>
-          <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
             {searchResult.professorName}
           </h2>
           <div style={{ display: 'flex', marginBottom: '20px' }}>
@@ -260,7 +260,9 @@ export default function SearchBar(): JSX.Element {
                   ? 'blue'
                   : 'green'
               }
-              title={searchResult.retention === 'N/A' ? 'N/A' : `Would Retake`}
+              title={
+                searchResult.retention === 'N/A' ? 'N/A' : `Would\u00a0Retake`
+              }
               displayPercentage={true}
             />
           </div>
@@ -268,7 +270,7 @@ export default function SearchBar(): JSX.Element {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              marginTop: '65px',
+              marginTop: '45px',
               fontSize: '16px',
               position: 'relative',
               alignSelf: 'center',
