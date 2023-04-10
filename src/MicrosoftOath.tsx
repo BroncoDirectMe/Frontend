@@ -230,6 +230,7 @@ export function MicrosoftOAuth(): JSX.Element {
         marginTop: '10%',
         marginBottom: '10%',
         backgroundColor: '#3B8770',
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
       }}
       size="large"
     >
@@ -239,4 +240,5 @@ export function MicrosoftOAuth(): JSX.Element {
     </Button>
     // Onclick function is an IIFE function that allows async functions to run in global scope
   );
+
 }

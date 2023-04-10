@@ -65,17 +65,17 @@ function CircularProgressBar({
         }}
       >
         <span
-          style={{ fontSize: '24px', textAlign: 'center', fontWeight: 'bold' }}
+          style={{ fontSize: '27px', textAlign: 'center', fontWeight: 'bold' }}
         >
           {displayPercentage ? (
             <span>
               <span>{value.toFixed(1)}</span>
-              <span style={{ fontSize: '18px', fontWeight: 'normal' }}>%</span>
+              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>%</span>
             </span>
           ) : (
-            <span style={{ fontSize: '24px', fontWeight: 'bold' }}>
+            <span style={{ fontSize: '27px', fontWeight: 'bold' }}>
               {(value / 20).toFixed(1)}
-              <span style={{ fontSize: '18px', fontWeight: 'normal' }}>/5</span>
+              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>/5</span>
             </span>
           )}
         </span>
@@ -139,7 +139,11 @@ export default function SearchBar(): JSX.Element {
         onInputChange={(e, value) => {
           setSearchText(value);
         }}
-        sx={{ width: '90vw', marginBottom: '10%' }}
+        sx={{
+          width: '90vw',
+          marginBottom: '10%',
+          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -213,7 +217,7 @@ export default function SearchBar(): JSX.Element {
       {/* Conditional rendering for loading circular progress */}
       {!loading && hasResult && (
         <section id="searchResult" style={searchView}>
-          <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>
             {searchResult.professorName}
           </h2>
           <div style={{ display: 'flex', marginBottom: '20px' }}>
@@ -264,7 +268,7 @@ export default function SearchBar(): JSX.Element {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              marginTop: '55px',
+              marginTop: '65px',
               fontSize: '16px',
               position: 'relative',
               alignSelf: 'center',
