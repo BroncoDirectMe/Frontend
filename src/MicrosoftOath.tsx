@@ -224,7 +224,13 @@ export function MicrosoftOAuth(): JSX.Element {
 
         changeSignInStatus(await signIn());
       }}
-      sx={{ margin: '0 auto', display: 'flex', marginTop: '10%', marginBottom: '10%', backgroundColor: '#3B8770' }}
+      sx={{
+        margin: '0 auto',
+        display: 'flex',
+        marginTop: '10%',
+        marginBottom: '10%',
+        backgroundColor: '#3B8770',
+      }}
       size="large"
     >
       {!signedIn && 'Sign In'}

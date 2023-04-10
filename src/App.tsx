@@ -14,7 +14,7 @@ export function App(): ReactElement {
 
   return (
     <MsalProvider instance={msalInstance}>
-      <div className="App" style={{ minHeight: 250}}>
+      <div className="App" style={{ minHeight: 250 }}>
         {!isPanelOpen && (
           <section>
             <div id="errorElm"></div>
@@ -37,7 +37,13 @@ export function App(): ReactElement {
               </Grid>
             </Grid>
             <Grid container justifyContent="center" spacing={1}>
-              <Grid item xs={10} sm={8} md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+              <Grid
+                item
+                xs={10}
+                sm={8}
+                md={6}
+                style={{ display: 'flex', justifyContent: 'center' }}
+              >
                 <SearchBar />
               </Grid>
             </Grid>
