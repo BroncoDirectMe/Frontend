@@ -240,5 +240,4 @@ export function MicrosoftOAuth(): JSX.Element {
     </Button>
     // Onclick function is an IIFE function that allows async functions to run in global scope
   );
-
 }
