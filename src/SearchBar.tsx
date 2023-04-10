@@ -27,6 +27,8 @@ function CircularProgressBar({
   title,
   displayPercentage,
 }: CircularProgressBarProps): JSX.Element {
+  const remainingColor = 'rgba(0, 0, 0, 0.1)';
+
   return (
     <div
       style={{
@@ -40,10 +42,16 @@ function CircularProgressBar({
         variant="determinate"
         thickness={2.5}
         value={value}
-        size={120}
+        size={110}
         style={{ color }}
       />
-
+      <CircularProgress
+        variant="determinate"
+        thickness={2.5}
+        value={100}
+        size={110}
+        style={{ color: remainingColor, position: 'absolute' }}
+      />
       <div
         style={{
           position: 'absolute',
@@ -57,8 +65,15 @@ function CircularProgressBar({
         }}
       >
         <span style={{ fontSize: '24px', textAlign: 'center' }}>
-          {displayPercentage ? `${(value).toFixed(1)}%` : ''}
-          {!displayPercentage ? `${(value/20).toFixed(1)}/5` : ''}
+          {displayPercentage ? `${value.toFixed(1)}%` : ''}
+          {!displayPercentage && (
+            <span>
+              <span style={{ fontSize: '24px' }}>
+                {(value / 20).toFixed(1)}
+              </span>
+              <span style={{ fontSize: '18px' }}>/5</span>
+            </span>
+          )}
         </span>
 
         <span
@@ -115,7 +130,7 @@ export default function SearchBar(): JSX.Element {
         onInputChange={(e, value) => {
           setSearchText(value);
         }}
-        sx={{ width: '72vw', marginBottom: '4%' }}
+        sx={{ width: '90vw', marginBottom: '10%'}}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -206,6 +221,7 @@ export default function SearchBar(): JSX.Element {
               title={`Rating`}
               displayPercentage={false}
             />
+            <div style={{ width: '20px' }} /> {/* empty div with a width */}
             <CircularProgressBar
               value={searchResult.difficulty * 20}
               color={
@@ -218,6 +234,7 @@ export default function SearchBar(): JSX.Element {
               title={`Difficulty`}
               displayPercentage={false}
             />
+            <div style={{ width: '20px' }} /> {/* empty div with a width */}
             <CircularProgressBar
               value={
                 searchResult.retention === 'N/A'
@@ -254,3 +271,4 @@ export default function SearchBar(): JSX.Element {
     </div>
   );
 }
+

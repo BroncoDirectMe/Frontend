@@ -14,11 +14,11 @@ export function App(): ReactElement {
 
   return (
     <MsalProvider instance={msalInstance}>
-      <div className="App" style={{ minHeight: 250 }}>
+      <div className="App" style={{ minHeight: 250}}>
         {!isPanelOpen && (
           <section>
             <div id="errorElm"></div>
-            <Grid container alignItems="center">
+            <Grid container alignItems="center" spacing={1}>
               <Grid item xs={11}>
                 <h1>BroncoDirectMe Search</h1>
               </Grid>
@@ -36,7 +36,7 @@ export function App(): ReactElement {
                 )}
               </Grid>
             </Grid>
-            <Grid container justifyContent="center">
+            <Grid container justifyContent="center" spacing={1}>
               <Grid item xs={10} sm={8} md={6} style={{ display: 'flex', justifyContent: 'center' }}>
                 <SearchBar />
               </Grid>
