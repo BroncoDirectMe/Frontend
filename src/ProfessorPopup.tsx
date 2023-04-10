@@ -137,8 +137,8 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     try {
       setHasResult(true);
       // Throws an error if professor name is TBA
-      if (professorsList.length === 1 && professorsList[0] === '') { 
-        throw Error('This course has no assigned professor yet'); 
+      if (professorsList.length === 1 && professorsList[0] === '') {
+        throw Error('This course has no assigned professor yet');
       }
 
       const selectedProf = professorsList[page].trim();
@@ -146,7 +146,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       const request = await professorRequest(selectedProf);
       // Throws an error if request doesn't return valid RMP info
       if (request === 'professor not found in mapping') {
-        throw Error(`${professorsList[page]} does not have a RateMyProfessor page.`);
+        throw Error(
+          `${professorsList[page]} does not have a RateMyProfessor page.`
+        );
       }
 
       // @ts-expect-error
@@ -160,7 +162,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
 
       // Throws an error if professor has no ratings on Rate My Professor
       if (wouldTakeAgainPercent < 0) {
-        throw Error(`${professorsList[page]} has a RateMyProfessor page with no ratings yet.`);
+        throw Error(
+          `${professorsList[page]} has a RateMyProfessor page with no ratings yet.`
+        );
       }
 
       setProfessorData({
@@ -173,7 +177,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       setLoading(true); // data finished loading
     } catch (error) {
       if (error instanceof Error) {
-        setErrorMessage(error.message)
+        setErrorMessage(error.message);
       }
       setHasResult(false);
       setLoading(true);
