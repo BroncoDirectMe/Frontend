@@ -19,7 +19,12 @@ export function App(): ReactElement {
         {!isPanelOpen && (
           <section>
             <div id="errorElm"></div>
-            <Box display="flex" justifyContent="space-between" paddingLeft="5vw" paddingRight="5vw">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              paddingLeft="5vw"
+              paddingRight="5vw"
+            >
               <h1>BroncoDirectMe Search</h1>
               {isSettingsButtonOpen && (
                 <IconButton
