@@ -5,6 +5,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import React, { CSSProperties, useState, useEffect } from 'react';
+import RateMyProfessorButton from './RateMyProfessorButton';
 
 let searchView: CSSProperties = {
   display: 'none',
@@ -140,8 +141,9 @@ export default function SearchBar(): JSX.Element {
           setSearchText(value);
         }}
         sx={{
-          width: '90vw',
+          width: '85vw',
           marginBottom: '10%',
+          marginLeft: '5vw',
           boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
           '& input': { textAlign: 'center' },
         }}
@@ -221,10 +223,19 @@ export default function SearchBar(): JSX.Element {
       {/* Conditional rendering for loading circular progress */}
       {!loading && hasResult && (
         <section id="searchResult" style={searchView}>
-          <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <h2
+            style={{
+              textAlign: 'center',
+              marginBottom: '20px',
+              marginLeft: '10%',
+            }}
+          >
             {searchResult.professorName}
+            <RateMyProfessorButton professorName={searchResult.professorName} />
           </h2>
-          <div style={{ display: 'flex', marginBottom: '20px' }}>
+          <div
+            style={{ display: 'flex', marginBottom: '20px', marginLeft: '3vw' }}
+          >
             <CircularProgressBar
               value={searchResult.overallRating * 20}
               color={

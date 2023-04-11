@@ -4,7 +4,7 @@ import SearchBar from './SearchBar';
 import { MsalProvider } from '@azure/msal-react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
-import { Grid, IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
 
@@ -19,42 +19,21 @@ export function App(): ReactElement {
         {!isPanelOpen && (
           <section>
             <div id="errorElm"></div>
-            <Grid container justifyContent="center" spacing={1}>
-              <Grid item xs={10} sm={8} md={6}>
-                <Grid
-                  container
-                  alignItems="center"
-                  justifyContent="space-between"
-                  spacing={1}
+            <Box display="flex" justifyContent="space-between" paddingLeft="5vw" paddingRight="5vw">
+              <h1>BroncoDirectMe Search</h1>
+              {isSettingsButtonOpen && (
+                <IconButton
+                  onClick={() => {
+                    togglePanel();
+                    setSettingsButtonState(false);
+                  }}
+                  sx={{ padding: '0' }}
                 >
-                  <Grid item>
-                    <h1>BroncoDirectMe Search</h1>
-                  </Grid>
-                  <Grid item>
-                    {isSettingsButtonOpen && (
-                      <IconButton
-                        onClick={() => {
-                          togglePanel();
-                          setSettingsButtonState(false);
-                        }}
-                        sx={{ padding: '0' }}
-                      >
-                        <SettingsIcon sx={{ fontSize: '2rem' }} />
-                      </IconButton>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid
-                item
-                xs={10}
-                sm={8}
-                md={6}
-                style={{ display: 'flex', justifyContent: 'center' }}
-              >
-                <SearchBar />
-              </Grid>
-            </Grid>
+                  <SettingsIcon sx={{ fontSize: '2rem' }} />
+                </IconButton>
+              )}
+            </Box>
+            <SearchBar />
             {/* <MicrosoftOAuth /> */}
           </section>
         )}
