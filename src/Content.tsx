@@ -59,13 +59,17 @@ function pageLoadCheck(): boolean {
  * @returns {Promise<boolean>} true if extension is enabled, false otherwise
  */
 async function enabledCheck(): Promise<boolean> {
-  // eslint-disable-next-line @typescript-eslint/return-await
-  return new Promise((resolve) => {
+  return await new Promise((resolve) => {
     chrome.storage.local.get('toggleExtension', (result: any) => {
-      if (result.toggleExtension) {
-        resolve(result.toggleExtension === 'on');
+      if (!result.toggleExtension) {
+        chrome.storage.local
+          .set({ toggleExtension: 'on' })
+          .catch((err: Error) => {
+            console.error(err);
+          });
+        resolve(true);
       } else {
-        resolve(false);
+        resolve(result.toggleExtension === 'on');
       }
     });
   });
