@@ -285,7 +285,13 @@ export default function SearchBar(): JSX.Element {
           </div>
         </section>
       )}
-      {!hasResult && <p>The query yielded no results</p>}
+      {!hasResult && (
+        <div>
+          <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>
+            {"Sorry, we couldn't find any results for your search."}
+          </h3>
+        </div>
+      )}
       {/* Conditional React rendering for result and no result */}
     </div>
   );
