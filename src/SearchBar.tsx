@@ -185,7 +185,10 @@ export default function SearchBar(): JSX.Element {
                     overallRating: avgRating,
                     difficulty: avgDifficulty,
                     reviewCount: numRatings,
-                    retention: wouldTakeAgainPercent.toString(),
+                    retention:
+                      wouldTakeAgainPercent >= 0
+                        ? wouldTakeAgainPercent.toString()
+                        : 'N/A',
                   });
                   // Deconstructs fetch response to fit interface used for ListPage component
 
