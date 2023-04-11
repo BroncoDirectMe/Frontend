@@ -18,25 +18,32 @@ export function App(): ReactElement {
         {!isPanelOpen && (
           <section>
             <div id="errorElm"></div>
-            <Grid container alignItems="center" spacing={1}>
-              <Grid item xs={11}>
-                <h1>BroncoDirectMe Search</h1>
-              </Grid>
-              <Grid item xs={1} style={{ display: 'flex' }}>
-                {isSettingsButtonOpen && (
-                  <IconButton
-                    onClick={() => {
-                      togglePanel();
-                      setSettingsButtonState(false);
-                    }}
-                    sx={{ padding: '0' }}
-                  >
-                    <SettingsIcon sx={{ fontSize: '2rem' }} />
-                  </IconButton>
-                )}
-              </Grid>
-            </Grid>
             <Grid container justifyContent="center" spacing={1}>
+              <Grid item xs={10} sm={8} md={6}>
+                <Grid
+                  container
+                  alignItems="center"
+                  justifyContent="space-between"
+                  spacing={1}
+                >
+                  <Grid item>
+                    <h1>BroncoDirectMe Search</h1>
+                  </Grid>
+                  <Grid item>
+                    {isSettingsButtonOpen && (
+                      <IconButton
+                        onClick={() => {
+                          togglePanel();
+                          setSettingsButtonState(false);
+                        }}
+                        sx={{ padding: '0' }}
+                      >
+                        <SettingsIcon sx={{ fontSize: '2rem' }} />
+                      </IconButton>
+                    )}
+                  </Grid>
+                </Grid>
+              </Grid>
               <Grid
                 item
                 xs={10}
