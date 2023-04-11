@@ -143,6 +143,7 @@ export default function SearchBar(): JSX.Element {
           width: '90vw',
           marginBottom: '10%',
           boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+          '& input': { textAlign: 'center' },
         }}
         renderInput={(params) => (
           <TextField
