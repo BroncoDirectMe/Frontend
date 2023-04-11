@@ -136,12 +136,19 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   async function getProfessorData(): Promise<void> {
     try {
       setHasResult(true);
+      // Throws an error if professor name is TBA
+      if (professorsList.length === 1 && professorsList[0] === '') {
+        throw Error('This course has no assigned professor yet');
+      }
+
       const selectedProf = professorsList[page].trim();
       setCurrent(selectedProf);
       const request = await professorRequest(selectedProf);
       // Throws an error if request doesn't return valid RMP info
       if (request === 'professor not found in mapping') {
-        throw Error('Professor not found on RMP');
+        throw Error(
+          `${professorsList[page]} does not have a RateMyProfessor page.`
+        );
       }
 
       // @ts-expect-error
@@ -153,22 +160,24 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         wouldTakeAgainPercent,
       }: ProfessorInfo = request;
 
+      // Throws an error if professor has no ratings on Rate My Professor
+      if (wouldTakeAgainPercent < 0) {
+        throw Error(
+          `${professorsList[page]} has a RateMyProfessor page with no ratings yet.`
+        );
+      }
+
       setProfessorData({
-        difficulty: numRatings > 0 ? avgDifficulty : 'N/A', // if there are 0 reviews, there can't be any data
-        rating: numRatings > 0 ? avgRating : 'N/A',
-        reviews: numRatings > 0 ? numRatings.toString() : 'N/A',
-        retention:
-          numRatings > 0 || wouldTakeAgainPercent < 0
-            ? wouldTakeAgainPercent.toString()
-            : 'N/A', // RMP can return wouldTakeAgainPercent as -1
+        difficulty: avgDifficulty,
+        rating: avgRating,
+        reviews: numRatings.toString(),
+        retention: wouldTakeAgainPercent.toString(),
       });
 
       setLoading(true); // data finished loading
     } catch (error) {
       if (error instanceof Error) {
-        setErrorMessage(
-          `The professor, ${professorsList[page]}, does not have a RateMyProfessor page.`
-        );
+        setErrorMessage(error.message);
       }
       setHasResult(false);
       setLoading(true);

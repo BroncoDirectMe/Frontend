@@ -3,7 +3,7 @@ import { ToggleButton } from './ToggleButton';
 import SearchBar from './SearchBar';
 import { MsalProvider } from '@azure/msal-react';
 import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
-import { Grid, IconButton } from '@mui/material';
+import { Grid, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
 
