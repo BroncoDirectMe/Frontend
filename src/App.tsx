@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { ToggleButton } from './ToggleButton';
 import SearchBar from './SearchBar';
 import { MsalProvider } from '@azure/msal-react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
 import { Grid, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -54,7 +55,7 @@ export function App(): ReactElement {
                 <SearchBar />
               </Grid>
             </Grid>
-            <MicrosoftOAuth />
+            {/* <MicrosoftOAuth /> */}
           </section>
         )}
         {/* Hides main app components when setting panel opens */}
