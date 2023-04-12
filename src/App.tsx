@@ -38,7 +38,7 @@ export function App(): ReactElement {
                 </IconButton>
               )}
             </Box>
-            <SearchBar />
+            <SearchBar settingBarState={isSettingsButtonOpen} />
             {/* <MicrosoftOAuth /> */}
           </section>
         )}

@@ -22,6 +22,20 @@ interface CircularProgressBarProps {
   displayPercentage: boolean;
 }
 
+/**
+ * Helper function -- closes search results element
+ */
+function closeSearchResult(): void {
+  searchView = { display: 'none' };
+}
+
+/**
+ * Helper function -- opens search results element
+ */
+function openSearchResult(): void {
+  searchView = { display: 'block' };
+}
+
 function CircularProgressBar({
   value,
   color,
@@ -100,7 +114,7 @@ function CircularProgressBar({
   );
 }
 
-export default function SearchBar(): JSX.Element {
+export default function SearchBar(settingBarState: boolean): JSX.Element {
   const [searchText, setSearchText] = useState('');
   const [hasResult, setResult] = useState(true);
   const [loading, isLoading] = useState(false);
@@ -115,6 +129,9 @@ export default function SearchBar(): JSX.Element {
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    settingBarState ? closeSearchResult() : openSearchResult();
+    // Closes search results element if the settings window is open
+
     fetch('https://api.cppbroncodirect.me/professor/names')
       // eslint-disable-next-line @typescript-eslint/promise-function-async
       .then((response) => response.json())
@@ -193,9 +210,7 @@ export default function SearchBar(): JSX.Element {
                   });
                   // Deconstructs fetch response to fit interface used for ListPage component
 
-                  searchView = {
-                    display: 'block',
-                  };
+                  openSearchResult();
                   isLoading(false);
                 } catch {
                   setResult(false);
