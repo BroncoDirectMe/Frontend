@@ -7,6 +7,8 @@ import {
   TableRow,
 } from '@mui/material';
 
+import ExpandableAccordion from './ExpandableAccordion';
+
 // returns Course array of array class details
 function tableScraper(classRows: NodeListOf<HTMLElement>): string[][] {
   return Array.from(classRows).map((rowContent: Element) => {
@@ -30,55 +32,87 @@ function DataMapping(classRows: NodeListOf<Element>): Record<string, object> {
   const map: Record<string, object> = {};
   Array.from(classRows).forEach((elem) => {
     const courseTitle = elem.querySelectorAll('h2,h3,h4')[0] as HTMLElement; // first instance of a heading
-
     map[courseTitle.innerText] = detailsMapping(elem);
   });
   return map;
 }
 
-type prop = {
-  classRows: NodeListOf<HTMLElement>;
-};
-
-const TableRedesign = ({ classRows }: prop) => {
-  const [data, setData] = useState({});
-  useEffect(() => {
-    setData(DataMapping(classRows));
-  }, []);
-  console.log(data);
-
+const courseDisplay = (data: object) => {
+  const lineBreaks = (content: string) => {
+    const out = content.split('\n');
+    if (out.length < 2) return content;
+    return (
+      <>
+        {out[0]}
+        {out.slice(1).map((i) => (
+          <>
+            <br />
+            {i}
+          </>
+        ))}
+      </>
+    );
+  };
+  let classIdx = 0;
   return (
     <Table>
-      {Object.entries(data).map(([key, value]: any) => (
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell
-                colSpan={7}
-                align="center"
-                style={{ fontWeight: 'bold' }}
-              >
-                {key}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              {Object.keys(value[0]).map((i) => (
-                <TableCell style={{ fontWeight: 'bold' }}>{i}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {value.map((val: any) => (
+      {Object.entries(data).map(([title, content]: any) => (
+        <ExpandableAccordion title={title}>
+          <Table
+            style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}
+          >
+            {/* class categories */}
+            <TableHead sx={{ justifyContent: 'left' }}>
               <TableRow>
-                {Object.values(val).map((i: any) => (
-                  <TableCell>{i}</TableCell>
-                ))}
+                {/* <TableCell width="10%">Dates</TableCell> */}
+                <TableCell width="10%">ID</TableCell>
+                <TableCell width="10%">Instructor</TableCell>
+                <TableCell width="10%" align="center">
+                  Location
+                </TableCell>
+                <TableCell width="10%">Section</TableCell>
+                <TableCell width="10%">Times</TableCell>
+                <TableCell width="10%">Status</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            {/* classes  */}
+            <TableBody>
+              {content.map((val: any) => (
+                <TableRow>
+                  {/* <TableCell width="10%">{val.Dates}</TableCell> */}
+                  <TableCell width="10%">
+                    <a
+                      href={`javascript:submitAction_win0(document.win0,'MTG_CLASS_NBR$${classIdx++}');`}
+                    >
+                      {console.log('[BRONCODIRECTME]', val, classIdx)}
+                      {val.ID}
+                    </a>
+                  </TableCell>
+                  <TableCell width="10%">{lineBreaks(val.Instr)}</TableCell>
+                  <TableCell width="10%">{lineBreaks(val.Location)}</TableCell>
+                  <TableCell width="10%">{lineBreaks(val.Section)}</TableCell>
+                  <TableCell width="10%">{lineBreaks(val.Times)}</TableCell>
+                  <TableCell width="10%">{val.Status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ExpandableAccordion>
       ))}
     </Table>
   );
+};
+
+const TableRedesign = ({
+  classRows,
+}: {
+  classRows: NodeListOf<Element>;
+}): JSX.Element => {
+  const [data, setData] = useState({});
+  useEffect(() => {
+    setData(DataMapping(classRows));
+  }, [classRows]);
+  console.log(data);
+  return courseDisplay(data);
 };
 export default TableRedesign;
