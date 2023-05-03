@@ -1,8 +1,8 @@
 import React from 'react';
 import { TableCell, TableRow } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import KeyboardArrowDownIcon from '@mui/icons-material/ExpandMore';
-import KeyboardArrowUpIcon from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import ExpandLess from '@mui/icons-material/ExpandLess';
 
 const ICON = {
   width: '1em',
@@ -16,21 +16,19 @@ const ICON = {
   background: 'none',
 };
 
-const ExpandableTableRow = ({
-  children,
-  title,
-}: {
-  children: JSX.Element;
+interface ExpandableTableRowProps {
+  children: JSX.Element | JSX.Element[];
   title: String;
-}) => {
-  const [isExpanded, setIsExpanded] = React.useState(true);
+}
 
+const ExpandableTableRow = ({ children, title }: ExpandableTableRowProps): JSX.Element => {
+  const [isExpanded, setIsExpanded] = React.useState(true);
   return (
     <>
       <TableRow style={{ backgroundColor: 'grey' }}>
         <TableCell padding="checkbox">
           <IconButton style={ICON} onClick={() => setIsExpanded(!isExpanded)}>
-            {isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {isExpanded ? <ExpandLess /> : <ExpandMore />}
           </IconButton>
         </TableCell>
         <TableCell style={{ fontWeight: 'bold' }}>{title}</TableCell>
