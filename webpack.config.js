@@ -24,6 +24,20 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+        ],
+        sideEffects: true,
+        exclude: /node_modules/,
+      },
+      {
         test: /\.(js|ts)x?$/,
         exclude: /node_modules/,
         use: {
@@ -45,6 +59,6 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js'], // add .tsx, .ts
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.css'],
   },
 };
