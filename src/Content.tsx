@@ -9,11 +9,15 @@ const observer = new MutationObserver(function (mutationList) {
   mutationList.forEach((mutation) => {
     // runs if data-subpage attribute in document.body changes
     if (mutation.attributeName === 'data-subpage') {
-      const currPage = (mutation.target as HTMLElement).getAttribute('data-subpage');
+      const currPage = (mutation.target as HTMLElement).getAttribute(
+        'data-subpage'
+      );
       console.log('[BRONCODIRECT] Current Page:', currPage);
 
       // injection
-      const iframeDoc = (document.getElementById('ptifrmtgtframe') as HTMLIFrameElement).contentDocument;
+      const iframeDoc = (
+        document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
+      ).contentDocument;
 
       injection(iframeDoc);
     }
@@ -23,8 +27,12 @@ const observer = new MutationObserver(function (mutationList) {
 // injection
 function injection(iframeDoc: Document | null): void {
   if (iframeDoc == null) return;
-  const rootInjection: HTMLElement | null = iframeDoc.getElementById('win0divDERIVED_CLSRCH_GROUP6');
-  const classRows: NodeListOf<HTMLElement> = iframeDoc.querySelectorAll('*[data-for^="SSR_CLSRSLT_WRK_GROUPBOX2$"]');
+  const rootInjection: HTMLElement | null = iframeDoc.getElementById(
+    'win0divDERIVED_CLSRCH_GROUP6'
+  );
+  const classRows: NodeListOf<HTMLElement> = iframeDoc.querySelectorAll(
+    '*[data-for^="SSR_CLSRSLT_WRK_GROUPBOX2$"]'
+  );
   if (rootInjection == null) return;
   createRoot(rootInjection).render(<TableRedesign courseHTML={classRows} />);
 }
