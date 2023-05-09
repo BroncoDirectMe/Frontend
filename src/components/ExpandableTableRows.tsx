@@ -21,7 +21,10 @@ interface ExpandableTableRowProps {
   title: String;
 }
 
-const ExpandableTableRow = ({ children, title }: ExpandableTableRowProps): JSX.Element => {
+const ExpandableTableRow = ({
+  children,
+  title,
+}: ExpandableTableRowProps): JSX.Element => {
   const [isExpanded, setIsExpanded] = React.useState(true);
   return (
     <>
