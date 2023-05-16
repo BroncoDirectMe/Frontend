@@ -1,16 +1,23 @@
 import React from 'react';
-import { inject, loadInject } from './injection';
+import * as inject from './injection';
 import { ProfessorPopup } from './ProfessorPopup';
 import isLoaded from './loadedCheck';
 
-Promise.resolve(isLoaded).then(() =>
-  loadInject(() => {
-    const insts: NodeListOf<HTMLElement> | undefined = (
-      document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
-    ).contentDocument?.querySelectorAll('*[id^="MTG_INSTR$"]');
+console.log('[BRONCODIRECTME] Content script loaded.');
 
-    insts?.forEach((inst) => {
-      inject(inst, <ProfessorPopup professorName={inst.innerText} />);
-    });
-  })
-);
+void Promise.resolve(isLoaded).then(() => {
+  inject.enableInject();
+});
+
+inject.addinjection('SSR_CLSRCH_RSLT', () => {
+  const insts: NodeListOf<HTMLElement> | undefined = (
+    document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
+  ).contentDocument?.querySelectorAll('*[id^="MTG_INSTR$"]');
+
+  insts?.forEach((inst) =>
+    inject.injectReplace(
+      inst,
+      <ProfessorPopup professorName={inst.innerText} />
+    )
+  );
+});
