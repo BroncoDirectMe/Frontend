@@ -7,7 +7,7 @@ import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
 import { Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
-import './App.css';
+import './styles/App.css';
 
 export function App(): ReactElement {
   const [isPanelOpen, setPanelState] = React.useState(false);

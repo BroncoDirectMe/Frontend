@@ -25,6 +25,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
+        exclude: /node_modules/,
         use: [
           'style-loader',
           {
@@ -34,8 +35,6 @@ module.exports = {
             },
           },
         ],
-        sideEffects: true,
-        exclude: /node_modules/,
       },
       {
         test: /\.(js|ts)x?$/,
