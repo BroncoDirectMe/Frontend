@@ -7,7 +7,7 @@
     "dev": "webpack serve",
     "build": "webpack --mode production --progress",
     "lint": "eslint --ext .js,.ts,.jsx,.tsx src",
-    "format": "npm run lint --fix & npx prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
+    "format": "npm run lint --fix"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^22.0.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsdoc": "^46.0.0",
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.1",

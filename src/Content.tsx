@@ -21,7 +21,10 @@ const observer = new MutationObserver(function (mutationList) {
   });
 });
 
-// injection
+/**
+ * Injects custom components into the BroncoDirect DOM
+ * @param insts Professor instances on the page
+ */
 function injection(insts: NodeListOf<HTMLElement> | undefined): void {
   // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
   insts?.forEach((inst) => {
@@ -46,6 +49,10 @@ function injection(insts: NodeListOf<HTMLElement> | undefined): void {
   });
 }
 
+/**
+ * Checks if the BroncoDirect page is loaded
+ * @returns Boolean returning if page is loaded
+ */
 function pageLoadCheck(): boolean {
   // URL set on entire cpp portal so injection will work on add class page too
   const URL = 'https://cmsweb.cms.cpp.edu/psp/'; // /CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?';
@@ -56,7 +63,7 @@ function pageLoadCheck(): boolean {
 
 /**
  * Checks if extension is enabled in its settings
- * @returns {Promise<boolean>} true if extension is enabled, false otherwise
+ * @returns true if extension is enabled, false otherwise
  */
 async function enabledCheck(): Promise<boolean> {
   return await new Promise((resolve) => {
@@ -75,6 +82,9 @@ async function enabledCheck(): Promise<boolean> {
   });
 }
 
+/**
+ * Sets up observer to watch for DOM changes
+ */
 async function setupObserver(): Promise<void> {
   if (pageLoadCheck() && (await enabledCheck())) {
     observer.observe(document.body, { attributes: true });

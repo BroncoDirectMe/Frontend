@@ -301,7 +301,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
 
 /**
  * Converts UI components from ProfessorPopupInfo into a Material UI Tooltip
- * @param props
+ * @param props professorPopupTooltipProps object
  * @returns Material UI Tooltip Element
  */
 function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
@@ -347,8 +347,9 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
 }
 
 /**
- * Professor Popup Element
- * @param professorName Takes in Professor Name
+ * Professor Popup Component
+ * @param {professorPopupTooltipProps} props React props
+ * @param props.professorName Professor Name from RateMyProfessor
  * @returns Div containing the professor popup element
  */
 export function ProfessorPopup(props: { professorName: string }): JSX.Element {
