@@ -24,27 +24,28 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+        ],
+      },
+      {
         test: /\.(js|ts)x?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
         },
       },
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'images/',
-              name: '[name][hash].[ext]',
-            },
-          },
-        ],
-      },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js'], // add .tsx, .ts
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.css'],
   },
 };
