@@ -1,6 +1,12 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
+/**
+ * Upvote and downvote button component
+ * @param props React props
+ * @param props.professorName Professor name to vote on
+ * @returns Upvote and downvote button components
+ */
 export default function UpvoteDownvoteButton(props: {
   professorName: string;
 }): JSX.Element {
@@ -12,6 +18,12 @@ export default function UpvoteDownvoteButton(props: {
   );
 }
 
+/**
+ * Upvote button component constructor
+ * @param props React props
+ * @param props.professorName Professor name to vote on
+ * @returns Upvote button component
+ */
 function UpvoteButton(props: { professorName: string }): JSX.Element {
   return (
     <Button
@@ -25,6 +37,12 @@ function UpvoteButton(props: { professorName: string }): JSX.Element {
   );
 }
 
+/**
+ * Downvote button component constructor
+ * @param props React props
+ * @param props.professorName Professor name to vote on
+ * @returns Downvote button component
+ */
 function DownvoteButton(props: { professorName: string }): JSX.Element {
   return (
     <Button
@@ -38,7 +56,11 @@ function DownvoteButton(props: { professorName: string }): JSX.Element {
   );
 }
 
-// Same name filter method as in ProfessorPopup except as a string arrayo
+/**
+ * Filters professor name string
+ * @param profName Professor name string
+ * @returns Array of professor names
+ */
 function ProfessorNameFiltering(profName: string): String[] {
   const set = new Set(profName.split(',').join('').split('\n'));
   set.delete('To be Announced');

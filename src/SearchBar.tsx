@@ -36,6 +36,11 @@ function openSearchResult(): void {
   searchView = { display: 'block' };
 }
 
+/**
+ * Circular progress bar component constructor
+ * @param {CircularProgressBarProps} progress Progress Bar properties
+ * @returns Circular progress bar component
+ */
 function CircularProgressBar({
   value,
   color,
@@ -114,6 +119,11 @@ function CircularProgressBar({
   );
 }
 
+/**
+ * Search bar component constructor
+ * @param settingBarState State of search bar results
+ * @returns Search bar
+ */
 export default function SearchBar(settingBarState: boolean): JSX.Element {
   const [searchText, setSearchText] = useState('');
   const [hasResult, setResult] = useState(true);

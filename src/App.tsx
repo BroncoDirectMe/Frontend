@@ -9,6 +9,9 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
 import './styles/App.css';
 
+/**
+ * @returns Main app component
+ */
 export function App(): ReactElement {
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = (): void => setPanelState(!isPanelOpen);
