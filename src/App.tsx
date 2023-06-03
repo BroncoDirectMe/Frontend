@@ -57,3 +57,5 @@ export function App(): ReactElement {
     </MsalProvider>
   );
 }
+
+export default App;

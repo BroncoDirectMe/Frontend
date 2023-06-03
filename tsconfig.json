@@ -3,13 +3,16 @@
     "target": "ESNext",
     "module": "umd",
     "lib": ["ESNext", "dom"],
+    "lib": ["ESNext", "dom"],
     "jsx": "react",
+    "noEmit": true,
     "noEmit": true,
     "sourceMap": true,
     /* Strict Type-Checking Options */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+
 
     /* Module Resolution Options */
     "moduleResolution": "node",
@@ -18,3 +21,4 @@
   },
   "include": ["src", "src/Index.tsx", "types/import-gif.d.ts"]
 }
+
