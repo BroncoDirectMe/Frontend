@@ -1,13 +1,15 @@
 import React from 'react';
-import { CourseSections } from '../../types/types';
+import { CourseSections } from '../../../types/types';
 import { Button, TableBody, TableRow, TableCell } from '@mui/material';
-import linkGen from './linkGeneration';
+import linkGen from '../linkGeneration';
+
+interface TableRedesignBodyProps {
+  Sections: CourseSections;
+}
 
 const TableRedesignBody = ({
   Sections,
-}: {
-  Sections: CourseSections;
-}): JSX.Element => {
+}: TableRedesignBodyProps): JSX.Element => {
   return (
     <TableBody>
       {Sections.map((Section) => (

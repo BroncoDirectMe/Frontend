@@ -3,15 +3,15 @@ import TableRedesignHeader from './TableRedesignHeader';
 import React, { useEffect, useState } from 'react';
 import { Table } from '@mui/material';
 import ExpandableRows from './ExpandableTableRows';
-import courseScraper from './courseScraper';
+import courseScraper from '../courseScraper';
 
-import { CourseMap } from '../../types/types';
+import { CourseMap } from '../../../types/types';
 
-const TableRedesign = ({
-  courseHTML,
-}: {
+interface courseType {
   courseHTML: NodeListOf<HTMLElement>;
-}): JSX.Element => {
+}
+
+const TableRedesign = ({ courseHTML }: courseType): JSX.Element => {
   const [data, setData] = useState({});
   useEffect(() => {
     setData(courseScraper(courseHTML));
@@ -20,12 +20,14 @@ const TableRedesign = ({
   return (
     <Table
       style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}
-      sx={{ Width: 1200 }}
+      sx={{ width: '100%' }}
     >
       {Object.entries(data as CourseMap).map(([Course, Sections]) => (
         <ExpandableRows key={Course} title={Course}>
-          <TableRedesignHeader Headings={Object.keys(Sections[0])} />
-          <TableRedesignBody Sections={Sections} />
+          <Table style={{ tableLayout: 'fixed' }}>
+            <TableRedesignHeader Headings={Object.keys(Sections[0])} />
+            <TableRedesignBody Sections={Sections} />
+          </Table>
         </ExpandableRows>
       ))}
     </Table>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 // import { ProfessorPopup } from './ProfessorPopup';
-import TableRedesign from './components/TableRedesign';
+import TableRedesign from './components/TableRedesign/TableRedesign';
 
 // import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
