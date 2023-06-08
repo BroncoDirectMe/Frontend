@@ -25,7 +25,7 @@ const observer = new MutationObserver(function (mutationList) {
 
 /**
  * Injects custom components into the BroncoDirect DOM
- * @param insts Professor instances on the page
+ * @param iframeDoc Professor instances on the page
  */
 function injection(iframeDoc: Document | null): void {
   if (iframeDoc == null) return;
