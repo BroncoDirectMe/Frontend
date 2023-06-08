@@ -5,6 +5,7 @@ import { CourseMap, CourseSec, CourseSections } from '../../types/types';
  *  _ denotes an entry that won't be displayed
  *  $ denotes an entry that is a link and displayed
  * @param courseHTML The HTML to scrape
+ * @returns The scraped data as a CourseMap object
  */
 export default function courseScraper(
   courseHTML: NodeListOf<HTMLElement>
