@@ -1,7 +1,37 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
+import { Tooltip, Typography, createTheme } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import { ProfessorNameFiltering } from './ProfessorPopup';
+import { ThemeProvider } from '@emotion/react';
 
+const infoIconStyle = {
+  minHeight: '16px',
+  minWidth: '16px',
+  height: '24px',
+};
+
+const tooltipStyle = createTheme({
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          fontSize: '2em',
+          color: 'black',
+          backgroundColor: 'white!important',
+        },
+      },
+    },
+  },
+});
+
+/**
+ * Button that opens RateMyProfessor page for a given professor
+ * @param props React props
+ * @param props.professorName Professor name to search for
+ * @returns RateMyProfessorButton component
+ */
 export default function RateMyProfessorButton(props: {
   professorName: string;
 }): JSX.Element {
@@ -41,24 +71,30 @@ export default function RateMyProfessorButton(props: {
   };
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      className={`${loading ? 'disabled' : ''}`}
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onClick={handleButtonClick}
-    >
-      {loading ? '. . .' : 'RMP'}
-    </Button>
+    <>
+      {loading && '. . .'}
+      {!loading && (
+        <ThemeProvider theme={tooltipStyle}>
+          <Tooltip
+            disableFocusListener
+            title={
+              <ThemeProvider theme={tooltipStyle}>
+                <Typography>Open RateMyProfessor Page</Typography>
+              </ThemeProvider>
+            }
+            placement="top"
+          >
+            <Button
+              style={{ background: 'none', border: 'none' }}
+              className={`${loading ? 'disabled' : ''}`}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={handleButtonClick}
+            >
+              <InfoIcon style={infoIconStyle} sx={{ color: 'black' }} />
+            </Button>
+          </Tooltip>
+        </ThemeProvider>
+      )}
+    </>
   );
-}
-
-// filters out duplicate professor names and To be Announced
-function ProfessorNameFiltering(profName: string): string {
-  // removes all commas then splits set elements by every new line
-  console.log('Professor name: ' + profName);
-  const set = new Set(profName.split(',').join('').split('\n'));
-  set.delete('To be Announced');
-  // set to array to string with chosen separator
-  return Array.from(set).join(' & ');
 }

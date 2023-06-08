@@ -1,18 +1,37 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, FormControlLabel, Switch } from '@mui/material';
-import { useState } from 'react';
 
 export const ToggleButton = (): JSX.Element => {
-  const [checked, setChecked] = useState(false); // Default state is when the button is not enabled
-  console.log({ checked }); // Logs whether the button is checked or not
+  const [checked, setChecked] = useState(false); // Default off
+
+  useEffect(() => {
+    chrome.storage.local.get('toggleExtension', (result: any) => {
+      if (result.toggleExtension) {
+        setChecked(result.toggleExtension === 'on');
+      } else {
+        // By default, the extension is enabled
+        chrome.storage.local.set({ toggleExtension: 'on' }, () => {
+          setChecked(true);
+        });
+      }
+    });
+  }, []);
+
+  // Save state to chrome.storage.local when the toggle button is clicked
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    // handleChange records the event of when the input is changed (button enabled)
-    setChecked(event.target.checked);
+    const isChecked = event.target.checked;
+    setChecked(isChecked);
+    chrome.storage.local
+      .set({ toggleExtension: isChecked ? 'on' : 'off' })
+      .catch((err: Error) => {
+        console.error(err);
+      });
   };
+
   return (
     <Box>
       <FormControlLabel
-        label="Enabled"
+        label="Extension Enabled"
         control={
           <Switch
             checked={checked}
