@@ -19,8 +19,12 @@ const TableRedesign = ({ courseHTML }: courseType): JSX.Element => {
 
   return (
     <Table
-      style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}
-      sx={{ width: '100%', minWidth: 10000 }}
+      style={{
+        borderCollapse: 'separate',
+        borderSpacing: '0 10px',
+        width: '100%',
+        minWidth: 800,
+      }}
     >
       {Object.entries(data as CourseMap).map(([Course, Sections]) => (
         <ExpandableRows key={Course} title={Course}>
