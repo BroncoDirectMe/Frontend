@@ -1,6 +1,5 @@
 import React from 'react';
-import { TableCell, TableRow } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+import { TableCell, TableRow, Icon } from '@mui/material';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 
@@ -28,13 +27,20 @@ const ExpandableTableRow = ({
   const [isExpanded, setIsExpanded] = React.useState(true);
   return (
     <>
-      <TableRow style={{ backgroundColor: 'grey' }}>
+      <TableRow
+        onClick={() => setIsExpanded(!isExpanded)}
+        style={{
+          background: 'linear-gradient(to right, #00843D 0%, #01426A 100%)',
+        }}
+      >
         <TableCell padding="checkbox">
-          <IconButton style={ICON} onClick={() => setIsExpanded(!isExpanded)}>
+          <Icon style={ICON}>
             {isExpanded ? <ExpandLess /> : <ExpandMore />}
-          </IconButton>
+          </Icon>
         </TableCell>
-        <TableCell style={{ fontWeight: 'bold' }}>{title}</TableCell>
+        <TableCell style={{ fontWeight: 'bold', color: 'white' }}>
+          {title}
+        </TableCell>
       </TableRow>
       {isExpanded && (
         <TableRow>

@@ -20,11 +20,17 @@ const TableRedesign = ({ courseHTML }: courseType): JSX.Element => {
   return (
     <Table
       style={{ borderCollapse: 'separate', borderSpacing: '0 10px' }}
-      sx={{ width: '100%' }}
+      sx={{ width: '100%', minWidth: 10000 }}
     >
       {Object.entries(data as CourseMap).map(([Course, Sections]) => (
         <ExpandableRows key={Course} title={Course}>
-          <Table style={{ tableLayout: 'fixed' }}>
+          <Table
+            style={{
+              tableLayout: 'fixed',
+              borderCollapse: 'separate',
+              borderSpacing: '5px 5px',
+            }}
+          >
             <TableRedesignHeader Headings={Object.keys(Sections[0])} />
             <TableRedesignBody Sections={Sections} />
           </Table>
