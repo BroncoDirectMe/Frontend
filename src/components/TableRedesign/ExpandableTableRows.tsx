@@ -33,7 +33,7 @@ const ExpandableTableRow = ({
         onClick={() => setIsExpanded(!isExpanded)}
         style={{
           background: 'linear-gradient(to right, #00843D 0%, #01426A 100%)',
-          cursor: 'pointer'
+          cursor: 'pointer',
         }}
       >
         <TableCell padding="checkbox">
