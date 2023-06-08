@@ -13,6 +13,8 @@ const ICON = {
   outline: '0',
   border: 'none',
   background: 'none',
+  stroke: '#ffffff',
+  strokeWidth: 2,
 };
 
 interface ExpandableTableRowProps {
@@ -31,6 +33,7 @@ const ExpandableTableRow = ({
         onClick={() => setIsExpanded(!isExpanded)}
         style={{
           background: 'linear-gradient(to right, #00843D 0%, #01426A 100%)',
+          cursor: 'pointer'
         }}
       >
         <TableCell padding="checkbox">
