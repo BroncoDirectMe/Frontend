@@ -6,10 +6,13 @@ import isLoaded from './loadedCheck';
 console.log('[BRONCODIRECTME] Content script loaded.');
 
 void Promise.resolve(isLoaded()).then(() => {
-  inject.enableInject();
+  chrome.storage.local.onChanged.addListener((changes) => {
+    if (changes?.toggleExtension.newValue === 'on') {
+      inject.addinjection('SSR_CLSRCH_RSLT', injectPopup);
+      inject.enableInject();
+    } else inject.closeInject();
+  });
 });
-
-inject.addinjection('SSR_CLSRCH_RSLT', injectPopup);
 
 /**
  * Injects the professor popup into the professor name element.
