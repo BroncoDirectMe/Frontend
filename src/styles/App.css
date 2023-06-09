@@ -1,0 +1,18 @@
+.App {
+  min-height: 250px;
+}
+
+#mainContent {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+#settingsButton {
+  padding: 0;
+}
+
+#settingsIcon {
+  font-size: 2rem;
+}

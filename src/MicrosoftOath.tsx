@@ -42,6 +42,7 @@ const validateEmail = (email: string | undefined): boolean =>
 /**
  * Launches Microsoft Authentication through Google Chrome Extension Authentication function (sample code from MSAL)
  * @param {} url (Internal) Authentication URL to navigate through
+ * @returns AuthenticationResult object containing user information
  */
 async function launchWebAuthFlow(
   url: string
@@ -105,7 +106,8 @@ async function getLogoutUrl(request: RedirectRequest): Promise<string> {
 }
 
 /**
- * Creates Login Error element in the extension window using Material UI (MUI)
+ * Login Error element in the extension window using Material UI (MUI)
+ * @returns Login Error element
  */
 function LoginErrorElement(): JSX.Element {
   const [open, setOpen] = React.useState(true);
@@ -199,7 +201,8 @@ async function signIn(): Promise<boolean> {
 }
 
 /**
- * Creates Sign in Button element that triggers a pop up window prompting users to login with their Microsoft Account
+ * Sign in button component triggering OAuth pop up window prompting users to login with their Microsoft Account
+ * @returns Sign in Button element
  */
 export function MicrosoftOAuth(): JSX.Element {
   const [signedIn, changeSignInStatus] = useState(false);

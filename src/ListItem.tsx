@@ -37,6 +37,12 @@ export interface person {
   reviewCount: number;
 }
 
+/**
+ * ListPage component
+ * @param props React props
+ * @param props.list List of professors
+ * @returns Component showcasing professor statistics
+ */
 export function ListPage(props: { list: person[] }): JSX.Element {
   const [upvoteClicked, changeUpvote] = useState(false);
   const [downvoteClicked, changeDownvote] = useState(false);

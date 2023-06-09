@@ -26,6 +26,12 @@ const tooltipStyle = createTheme({
   },
 });
 
+/**
+ * Button that opens RateMyProfessor page for a given professor
+ * @param props React props
+ * @param props.professorName Professor name to search for
+ * @returns RateMyProfessorButton component
+ */
 export default function RateMyProfessorButton(props: {
   professorName: string;
 }): JSX.Element {

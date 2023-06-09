@@ -7,7 +7,11 @@ import { msalInstance, MicrosoftOAuth } from './MicrosoftOath';
 import { Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
+import './styles/App.css';
 
+/**
+ * @returns Main app component
+ */
 export function App(): ReactElement {
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = (): void => setPanelState(!isPanelOpen);
@@ -15,16 +19,11 @@ export function App(): ReactElement {
 
   return (
     <MsalProvider instance={msalInstance}>
-      <div className="App" style={{ minHeight: 250 }}>
+      <div className="App">
         {!isPanelOpen && (
           <section>
             <div id="errorElm"></div>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              paddingLeft="5vw"
-              paddingRight="5vw"
-            >
+            <Box id="mainContent">
               <h1>BroncoDirectMe Search</h1>
               {isSettingsButtonOpen && (
                 <IconButton
@@ -32,9 +31,9 @@ export function App(): ReactElement {
                     togglePanel();
                     setSettingsButtonState(false);
                   }}
-                  sx={{ padding: '0' }}
+                  id="settingsButton"
                 >
-                  <SettingsIcon sx={{ fontSize: '2rem' }} />
+                  <SettingsIcon id="settingsIcon" />
                 </IconButton>
               )}
             </Box>

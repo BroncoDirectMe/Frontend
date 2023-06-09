@@ -6,7 +6,8 @@
   "extends": [
     "plugin:react/recommended",
     "standard-with-typescript",
-    "prettier"
+    "prettier",
+    "plugin:jsdoc/recommended-typescript-error"
   ],
   "overrides": [],
   "parserOptions": {
@@ -16,7 +17,8 @@
   },
   "plugins": ["react"],
   "rules": {
-    "@typescript-eslint/strict-boolean-expressions": 0
+    "@typescript-eslint/strict-boolean-expressions": 0,
+    "jsdoc/no-types": 0
   },
   "settings": {
     "react": {
