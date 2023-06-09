@@ -38,8 +38,8 @@ export function closeInject(): void {
 
 /**
  * Gets a target HTML Element's parent and replaces children with components
- * @param targetElem
- * @param children
+ * @param targetElem target HTML Element
+ * @param children React components to replace targetElem's children
  */
 export function injectReplace(
   targetElem: HTMLElement,
@@ -54,12 +54,13 @@ export function injectReplace(
 
 /**
  * Returns the current page
+ * @returns current page
  */
 export function getCurrentPage(): string | null {
   return currPage;
 }
 
-/*
+/**
  * Callback for the MutationObserver
  * @param mutationList - list of mutations
  */
