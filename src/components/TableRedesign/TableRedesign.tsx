@@ -18,29 +18,31 @@ const TableRedesign = ({ courseHTML }: courseType): JSX.Element => {
   }, []);
 
   return (
-    <Table
-      style={{
-        borderCollapse: 'separate',
-        borderSpacing: '0 10px',
-        width: '100%',
-        minWidth: 800,
-      }}
-    >
-      {Object.entries(data as CourseMap).map(([Course, Sections]) => (
-        <ExpandableRows key={Course} title={Course}>
-          <Table
-            style={{
-              tableLayout: 'fixed',
-              borderCollapse: 'separate',
-              borderSpacing: '5px 5px',
-            }}
-          >
-            <TableRedesignHeader Headings={Object.keys(Sections[0])} />
-            <TableRedesignBody Sections={Sections} />
-          </Table>
-        </ExpandableRows>
-      ))}
-    </Table>
+    <div style={{ overflowX: 'auto' }}>
+      <Table
+        style={{
+          borderCollapse: 'separate',
+          borderSpacing: '0 10px',
+          width: '100%',
+          minWidth: 900,
+        }}
+      >
+        {Object.entries(data as CourseMap).map(([Course, Sections]) => (
+          <ExpandableRows key={Course} title={Course}>
+            <Table
+              style={{
+                tableLayout: 'fixed',
+                borderCollapse: 'separate',
+                borderSpacing: '5px 5px',
+              }}
+            >
+              <TableRedesignHeader Headings={Object.keys(Sections[0])} />
+              <TableRedesignBody Sections={Sections} />
+            </Table>
+          </ExpandableRows>
+        ))}
+      </Table>
+    </div>
   );
 };
 
