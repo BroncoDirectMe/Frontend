@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { ProfessorPopup } from './ProfessorPopup';
+import TableRedesign from './components/TableRedesign/TableRedesign';
+
 // import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
 const observer = new MutationObserver(function (mutationList) {
@@ -13,40 +14,29 @@ const observer = new MutationObserver(function (mutationList) {
       console.log('[BRONCODIRECT] Current Page:', currPage);
 
       // injection
-      const insts: NodeListOf<HTMLElement> | undefined = (
+      const iframeDoc = (
         document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
-      ).contentDocument?.querySelectorAll('*[id^="MTG_INSTR$"]');
-      injection(insts);
+      ).contentDocument;
+
+      injection(iframeDoc);
     }
   });
 });
 
 /**
  * Injects custom components into the BroncoDirect DOM
- * @param insts Professor instances on the page
+ * @param iframeDoc Professor instances on the page
  */
-function injection(insts: NodeListOf<HTMLElement> | undefined): void {
-  // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
-  insts?.forEach((inst) => {
-    // append new root containers under inst.parent to retain original span element
-    // const upvoteDownvoteRoot = document.createElement('div');
-    const parentElem = inst.parentElement as HTMLDivElement;
-    inst.style.display = 'none';
-
-    // Styling for the UpvoteDownvote Button
-    // upvoteDownvoteRoot.setAttribute('id', 'upvoteDownvoteRoot');
-    // upvoteDownvoteRoot.style.float = 'left';
-    // upvoteDownvoteRoot.style.padding = '2%';
-    // parentElem?.prepend(upvoteDownvoteRoot);
-
-    // createRoot(upvoteDownvoteRoot).render(
-    //   <UpvoteDownvoteButton professorName={inst.innerText} />
-    // );
-
-    createRoot(parentElem).render(
-      <ProfessorPopup professorName={inst.innerText} />
-    );
-  });
+function injection(iframeDoc: Document | null): void {
+  if (iframeDoc == null) return;
+  const rootInjection: HTMLElement | null = iframeDoc.getElementById(
+    'win0divDERIVED_CLSRCH_GROUP6'
+  );
+  const classRows: NodeListOf<HTMLElement> = iframeDoc.querySelectorAll(
+    '*[data-for^="SSR_CLSRSLT_WRK_GROUPBOX2$"]'
+  );
+  if (rootInjection == null) return;
+  createRoot(rootInjection).render(<TableRedesign courseHTML={classRows} />);
 }
 
 /**
