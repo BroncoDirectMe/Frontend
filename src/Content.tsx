@@ -1,6 +1,6 @@
 import React from 'react';
+import TableRedesign from './components/TableRedesign/TableRedesign';
 import * as inject from './injection';
-import { ProfessorPopup } from './ProfessorPopup';
 import isLoaded from './loadedCheck';
 
 console.log('[BRONCODIRECTME] Content script loaded.');
@@ -8,24 +8,26 @@ console.log('[BRONCODIRECTME] Content script loaded.');
 void Promise.resolve(isLoaded()).then(() => {
   chrome.storage.local.onChanged.addListener((changes) => {
     if (changes?.toggleExtension.newValue === 'on') {
-      inject.addinjection('SSR_CLSRCH_RSLT', injectPopup);
+      inject.addinjection('SSR_CLSRCH_RSLT', injectTable);
       inject.enableInject();
     } else inject.closeInject();
   });
 });
 
 /**
- * Injects the professor popup into the professor name element.
+ * Injects custom components into the BroncoDirect DOM
  */
-function injectPopup(): void {
-  const insts: NodeListOf<HTMLElement> | undefined = (
+function injectTable(): void {
+  const iframeDoc = (
     document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
-  ).contentDocument?.querySelectorAll('*[id^="MTG_INSTR$"]');
-
-  insts?.forEach((inst) =>
-    inject.injectReplace(
-      inst,
-      <ProfessorPopup professorName={inst.innerText} />
-    )
+  ).contentDocument;
+  if (iframeDoc == null) return;
+  const rootInjection: HTMLElement | null = iframeDoc.getElementById(
+    'win0divDERIVED_CLSRCH_GROUP6'
   );
+  const classRows: NodeListOf<HTMLElement> = iframeDoc.querySelectorAll(
+    '*[data-for^="SSR_CLSRSLT_WRK_GROUPBOX2$"]'
+  );
+  if (rootInjection == null) return;
+  inject.injectReplace(rootInjection, <TableRedesign courseHTML={classRows} />);
 }
