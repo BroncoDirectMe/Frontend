@@ -5,8 +5,6 @@ import isLoaded from './loadedCheck';
 
 console.log('[BRONCODIRECTME] Content script loaded.');
 
-console.log('commit');
-
 void Promise.resolve(isLoaded()).then((result) => {
   if (result) {
     inject.addinjection('SSR_CLSRCH_RSLT', injectTable);
