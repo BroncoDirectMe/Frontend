@@ -5,15 +5,23 @@ import isLoaded from './loadedCheck';
 
 console.log('[BRONCODIRECTME] Content script loaded.');
 
-void Promise.resolve(isLoaded()).then(() => {
-  chrome.storage.local.onChanged.addListener((changes) => {
-    if (changes?.toggleExtension.newValue === 'on') {
-      inject.addinjection('SSR_CLSRCH_RSLT', injectTable);
-      inject.enableInject();
-    } else inject.closeInject();
-  });
+void Promise.resolve(isLoaded()).then((result) => {
+  if (result) {
+    inject.addinjection('SSR_CLSRCH_RSLT', injectTable);
+    inject.enableInject();
+  }
 });
 
+window.addEventListener('onPageChange', (e: any) =>
+  inject.addinjection('SSR_CLSRCH_RSLT', injectTable)
+);
+
+chrome.storage.local.onChanged.addListener((changes) => {
+  if (changes?.toggleExtension.newValue === 'on') {
+    inject.addinjection('SSR_CLSRCH_RSLT', injectTable);
+    inject.enableInject();
+  } else if (changes?.toggleExtension.newValue === 'off') inject.closeInject();
+});
 /**
  * Injects custom components into the BroncoDirect DOM
  */

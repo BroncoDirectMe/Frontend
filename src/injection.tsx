@@ -73,6 +73,8 @@ function observerCallback(mutationList: MutationRecord[]): void {
   mutationList.forEach((mutation) => {
     currPage = (mutation.target as HTMLElement).getAttribute('data-subpage');
     console.log('[BRONCODIRECT] Current Page:', currPage);
+    const pageEvent = new CustomEvent('onPageChange', { detail: currPage });
+    window.dispatchEvent(pageEvent);
 
     // console.log('[BRONCODIRECT]', injectionQueue);
     if (currPage && injectionQueue && currPage in injectionQueue) {
