@@ -50,7 +50,7 @@
     "webpack-dev-server": "^4.10.1"
   },
   "dependencies": {
-    "@azure/msal-browser": "^2.29.0",
+    "@azure/msal-browser": "^2.37.1",
     "@azure/msal-react": "^1.4.8",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
