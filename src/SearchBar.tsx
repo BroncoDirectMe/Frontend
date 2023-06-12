@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import React, { CSSProperties, useState, useEffect } from 'react';
 import RateMyProfessorButton from './RateMyProfessorButton';
-import './styles/SearchBar.css'
+import './styles/SearchBar.css';
 
 let searchView: CSSProperties = {
   display: 'none',
@@ -52,14 +52,16 @@ function CircularProgressBar({
 
   return (
     <div className="progress-container">
-      <CircularProgress id="colored"
+      <CircularProgress
+        id="colored"
         variant="determinate"
         thickness={2.5}
         value={value}
         size={110}
         style={{ color }}
       />
-      <CircularProgress id="uncolored"
+      <CircularProgress
+        id="uncolored"
         variant="determinate"
         thickness={2.5}
         value={100}
@@ -81,9 +83,7 @@ function CircularProgressBar({
           )}
         </span>
       </div>
-      <span id="ratings-categories">
-        {title}
-      </span>
+      <span id="ratings-categories">{title}</span>
     </div>
   );
 }
@@ -120,7 +120,8 @@ export default function SearchBar(settingBarState: boolean): JSX.Element {
 
   return (
     <div>
-      <Autocomplete className="search-bar"
+      <Autocomplete
+        className="search-bar"
         freeSolo
         selectOnFocus
         disableClearable
@@ -221,7 +222,7 @@ export default function SearchBar(settingBarState: boolean): JSX.Element {
               title={`Rating`}
               displayPercentage={false}
             />
-            <div className="spacing-inbetween"/> {/* empty div with a width */}
+            <div className="spacing-inbetween" /> {/* empty div with a width */}
             <CircularProgressBar
               value={searchResult.difficulty * 20}
               color={
@@ -234,7 +235,7 @@ export default function SearchBar(settingBarState: boolean): JSX.Element {
               title={`Difficulty`}
               displayPercentage={false}
             />
-            <div className="spacing-inbetween"/> {/* empty div with a width */}
+            <div className="spacing-inbetween" /> {/* empty div with a width */}
             <CircularProgressBar
               value={
                 searchResult.retention === 'N/A'
@@ -261,9 +262,7 @@ export default function SearchBar(settingBarState: boolean): JSX.Element {
       )}
       {!hasResult && (
         <div id="noResult">
-          <h3>
-            {"Sorry, we couldn't find any results for your search."}
-          </h3>
+          <h3>{"Sorry, we couldn't find any results for your search."}</h3>
         </div>
       )}
       {/* Conditional React rendering for result and no result */}

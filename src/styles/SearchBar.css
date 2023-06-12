@@ -26,13 +26,14 @@
   font-weight: bold;
 }
 
-#overall-ratings #percentage, #overall-ratings #total {
+#overall-ratings #percentage,
+#overall-ratings #total {
   font-size: 15px;
   font-weight: normal;
 }
 
 #overall-ratings #score {
-  font-size: 27px; 
+  font-size: 27px;
   font-weight: bold;
 }
 
@@ -84,7 +85,7 @@
   font-size: 16px;
   position: relative;
   align-self: center;
-  color: #A3A3A3;
+  color: #a3a3a3;
 }
 
 #noResult {
