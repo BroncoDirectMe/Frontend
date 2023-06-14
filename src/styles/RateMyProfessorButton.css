@@ -1,0 +1,14 @@
+button.disabled,
+button.enabled,
+button.disabled:hover,
+button.enabled:hover {
+  background: none;
+  border: none;
+}
+
+#icon {
+  min-height: 16px;
+  min-width: 16px;
+  height: 24px;
+  color: black;
+}

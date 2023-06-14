@@ -5,12 +5,7 @@ import { Tooltip, Typography, createTheme } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { ProfessorNameFiltering } from './ProfessorPopup';
 import { ThemeProvider } from '@emotion/react';
-
-const infoIconStyle = {
-  minHeight: '16px',
-  minWidth: '16px',
-  height: '24px',
-};
+import './styles/RateMyProfessorButton.css';
 
 const tooltipStyle = createTheme({
   components: {
@@ -85,12 +80,11 @@ export default function RateMyProfessorButton(props: {
             placement="top"
           >
             <Button
-              style={{ background: 'none', border: 'none' }}
-              className={`${loading ? 'disabled' : ''}`}
+              className={`${loading ? 'disabled' : 'enabled'}`}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleButtonClick}
             >
-              <InfoIcon style={infoIconStyle} sx={{ color: 'black' }} />
+              <InfoIcon id="icon" />
             </Button>
           </Tooltip>
         </ThemeProvider>
