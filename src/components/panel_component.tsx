@@ -1,6 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import React from 'react';
-import '../styles/panel_component.css'
+import '../styles/panel_component.css';
 
 interface PanelProps {
   title: string;
@@ -17,7 +17,7 @@ export const Panel: React.FC<PanelProps> = ({
 }) =>
   isOpen ? (
     <div className={'panel'}>
-      <div className={'margin'} >
+      <div className={'margin'}>
         <Typography variant="h5" className={'title'}>
           {title}
         </Typography>
