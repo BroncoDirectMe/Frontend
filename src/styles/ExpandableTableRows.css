@@ -1,5 +1,5 @@
 .expandable-table-row {
-  background: linear-gradient(to right, #00843D 0%, #01426A 100%);
+  background: linear-gradient(to right, #00843d 0%, #01426a 100%);
   cursor: pointer;
 }
 
@@ -19,4 +19,4 @@
   background: none;
   stroke: #ffffff;
   stroke-width: 2;
-} 
+}
