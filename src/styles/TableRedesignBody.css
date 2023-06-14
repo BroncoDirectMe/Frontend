@@ -1,0 +1,13 @@
+.table-button {
+  background-color: green;
+  color: white !important;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 3%;
+}
+
+.table-cell-info {
+  width: 10%;
+  text-align: left;
+  white-space: pre-line;
+}
