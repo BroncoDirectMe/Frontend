@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Table } from '@mui/material';
 import ExpandableRows from './ExpandableTableRows';
 import courseScraper from '../courseScraper';
+import '../../styles/TableRedesign.css';
 
 import { CourseMap } from '../../../types/types';
 
@@ -19,23 +20,10 @@ const TableRedesign = ({ courseHTML }: courseType): JSX.Element => {
 
   return (
     <div style={{ overflowX: 'auto' }}>
-      <Table
-        style={{
-          borderCollapse: 'separate',
-          borderSpacing: '0 10px',
-          width: '100%',
-          minWidth: 900,
-        }}
-      >
+      <Table id="course-catalog">
         {Object.entries(data as CourseMap).map(([Course, Sections]) => (
           <ExpandableRows key={Course} title={Course}>
-            <Table
-              style={{
-                tableLayout: 'fixed',
-                borderCollapse: 'separate',
-                borderSpacing: '5px 5px',
-              }}
-            >
+            <Table className="course-section">
               <TableRedesignHeader Headings={Object.keys(Sections[0])} />
               <TableRedesignBody Sections={Sections} />
             </Table>
