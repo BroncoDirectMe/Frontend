@@ -1,0 +1,92 @@
+#loading-gif {
+  width: 175px;
+  height: 175px;
+}
+
+.center-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.header.center-items {
+  margin-top: 10px;
+}
+
+.header #header-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #008970;
+}
+
+.error.center-items {
+  height: 100%;
+  flex-direction: column;
+  margin-top: 70px; /* Manual adjustment to center items vertically - temporary? */
+  text-align: center;
+}
+
+.error #error-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.error #error-message {
+  margin-top: 6px;
+}
+
+.divider {
+  margin: 10px 0;
+}
+
+.bold-style,
+.unbold-style {
+  font-size: 1.25rem;
+}
+
+.bold-style {
+  font-weight: bold;
+  color: black;
+}
+
+.unbold-style {
+  font-weight: normal;
+  color: #1c1c1c;
+}
+
+.icon-button {
+  min-height: 34px;
+  min-width: 34px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-tooltip {
+  background-color: white;
+  color: black;
+  padding: 0.5em;
+  min-width: 200px;
+  min-height: 200px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  width: 10vw;
+}
+
+.popup-button {
+  align-items: center;
+}
+
+.popup-button,
+#professor-icon {
+  display: flex;
+}
+
+#professor-icon {
+  min-height: 16px;
+  min-width: 16px;
+  height: 24px;
+}
