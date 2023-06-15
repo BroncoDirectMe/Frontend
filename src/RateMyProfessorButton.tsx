@@ -54,21 +54,23 @@ export default function RateMyProfessorButton(props: {
     <>
       {loading && <span id="loading-text">. . .</span>}
       {!loading && (
-          <Tooltip
-            disableFocusListener
-            title={
-                <Typography className="rmp-tooltip">Open RateMyProfessor Page</Typography>
-            }
-            placement="top"
+        <Tooltip
+          disableFocusListener
+          title={
+            <Typography className="rmp-tooltip">
+              Open RateMyProfessor Page
+            </Typography>
+          }
+          placement="top"
+        >
+          <Button
+            className={`${loading ? 'disabled' : 'enabled'}`}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onClick={handleButtonClick}
           >
-            <Button
-              className={`${loading ? 'disabled' : 'enabled'}`}
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={handleButtonClick}
-            >
-              <InfoIcon id="icon" />
-            </Button>
-          </Tooltip>
+            <InfoIcon id="icon" />
+          </Button>
+        </Tooltip>
       )}
     </>
   );
