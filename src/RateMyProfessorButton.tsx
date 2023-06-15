@@ -1,25 +1,10 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import { Tooltip, Typography, createTheme } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { ProfessorNameFiltering } from './ProfessorPopup';
-import { ThemeProvider } from '@emotion/react';
 import './styles/RateMyProfessorButton.css';
-
-const tooltipStyle = createTheme({
-  components: {
-    MuiTooltip: {
-      styleOverrides: {
-        tooltip: {
-          fontSize: '2em',
-          color: 'black',
-          backgroundColor: 'white!important',
-        },
-      },
-    },
-  },
-});
 
 /**
  * Button that opens RateMyProfessor page for a given professor
@@ -67,15 +52,12 @@ export default function RateMyProfessorButton(props: {
 
   return (
     <>
-      {loading && '. . .'}
+      {loading && <span id="loading-text">. . .</span>}
       {!loading && (
-        <ThemeProvider theme={tooltipStyle}>
           <Tooltip
             disableFocusListener
             title={
-              <ThemeProvider theme={tooltipStyle}>
-                <Typography>Open RateMyProfessor Page</Typography>
-              </ThemeProvider>
+                <Typography className="rmp-tooltip">Open RateMyProfessor Page</Typography>
             }
             placement="top"
           >
@@ -87,7 +69,6 @@ export default function RateMyProfessorButton(props: {
               <InfoIcon id="icon" />
             </Button>
           </Tooltip>
-        </ThemeProvider>
       )}
     </>
   );
