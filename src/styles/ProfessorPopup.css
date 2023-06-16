@@ -77,7 +77,7 @@
 }
 
 .popup-button {
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
   padding: 1px 6px;
   min-width: 75%;
   max-height: 95%;
@@ -89,6 +89,10 @@
 .popup-button:focus {
   background-color: white;
   padding: 3px 8px;
+}
+
+.popup-button:hover {
+  background-color: #e5e5e5;
 }
 
 .popup-button,
