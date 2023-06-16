@@ -114,9 +114,11 @@ function LoginErrorElement(): JSX.Element {
 
   return (
     <Collapse in={open}>
-      <Alert className="error-alert"
+      <Alert
+        className="error-alert"
         action={
-          <IconButton id="action-button"
+          <IconButton
+            id="action-button"
             aria-label="close"
             size="small"
             onClick={() => {
@@ -214,7 +216,8 @@ export function MicrosoftOAuth(): JSX.Element {
   // Updates login status based on cached login information after component has loaded (runs on extension load)
 
   return (
-    <Button id="auth-button"
+    <Button
+      id="auth-button"
       variant="contained"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onClick={async () => {
