@@ -114,20 +114,18 @@ function LoginErrorElement(): JSX.Element {
 
   return (
     <Collapse in={open}>
-      <Alert
+      <Alert className="error-alert"
         action={
-          <IconButton
+          <IconButton id="action-button"
             aria-label="close"
-            color="inherit"
             size="small"
             onClick={() => {
               setOpen(false);
             }}
           >
-            <CloseIcon fontSize="inherit" />
+            <CloseIcon id="close-icon" />
           </IconButton>
         }
-        sx={{ mb: 2 }}
         variant="outlined"
         severity="error"
       >
@@ -216,7 +214,7 @@ export function MicrosoftOAuth(): JSX.Element {
   // Updates login status based on cached login information after component has loaded (runs on extension load)
 
   return (
-    <Button
+    <Button id="auth-button"
       variant="contained"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onClick={async () => {
@@ -226,14 +224,6 @@ export function MicrosoftOAuth(): JSX.Element {
         }
 
         changeSignInStatus(await signIn());
-      }}
-      sx={{
-        margin: '0 auto',
-        display: 'flex',
-        marginTop: '10%',
-        marginBottom: '5%',
-        backgroundColor: '#3B8770',
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
       }}
       size="large"
     >
