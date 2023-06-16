@@ -77,7 +77,18 @@
 }
 
 .popup-button {
+  background-color: #f0f0f0;
+  padding: 1px 6px;
+  min-width: 75%;
+  max-height: 95%;
+  border-radius: 3px;
   align-items: center;
+}
+
+.popup-button:active,
+.popup-button:focus {
+  background-color: white;
+  padding: 3px 8px;
 }
 
 .popup-button,
