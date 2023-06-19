@@ -9,7 +9,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AuthenticatedTemplate } from '@azure/msal-react';
 import RateMyProfessorButton from './RateMyProfessorButton';
 
-
 export interface person {
   professorName: string;
   overallRating: number;
