@@ -4,6 +4,7 @@
  * Handles uploading professor rating client-side to server-side with a GET request
  * @param professor Professor Name
  * @param voteType Upvote (true)  Downvote (false)
+ * @param token Microsoft Auth Token
  */
 async function uploadProfRating(professor, voteType, token) {
   await fetch('https://api.cppbroncodirect.me/vote', {
@@ -15,6 +16,10 @@ async function uploadProfRating(professor, voteType, token) {
   });
 }
 
+/**
+ * Gets Microsoft Auth Token from Chrome Storage
+ * @returns Microsoft Auth Token
+ */
 async function getToken() {
   try {
     const data = await new Promise((resolve, reject) => {
