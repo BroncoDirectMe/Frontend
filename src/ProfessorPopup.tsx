@@ -1,12 +1,18 @@
 import {
-  Button,
   ClickAwayListener,
   Divider,
-  Paper,
   Tooltip,
   Typography,
+  IconButton,
+  Button,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, CSSProperties } from 'react';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import CloseIcon from '@mui/icons-material/Close';
+import FmdBadIcon from '@mui/icons-material/FmdBad';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import RateMyProfessorButton from './RateMyProfessorButton';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -19,9 +25,338 @@ interface professorPopupTooltipProps {
     | undefined;
 }
 
-export default function ProfessorPopup(props: {
-  professorName: string;
-}): JSX.Element {
+interface ProfessorInfo {
+  avgDifficulty: string;
+  avgRating: string;
+  numRatings: number;
+  wouldTakeAgainPercent: number;
+}
+
+const iconButtonStyle: CSSProperties = {
+  minHeight: '34px',
+  minWidth: '34px',
+  display: 'flex',
+  alignItems: 'center',
+  borderRadius: '50%',
+  border: 'none',
+  boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
+};
+
+const professorIconStyle: CSSProperties = {
+  minHeight: '16px',
+  minWidth: '16px',
+  height: '24px',
+  display: 'flex',
+};
+
+const boldStyle: CSSProperties = {
+  fontSize: '1.25rem',
+  fontWeight: 'bold',
+  color: 'black',
+};
+
+const unboldStyle: CSSProperties = {
+  fontSize: '1.25rem',
+  fontWeight: 'normal',
+  color: '#1c1c1c',
+};
+
+const centerItems: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'row',
+};
+
+/**
+ * Filters out duplicate professor names and "To be Announced"
+ * @param profName Professor names that may contain duplicates
+ * @param filterTBA Optional option to remove To be Announced from raw professor name text
+ * @returns Unique professor names as a string
+ */
+export function ProfessorNameFiltering(
+  profName: string,
+  filterTBA: boolean = true
+): string {
+  // removes all commas then splits set elements by every new line
+  const set = new Set(profName.split(',').join('').split('\n'));
+  if (filterTBA) {
+    set.delete('To be Announced');
+  }
+  // set to array to string with chosen separator
+  return Array.from(set).join(' & ');
+}
+
+/**
+ * Helper function to send endpoint request
+ * @param professor professorName
+ * @returns See ProfessorInfo interface for object returned
+ */
+async function professorRequest(
+  professor: string
+): Promise<ProfessorInfo | string> {
+  const url = 'https://api.cppbroncodirect.me/professor';
+  const request = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: ProfessorNameFiltering(professor) }),
+  });
+  if (!(await request.ok)) {
+    return await request.text();
+  }
+  return await request.json();
+}
+
+/**
+ * Component that shows the info inside the popup
+ * @param props See professorPopupTooltipProps interface (control click) to see parameters
+ * @returns Element containing the UI for professor information
+ */
+function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
+  const [professorData, setProfessorData] = useState({
+    difficulty: 'N/A', // avgDifficulty
+    rating: 'N/A', // avgRating
+    reviews: 'N/A', // numRatings
+    retention: 'N/A', // wouldTakeAgainPercent
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [hasResult, setHasResult] = useState(true);
+  const [page, setPage] = useState(0);
+  const [currentProfessor, setCurrent] = useState('TBA');
+  const filteredProfNames = ProfessorNameFiltering(props.professorName);
+  const professorsList = filteredProfNames.split('&');
+  const [errorMessage, setErrorMessage] = useState(
+    'Something went wrong when trying to retrieve data'
+  );
+
+  /**
+   * Gets professor data from backend 'server.ts/professor' function and sets data to their respective useState
+   */
+  async function getProfessorData(): Promise<void> {
+    try {
+      setHasResult(true);
+      // Throws an error if professor name is TBA
+      if (professorsList.length === 1 && professorsList[0] === '') {
+        throw Error('This course has no assigned professor yet');
+      }
+
+      const selectedProf = professorsList[page].trim();
+      setCurrent(selectedProf);
+      const request = await professorRequest(selectedProf);
+      // Throws an error if request doesn't return valid RMP info
+      if (request === 'professor not found in mapping') {
+        throw Error(
+          `${professorsList[page]} does not have a RateMyProfessor page.`
+        );
+      }
+
+      // @ts-expect-error
+      // Suppresses TypeScript error saying that this operation cannot be done if request is a string
+      const {
+        avgDifficulty,
+        avgRating,
+        numRatings,
+        wouldTakeAgainPercent,
+      }: ProfessorInfo = request;
+
+      // Throws an error if professor has no ratings on Rate My Professor
+      if (wouldTakeAgainPercent < 0) {
+        throw Error(
+          `${professorsList[page]} has a RateMyProfessor page with no ratings yet.`
+        );
+      }
+
+      setProfessorData({
+        difficulty: avgDifficulty,
+        rating: avgRating,
+        reviews: numRatings.toString(),
+        retention: wouldTakeAgainPercent.toString(),
+      });
+
+      setLoading(true); // data finished loading
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      }
+      setHasResult(false);
+      setLoading(true);
+    }
+  }
+
+  /**
+   * Onclick function for next page button
+   */
+  function nextPage(): void {
+    const minPage = 0;
+    if (page + 1 >= professorsList.length) {
+      setPage(minPage);
+      return;
+    }
+    setPage(page + 1);
+  }
+
+  /**
+   * Onclick function for previous page button
+   */
+  function previousPage(): void {
+    const minPage = 0;
+    if (page - 1 < minPage) {
+      setPage(professorsList.length - 1);
+      return;
+    }
+    setPage(page - 1);
+  }
+
+  // Runs getProfessorData when the page number state changes
+  useEffect(() => {
+    void getProfessorData();
+  }, [page]);
+
+  return (
+    <>
+      {/* Display loading while data is being fetched */}
+      {!loading && (
+        <img
+          src="https://i.imgur.com/AO3PZss.gif" // this gif is 1:1
+          width="175"
+          height="175"
+          alt="Loading..."
+        />
+      )}
+
+      <section>
+        {/* Display professor data if no errors were caught during fetch */}
+        {loading && hasResult && (
+          <section>
+            <div style={{ ...centerItems, marginTop: '10px' }}>
+              <Typography
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                  color: '#008970',
+                }}
+              >
+                {currentProfessor.toUpperCase()}
+              </Typography>
+              <RateMyProfessorButton professorName={currentProfessor} />
+            </div>
+            <Divider style={{ margin: '10px 0' }} />
+            <Typography>
+              <span style={boldStyle}>Rating: </span>
+              <span style={unboldStyle}>{professorData.rating}</span>
+            </Typography>
+            <Typography>
+              <span style={boldStyle}>Difficulty: </span>
+              <span style={unboldStyle}>{professorData.difficulty}</span>
+            </Typography>
+            <Typography>
+              <span style={boldStyle}>Reviews: </span>
+              <span style={unboldStyle}>{professorData.reviews}</span>
+            </Typography>
+            <span style={boldStyle}>{professorData.retention}% </span>
+            <span style={unboldStyle}>would take again</span>
+          </section>
+        )}
+
+        {/* Display if error was caught during fetch process */}
+        {!hasResult && (
+          <div
+            style={{
+              ...centerItems,
+              height: '100%',
+              flexDirection: 'column',
+              marginTop: '70px', // Manual adjustment to center items vertically - temporary?
+              textAlign: 'center',
+            }}
+          >
+            <FmdBadIcon style={{ width: '28px', height: '28px' }} />
+            <Typography style={{ marginTop: '6px' }}>{errorMessage}</Typography>
+          </div>
+        )}
+
+        <Divider style={{ margin: '10px 0' }} />
+        <div style={centerItems}>
+          {/* Previous page button */}
+          {professorsList.length > 1 ? (
+            <IconButton style={iconButtonStyle} onClick={previousPage}>
+              <NavigateBeforeIcon />
+            </IconButton>
+          ) : null}
+
+          <IconButton
+            onClick={props.handleTooltipClose}
+            style={iconButtonStyle}
+          >
+            <CloseIcon />
+          </IconButton>
+
+          {/* Next page button */}
+          {professorsList.length > 1 ? (
+            <IconButton style={iconButtonStyle} onClick={nextPage}>
+              <NavigateNextIcon />
+            </IconButton>
+          ) : null}
+        </div>
+      </section>
+    </>
+  );
+}
+
+/**
+ * Converts UI components from ProfessorPopupInfo into a Material UI Tooltip
+ * @param props professorPopupTooltipProps object
+ * @returns Material UI Tooltip Element
+ */
+function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
+  return (
+    <Tooltip
+      PopperProps={{
+        disablePortal: true,
+        style: {
+          backgroundColor: 'white',
+          color: 'black',
+          padding: '0.5em',
+          minWidth: '200px',
+          minHeight: '200px',
+          boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
+          borderRadius: '10px',
+          width: '10vw',
+        },
+      }}
+      onClose={props.handleTooltipClose}
+      open={props.open}
+      disableFocusListener
+      disableHoverListener
+      disableTouchListener
+      placement="top"
+      title={
+        <ProfessorPopupInfo
+          professorName={props.professorName}
+          handleTooltipClose={props.handleTooltipClose}
+        />
+      }
+    >
+      <Button
+        variant="outlined"
+        startIcon={<AssignmentIndIcon style={professorIconStyle} />}
+        size="medium"
+        style={{ display: 'flex', alignItems: 'center' }}
+        onClick={props.handleTooltipOpen}
+      >
+        {ProfessorNameFiltering(props.professorName, false)}
+      </Button>
+    </Tooltip>
+  );
+}
+
+/**
+ * Professor Popup Component
+ * @param {professorPopupTooltipProps} props React props
+ * @param props.professorName Professor Name from RateMyProfessor
+ * @returns Div containing the professor popup element
+ */
+export function ProfessorPopup(props: { professorName: string }): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
   const handleTooltipClose = (): void => {
@@ -45,137 +380,4 @@ export default function ProfessorPopup(props: {
       </div>
     </ClickAwayListener>
   );
-}
-// component that shows popup
-function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
-  return (
-    <Tooltip
-      PopperProps={{
-        disablePortal: true,
-        style: {
-          backgroundColor: 'white',
-          color: 'black',
-          border: '1px solid',
-          padding: '0.5em',
-        },
-      }}
-      onClose={props.handleTooltipClose}
-      open={props.open}
-      disableFocusListener
-      disableHoverListener
-      disableTouchListener
-      placement="top"
-      title={
-        <ProfessorPopupInfo
-          professorName={props.professorName}
-          handleTooltipClose={props.handleTooltipClose}
-        />
-      }
-    >
-      <Button onClick={props.handleTooltipOpen}>Click</Button>
-    </Tooltip>
-  );
-}
-// component that shows the info inside the popup
-function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
-  const url = 'https://api.cppbroncodirect.me/professor';
-  const body = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: ProfessorNameFiltering(props.professorName) }),
-  };
-
-  const [avgDifficulty, setAvgDifficulty] = useState(null); // avgDifficulty
-  const [avgRating, setAvgRating] = useState(null); // avgRating
-  const [numReviews, setNumReviews] = useState(null); // numReviews
-  const [retentionPercent, setRetentionPercent] = useState(null); // wouldTakeAgainPercent
-
-  const [loading, setLoading] = useState(false);
-
-  // Gets professor data from backend 'server.ts/professor' function and sets data to their respective useState
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const getProfessorData = async () => {
-    try {
-      const response = await fetch(url, body);
-      const json = await response.json();
-
-      setAvgDifficulty(json.avgDifficulty);
-      setAvgRating(json.avgRating);
-      setNumReviews(json.numRatings);
-      setRetentionPercent(json.wouldTakeAgainPercent.toFixed(2)); // truncate to 2 decimal points (don't think it rounds atm)
-
-      setLoading(true); // data finished loading
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Runs getProfessorData upon page reload
-  useEffect(() => {
-    void getProfessorData();
-  }, []);
-
-  const boldStyle = {
-    fontSize: '1.25rem',
-    fontWeight: 'bold',
-    color: 'black',
-  };
-
-  const unboldStyle = {
-    fontSize: '1.25rem',
-    fontWeight: 'normal',
-    color: '#1c1c1c',
-  };
-
-  const centerItems = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-
-  return loading ? (
-    <>
-      <Paper style={{ ...centerItems, marginTop: '10px' }}>
-        <Typography
-          style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#008970' }}
-        >
-          {ProfessorNameFiltering(props.professorName).toUpperCase()}
-        </Typography>
-      </Paper>
-      <Divider style={{ margin: '10px 0' }} />
-      <Typography>
-        <span style={boldStyle}>Rating: </span>
-        <span style={unboldStyle}>{avgRating}</span>
-      </Typography>
-      <Typography>
-        <span style={boldStyle}>Difficulty: </span>
-        <span style={unboldStyle}>{avgDifficulty}</span>
-      </Typography>
-      <Typography>
-        <span style={boldStyle}>Reviews: </span>
-        <span style={unboldStyle}>{numReviews}</span>
-      </Typography>
-      <span style={boldStyle}>{retentionPercent}% </span>
-      <span style={unboldStyle}>would take again</span>
-      <Divider style={{ margin: '10px 0' }} />
-      <Paper style={centerItems}>
-        <Button onClick={props.handleTooltipClose}>Close</Button>
-      </Paper>
-    </>
-  ) : (
-    <img
-      src="https://i.imgur.com/AO3PZss.gif" // this gif is 1:1
-      width="175"
-      height="175"
-      alt="Loading..."
-    />
-  );
-}
-// filters out duplicate professor names and To be Announced
-function ProfessorNameFiltering(profName: string): string {
-  // removes all commas then splits set elements by every new line
-  const set = new Set(profName.split(',').join('').split('\n'));
-  set.delete('To be Announced');
-  // set to array to string with chosen separator
-  return Array.from(set).join(' & ');
 }

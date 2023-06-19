@@ -1,85 +1,85 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import ProfessorPopup from './ProfessorPopup';
-import RateMyProfessorButton from './RateMyProfessorButton';
-import { broncoDirectUpvoteDownvoteButton } from './UpvoteDownvoteButtons';
+import TableRedesign from './components/TableRedesign/TableRedesign';
 
-let searchResultsTrue = false;
+// import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
 
-function injectButtons(): void {
-  if (
-    window.self !== window.top || // Makes sure only the top window loads first and not the iframe window
-    !document.URL.includes('https://cmsweb.cms.cpp.edu/')
-  ) {
-    return;
-  }
+const observer = new MutationObserver(function (mutationList) {
+  mutationList.forEach((mutation) => {
+    // runs if data-subpage attribute in document.body changes
+    if (mutation.attributeName === 'data-subpage') {
+      const currPage = (mutation.target as HTMLElement).getAttribute(
+        'data-subpage'
+      );
+      console.log('[BRONCODIRECT] Current Page:', currPage);
+
+      // injection
+      const iframeDoc = (
+        document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
+      ).contentDocument;
+
+      injection(iframeDoc);
+    }
+  });
+});
+
+/**
+ * Injects custom components into the BroncoDirect DOM
+ * @param iframeDoc Professor instances on the page
+ */
+function injection(iframeDoc: Document | null): void {
+  if (iframeDoc == null) return;
+  const rootInjection: HTMLElement | null = iframeDoc.getElementById(
+    'win0divDERIVED_CLSRCH_GROUP6'
+  );
+  const classRows: NodeListOf<HTMLElement> = iframeDoc.querySelectorAll(
+    '*[data-for^="SSR_CLSRSLT_WRK_GROUPBOX2$"]'
+  );
+  if (rootInjection == null) return;
+  createRoot(rootInjection).render(<TableRedesign courseHTML={classRows} />);
+}
+
+/**
+ * Checks if the BroncoDirect page is loaded
+ * @returns Boolean returning if page is loaded
+ */
+function pageLoadCheck(): boolean {
+  // URL set on entire cpp portal so injection will work on add class page too
+  const URL = 'https://cmsweb.cms.cpp.edu/psp/'; // /CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?';
+  if (!window.location.href.includes(URL)) return false;
   console.log('[BRONCODIRECT] Page Loaded');
+  return true;
+}
 
-  if (
-    document.URL.includes(
-      'https://cmsweb.cms.cpp.edu/psp/CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?'
-    )
-  ) {
-    const iframe = document.getElementById(
-      'ptifrmtgtframe'
-    ) as HTMLIFrameElement;
-
-    // event listener on the iframe which fires on search
-    // since iframe will receive a post message of the search criteria
-    // however event will fire regardless if the search criteria is invalid and will remain on the page
-    iframe?.contentWindow?.addEventListener('click', () => {
-      const insts: NodeListOf<HTMLElement> | undefined =
-        iframe.contentWindow?.document.querySelectorAll('*[id^="MTG_INSTR$"]');
-
-      const header: HTMLElement | null | undefined =
-        iframe.contentWindow?.document.querySelector(
-          '.gh-page-header-headings'
-        );
-
-      // Log to console the current page of Bronco Direct (using the header of the page)
-      if (header !== undefined && header !== null) {
-        console.log((header.children[2] as HTMLElement).innerText);
-
-        if (
-          (header.children[2] as HTMLElement).innerText === 'Search Results'
-        ) {
-          if (!searchResultsTrue) {
-            // iterate through insts and create new instance of ProfessorPopup & UpvoteDownvoteButton for each inst
-            insts?.forEach((inst) => {
-              // append new root containers under inst.parent to retain original span element
-              const professorPopupRoot = document.createElement('div');
-              const rateMyProfessorRoot = document.createElement('div');
-              const parentElem = inst.parentElement as HTMLDivElement;
-              const professor = inst.innerText;
-
-              // styling for the ProfessorPopup Button
-              professorPopupRoot.setAttribute('id', 'professorPopupRoot');
-              professorPopupRoot.style.float = 'right';
-              parentElem?.append(professorPopupRoot);
-
-              // styling for RateMyProfessor Button
-              rateMyProfessorRoot.setAttribute('id', 'rateMyProfessorRoot');
-              rateMyProfessorRoot.style.flex = 'right';
-              parentElem?.append(rateMyProfessorRoot);
-
-              // Adds the UpvoteDownvote Button element
-              parentElem?.prepend(broncoDirectUpvoteDownvoteButton(professor));
-
-              createRoot(rateMyProfessorRoot).render(
-                <RateMyProfessorButton professorName={professor} />
-              );
-
-              createRoot(professorPopupRoot).render(
-                <ProfessorPopup professorName={professor} />
-              );
-            });
-            searchResultsTrue = true;
-          }
-        } else searchResultsTrue = false;
-      } else console.log('undefined');
+/**
+ * Checks if extension is enabled in its settings
+ * @returns true if extension is enabled, false otherwise
+ */
+async function enabledCheck(): Promise<boolean> {
+  return await new Promise((resolve) => {
+    chrome.storage.local.get('toggleExtension', (result: any) => {
+      if (!result.toggleExtension) {
+        chrome.storage.local
+          .set({ toggleExtension: 'on' })
+          .catch((err: Error) => {
+            console.error(err);
+          });
+        resolve(true);
+      } else {
+        resolve(result.toggleExtension === 'on');
+      }
     });
+  });
+}
+
+/**
+ * Sets up observer to watch for DOM changes
+ */
+async function setupObserver(): Promise<void> {
+  if (pageLoadCheck() && (await enabledCheck())) {
+    observer.observe(document.body, { attributes: true });
   }
 }
 
-injectButtons();
-console.log(document.URL);
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+setupObserver();

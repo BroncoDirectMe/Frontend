@@ -42,11 +42,12 @@ function generateSVG(
 }
 
 /**
- * Creates the Upvote and Downvote buttons for the extension page using MUI
- * @param props professorName
- * @returns Upvote and Downvote buttons in a container
+ * Upvote and downvote button component
+ * @param props React props
+ * @param props.professorName Professor name to vote on
+ * @returns Upvote and downvote button components
  */
-export function UpvoteDownvoteButton(props: {
+export default function UpvoteDownvoteButton(props: {
   professorName: string;
 }): JSX.Element {
   const [upvoteClicked, changeUpvote] = useState(false);
@@ -129,42 +130,40 @@ export function UpvoteDownvoteButton(props: {
 }
 
 /**
- * Separate function for BroncoDirect Upvote / Downvote because React styling doesn't apply
- * @returns Div container holding upvote and downvote buttons
+ * Upvote button component constructor
+ * @param props React props
+ * @param props.professorName Professor name to vote on
+ * @returns Upvote button component
  */
-export function broncoDirectUpvoteDownvoteButton(
-  professorName: string
-): HTMLDivElement {
-  const ratingContainer = document.createElement('div');
-  ratingContainer.id = 'upvoteDownvoteRoot';
-  ratingContainer.style.float = 'left';
-  ratingContainer.style.padding = '2%';
+function UpvoteButton(props: { professorName: string }): JSX.Element {
+  return (
+    <Button
+      color="success"
+      onClick={() => {
+        console.log('Upvoted:', ProfessorNameFiltering(props.professorName));
+      }}
+    >
+      ^
+    </Button>
+  );
+}
 
-  const clickedUpvoteIcon = generateSVG(
-    '24',
-    'currentColor',
-    '0 0 16 16',
-    'M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z'
-  );
-  const unclickedUpvoteIcon = generateSVG(
-    '24',
-    'currentColor',
-    '0 0 16 16',
-    'M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z',
-    'evenodd'
-  );
-  const clickedDownvoteIcon = generateSVG(
-    '24',
-    'currentColor',
-    '0 0 16 16',
-    'M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z'
-  );
-  const unclickedDownvoteIcon = generateSVG(
-    '24',
-    'currentColor',
-    '0 0 16 16',
-    'M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z',
-    'evenodd'
+/**
+ * Downvote button component constructor
+ * @param props React props
+ * @param props.professorName Professor name to vote on
+ * @returns Downvote button component
+ */
+function DownvoteButton(props: { professorName: string }): JSX.Element {
+  return (
+    <Button
+      color="warning"
+      onClick={() => {
+        console.log('Downvoted:', ProfessorNameFiltering(props.professorName));
+      }}
+    >
+      v
+    </Button>
   );
 
   const upvoteButton = document.createElement('button');
@@ -217,5 +216,13 @@ export function broncoDirectUpvoteDownvoteButton(
   });
   ratingContainer.appendChild(downvoteButton);
 
-  return ratingContainer;
+/**
+ * Filters professor name string
+ * @param profName Professor name string
+ * @returns Array of professor names
+ */
+function ProfessorNameFiltering(profName: string): String[] {
+  const set = new Set(profName.split(',').join('').split('\n'));
+  set.delete('To be Announced');
+  return Array.from(set);
 }

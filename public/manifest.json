@@ -17,7 +17,7 @@
     "48": "/images/icon.png",
     "128": "/images/icon.png"
   },
-  "permissions": ["storage", "identity", "identity.email"],
+  "permissions": ["storage", "identity"],
   "content_scripts": [
     {
       "js": ["content.js"],
