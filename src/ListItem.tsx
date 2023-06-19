@@ -9,23 +9,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AuthenticatedTemplate } from '@azure/msal-react';
 import RateMyProfessorButton from './RateMyProfessorButton';
 
-/**
- * Handles uploading professor rating client-side to server-side with a GET request
- * @param professor Professor Name
- * @param voteType Upvote (true)  Downvote (false)
- */
-async function uploadProfRating(
-  professor: String,
-  voteType: boolean
-): Promise<void> {
-  await fetch('https://api.cppbroncodirect.me/vote', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ professor, voteType }),
-  });
-}
 
 export interface person {
   professorName: string;
@@ -79,7 +62,6 @@ export function ListPage(props: { list: person[] }): JSX.Element {
               <Typography sx={{ display: 'flex' }}>
                 <b style={{ alignSelf: 'center' }}>User Rating: </b>
               </Typography>
-              <UpvoteDownvoteButton professorName={person.professorName} />
             </AuthenticatedTemplate>
           </AccordionDetails>
         </Accordion>
