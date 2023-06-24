@@ -2,7 +2,7 @@ import React from 'react';
 import { CourseSections } from '../../../types/types';
 import { Button, TableBody, TableRow, TableCell } from '@mui/material';
 import linkGen from '../linkGeneration';
-import { ProfessorPopup } from '../../ProfessorPopup';
+import { ProfessorPopup } from '../../components/ProfessorPopup';
 
 interface TableRedesignBodyProps {
   Sections: CourseSections;
