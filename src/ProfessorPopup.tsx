@@ -280,9 +280,11 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         <div style={centerItems}>
           {/* Previous page button */}
 
-          <IconButton style={iconButtonStyle} onClick={previousPage}>
-            <NavigateBeforeIcon />
-          </IconButton>
+          {professorsList.length > 1 ? (
+            <IconButton style={iconButtonStyle} onClick={previousPage}>
+              <NavigateBeforeIcon />
+            </IconButton>
+          ) : null}
 
           <IconButton
             onClick={props.handleTooltipClose}
@@ -293,9 +295,11 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
 
           {/* Next page button */}
 
-          <IconButton style={iconButtonStyle} onClick={nextPage}>
-            <NavigateNextIcon />
-          </IconButton>
+          {professorsList.length > 1 ? (
+            <IconButton style={iconButtonStyle} onClick={nextPage}>
+              <NavigateNextIcon />
+            </IconButton>
+          ) : null}
         </div>
       </section>
     </>
