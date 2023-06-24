@@ -40,6 +40,7 @@ const iconButtonStyle: CSSProperties = {
   borderRadius: '50%',
   border: 'none',
   boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
+  margin: '0 15px',
 };
 
 const professorIconStyle: CSSProperties = {
@@ -278,25 +279,22 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         <Divider style={{ margin: '10px 0' }} />
         <div style={centerItems}>
           {/* Previous page button */}
-          {professorsList.length > 1 ? (
-            <IconButton style={iconButtonStyle} onClick={previousPage}>
-              <NavigateBeforeIcon />
-            </IconButton>
-          ) : null}
+          
+          <IconButton style={iconButtonStyle} onClick={previousPage}>
+            <NavigateBeforeIcon />
+          </IconButton>
+          
 
-          <IconButton
-            onClick={props.handleTooltipClose}
-            style={iconButtonStyle}
-          >
+          <IconButton onClick={props.handleTooltipClose} style={iconButtonStyle}>
             <CloseIcon />
           </IconButton>
 
           {/* Next page button */}
-          {professorsList.length > 1 ? (
-            <IconButton style={iconButtonStyle} onClick={nextPage}>
-              <NavigateNextIcon />
-            </IconButton>
-          ) : null}
+          
+          <IconButton style={iconButtonStyle} onClick={nextPage}>
+            <NavigateNextIcon />
+          </IconButton>
+          
         </div>
       </section>
     </>
