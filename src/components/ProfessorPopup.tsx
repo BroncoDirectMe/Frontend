@@ -40,6 +40,7 @@ const iconButtonStyle: CSSProperties = {
   borderRadius: '50%',
   border: 'none',
   boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
+  margin: '0 15px',
 };
 
 const professorIconStyle: CSSProperties = {
