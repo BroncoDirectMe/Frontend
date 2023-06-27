@@ -1,4 +1,5 @@
 #loading-text {
+  margin-left: 10px;
   margin-right: 10px;
   font-size: 1rem;
   color: black;
@@ -7,7 +8,7 @@
 
 .rmp-tooltip {
   border-radius: 2px;
-  padding: 0.2em;
+  padding: 0 5px 0 5px;
   font-size: 1rem;
   color: black;
   background-color: white;
@@ -21,6 +22,12 @@ button.enabled:hover,
 button:focus {
   background: none;
   border: none;
+}
+
+button.enabled,
+button.enabled:focus {
+  padding: 0 5px 3px 5px;
+  outline: none !important;
 }
 
 #icon {

@@ -79,8 +79,8 @@
 .popup-button {
   background-color: #f5f5f5;
   padding: 1px 6px;
-  min-width: 75%;
-  max-height: 95%;
+  min-width: 82.5%;
+  max-width: 82.5%;
   border-radius: 3px;
   align-items: center;
 }
