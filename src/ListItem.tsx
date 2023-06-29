@@ -53,17 +53,11 @@ export function ListPage(props: { list: person[] }): JSX.Element {
       {props.list.map((person: person, index: number) => (
         <Accordion key={index} defaultExpanded={true}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon sx={{ fontSize: '2.5rem' }} />}
+            expandIcon={<ExpandMoreIcon id="expand-icon"/>}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography
-              sx={{
-                margin: 'auto 0',
-                fontWeight: 'bold',
-                fontSize: '1.2rem',
-              }}
-            >
+            <Typography id="professor-header">
               {person.professorName}
             </Typography>
             <RateMyProfessorButton professorName={person.professorName} />
@@ -82,8 +76,8 @@ export function ListPage(props: { list: person[] }): JSX.Element {
               {person.reviewCount}
             </Typography>
             <AuthenticatedTemplate>
-              <Typography sx={{ display: 'flex' }}>
-                <b style={{ alignSelf: 'center' }}>User Rating: </b>
+              <Typography id="user-typography">
+                <b id="user-rating">User Rating: </b>
                 <IconButton
                   aria-label="upvote"
                   onClick={() => {
@@ -94,24 +88,12 @@ export function ListPage(props: { list: person[] }): JSX.Element {
                   }}
                 >
                   {!upvoteClicked && (
-                    <ArrowUpwardIcon
-                      sx={{
-                        fontSize: '2rem',
-                        stroke: '#000000',
-                        strokeWidth: 2.5,
-                      }}
-                    />
+                    <ArrowUpwardIcon className="unclicked-arrow" />
                   )}
                   {/* Upvote button not selected (default icon) */}
 
                   {upvoteClicked && (
-                    <ArrowUpwardIcon
-                      sx={{
-                        fontSize: '2rem',
-                        stroke: '#008000',
-                        strokeWidth: 2.5,
-                      }}
-                    />
+                    <ArrowUpwardIcon className="clicked-upward-arrow" />
                   )}
                   {/* Clicked Upvote button icon */}
                 </IconButton>
@@ -126,24 +108,12 @@ export function ListPage(props: { list: person[] }): JSX.Element {
                   }}
                 >
                   {!downvoteClicked && (
-                    <ArrowDownwardIcon
-                      sx={{
-                        fontSize: '2rem',
-                        stroke: '#000000',
-                        strokeWidth: 2.5,
-                      }}
-                    />
+                    <ArrowDownwardIcon className="unclicked-arrow" />
                   )}
                   {/* Downvote button not selected (default icon) */}
 
                   {downvoteClicked && (
-                    <ArrowDownwardIcon
-                      sx={{
-                        fontSize: '2rem',
-                        stroke: '#ff0000',
-                        strokeWidth: 2.5,
-                      }}
-                    />
+                    <ArrowDownwardIcon className="clicked-downward-arrow" />
                   )}
                   {/* Clicked Downvote button icon */}
                 </IconButton>
