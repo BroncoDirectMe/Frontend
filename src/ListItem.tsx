@@ -53,7 +53,7 @@ export function ListPage(props: { list: person[] }): JSX.Element {
       {props.list.map((person: person, index: number) => (
         <Accordion key={index} defaultExpanded={true}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon id="expand-icon"/>}
+            expandIcon={<ExpandMoreIcon id="expand-icon" />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
