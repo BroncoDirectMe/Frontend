@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from '@mui/material';
 
-const UpdateAlert = () => {
+const UpdateAlert = (): JSX.Element => {
   const [alertOpen, setAlertOpen] = useState(false);
 
   useEffect(() => {
@@ -11,7 +11,9 @@ const UpdateAlert = () => {
     // Current version number of the installed extension
     const currentVersion: string = '1.0.0'; // currently testing
 
-    console.log(`Updated Version: ${updatedVersion} || Current Version: ${currentVersion}`);
+    console.log(
+      `Updated Version: ${updatedVersion} || Current Version: ${currentVersion}`
+    );
 
     // Compare the version numbers
     if (currentVersion !== updatedVersion) {
@@ -29,7 +31,11 @@ const UpdateAlert = () => {
     >
       A new version is available! Please update.
     </Alert>
-  ) : null;
+  ) : (
+    <></>
+  );
 };
 
 export default UpdateAlert;
+
+// testing
