@@ -7,6 +7,13 @@ const UpdateAlert = (): JSX.Element => {
   useEffect(() => {
     // calls function when update is available
     chrome.runtime.onUpdateAvailable.addListener(handleUpdateAvailable);
+
+    // does not appear again after closing update notif
+    chrome.storage.local.get('alertClosed', ({ alertClosed }) => {
+      if (alertClosed) {
+        setAlertOpen(false);
+      }
+    });
   }, []);
 
   const handleUpdateAvailable = (): void => {
@@ -15,6 +22,7 @@ const UpdateAlert = (): JSX.Element => {
 
   const handleCloseAlert = (): void => {
     setAlertOpen(false);
+    chrome.storage.local.set({ alertClosed: true });
   };
 
   // The Alert itself
