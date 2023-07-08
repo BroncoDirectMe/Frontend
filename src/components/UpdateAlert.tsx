@@ -22,7 +22,11 @@ const UpdateAlert = (): JSX.Element => {
 
   const handleCloseAlert = (): void => {
     setAlertOpen(false);
-    chrome.storage.local.set({ alertClosed: true });
+    chrome.storage.local.set({ alertClosed: true }, () => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+      }
+    });
   };
 
   // The Alert itself
