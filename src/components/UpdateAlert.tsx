@@ -1,35 +1,37 @@
+/*global chrome*/
 import React, { useState, useEffect } from 'react';
-import { Alert } from '@mui/material';
+import { Alert, Button } from '@mui/material';
 
 const UpdateAlert = (): JSX.Element => {
   const [alertOpen, setAlertOpen] = useState(false);
 
   useEffect(() => {
-    // Updated version number of the extension
-    const updatedVersion: string = '1.1.0'; // currently testing
-
-    // Current version number of the installed extension
-    const currentVersion: string = '1.0.0'; // currently testing
-
-    console.log(
-      `Updated Version: ${updatedVersion} || Current Version: ${currentVersion}`
-    );
-
-    // Compare the version numbers
-    if (currentVersion !== updatedVersion) {
-      setAlertOpen(true);
-    }
+    const str = chrome.runtime.getURL;
+    // calls function when update is available
+    chrome.runtime.onUpdateAvailable.addListener(handleUpdateAvailable);
   }, []);
+
+  const handleUpdateAvailable = (): void => {
+    setAlertOpen(true);
+  };
+
+  const handleCloseAlert = (): void => {
+    // updates the extension when it reloads, see onUpdateAvailable docs
+    chrome.runtime.reload;
+    setAlertOpen(false);
+  };
 
   // The Alert itself
   return alertOpen ? (
     <Alert
-      onClose={() => {
-        setAlertOpen(false);
-      }}
+      action={
+        <Button onClick={handleCloseAlert} color="inherit" size="small">
+          UPDATE
+        </Button>
+      }
       severity="info"
     >
-      A new version is available! Please update.
+      A new version is available!
     </Alert>
   ) : (
     <></>
@@ -37,5 +39,3 @@ const UpdateAlert = (): JSX.Element => {
 };
 
 export default UpdateAlert;
-
-// testing

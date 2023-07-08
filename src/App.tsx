@@ -20,6 +20,7 @@ export function App(): ReactElement {
 
   return (
     <MsalProvider instance={msalInstance}>
+      <UpdateAlert />
       <div className="App">
         {!isPanelOpen && (
           <section>
@@ -55,7 +56,6 @@ export function App(): ReactElement {
           <ToggleButton />
         </Panel>
       </div>
-      <UpdateAlert/>
     </MsalProvider>
   );
 }
