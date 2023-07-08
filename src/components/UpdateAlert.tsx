@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Alert } from '@mui/material';
 
 const UpdateAlert = (): JSX.Element => {
-  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
 
   useEffect(() => {
     // calls function when update is available
@@ -11,17 +11,24 @@ const UpdateAlert = (): JSX.Element => {
     // does not appear again after closing update notif
     chrome.storage.local.get('alertClosed', ({ alertClosed }) => {
       if (alertClosed) {
-        setAlertOpen(false);
+        setAlertVisible(false);
       }
     });
   }, []);
 
   const handleUpdateAvailable = (): void => {
-    setAlertOpen(true);
+    setAlertVisible(true);
+    console.log(`Updated | alertClosed set to false`);
+    chrome.storage.local.set({ alertClosed: false }, () => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+      }
+    });
   };
 
   const handleCloseAlert = (): void => {
-    setAlertOpen(false);
+    console.log(`Alert closed! | alertClosed set to true`);
+    setAlertVisible(false);
     chrome.storage.local.set({ alertClosed: true }, () => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError);
@@ -30,7 +37,7 @@ const UpdateAlert = (): JSX.Element => {
   };
 
   // The Alert itself
-  return alertOpen ? (
+  return alertVisible ? (
     <Alert onClose={handleCloseAlert} severity="info">
       A new version is available! Please update.
     </Alert>
