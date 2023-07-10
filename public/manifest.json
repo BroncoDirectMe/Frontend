@@ -2,7 +2,7 @@
   "name": "BroncoDirectMe",
   "description": "A Chrome Extension for BroncoDirect to be used by Cal Poly Pomona students.",
   "version": "1.0.2",
-  "manifest_version": 3,
+  "manifest_version": 2,
   "action": {
     "default_popup": "index.html",
     "default_icon": {
