@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Alert } from '@mui/material';
 
 const UpdateAlert = (): JSX.Element => {
-  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(true);
 
   useEffect(() => {
-    // calls function when update is available
     chrome.runtime.onUpdateAvailable.addListener(handleUpdateAvailable);
+    chrome.runtime.onInstalled.addListener(handleResetAlertClosedStatus);
 
     // does not appear again after closing update notif
     chrome.storage.local.get('alertClosed', ({ alertClosed }) => {
@@ -18,7 +18,10 @@ const UpdateAlert = (): JSX.Element => {
 
   const handleUpdateAvailable = (): void => {
     setAlertVisible(true);
-    console.log(`Updated | alertClosed set to false`);
+  };
+
+  // the 'closed forever' status of the alert is reset when extension is updated
+  const handleResetAlertClosedStatus = (): void => {
     chrome.storage.local.set({ alertClosed: false }, () => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError);
@@ -26,8 +29,8 @@ const UpdateAlert = (): JSX.Element => {
     });
   };
 
+  // user closes the alert
   const handleCloseAlert = (): void => {
-    console.log(`Alert closed! | alertClosed set to true`);
     setAlertVisible(false);
     chrome.storage.local.set({ alertClosed: true }, () => {
       if (chrome.runtime.lastError) {
