@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Alert } from '@mui/material';
 
 const UpdateAlert = (): JSX.Element => {
-  const [alertVisible, setAlertVisible] = useState(true);
+  const [alertVisible, setAlertVisible] = useState(false);
 
   useEffect(() => {
     chrome.runtime.onUpdateAvailable.addListener(handleUpdateAvailable);
