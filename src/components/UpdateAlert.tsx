@@ -17,7 +17,11 @@ const UpdateAlert = (): JSX.Element => {
   }, []);
 
   const handleUpdateAvailable = (): void => {
-    setAlertVisible(true);
+    chrome.storage.local.get('alertClosed', ({ alertClosed }) => {
+      if (!alertClosed) {
+        setAlertVisible(true);
+      }
+    });
   };
 
   // the 'closed forever' status of the alert is reset when extension is updated
