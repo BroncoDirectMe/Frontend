@@ -1,9 +1,8 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import ListPage from './ListItem';
 import { ToggleButton } from './ToggleButton';
 import Button from './components/MissingButton';
 import Form from './components/Form';
-import { useState } from 'react';
 
 const personArray = [
   {
@@ -62,6 +61,7 @@ export function App(): ReactElement {
           onClick={() => setButtonPopup(true)}
           radius="15px"
           width="300px"
+          // eslint-disable-next-line react/no-children-prop
           children="Report Missing Professor"
           align-items="center"
         />
