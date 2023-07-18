@@ -13,7 +13,6 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
 
-
     /* Module Resolution Options */
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
@@ -21,4 +20,3 @@
   },
   "include": ["src", "src/Index.tsx", "types/import-gif.d.ts", "types"]
 }
-
