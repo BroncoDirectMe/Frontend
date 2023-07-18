@@ -353,7 +353,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
 
 /**
  * Professor Popup Component
- * @param {professorPopupTooltipProps} props React props
+ * @param props React props
  * @param props.professorName Professor Name from RateMyProfessor
  * @returns Div containing the professor popup element
  */
