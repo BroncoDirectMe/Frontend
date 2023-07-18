@@ -1,10 +1,11 @@
-import React, { Children } from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const Form = () => {
   const [pName, setPName] = useState('');
   const [pMajor, setPMajor] = useState('');
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleSubmit = (profName: string, profMajor: string) => {
     console.log(
       'Professor Name: ' + profName,
