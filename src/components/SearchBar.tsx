@@ -42,7 +42,17 @@ function openSearchResult(): void {
 
 /**
  * Circular progress bar component constructor
- * @param {CircularProgressBarProps} progress Progress Bar properties
+ * param {CircularProgressBarProps} progress Progress Bar properties // keeping the original for reference
+ * @param progress Progress Bar properties
+ // eslint-disable-next-line jsdoc/require-param-description
+ * @param progress.value
+ // eslint-disable-next-line jsdoc/require-param-description
+ * @param progress.color
+ // eslint-disable-next-line jsdoc/require-param-description
+ * @param progress.title
+ // eslint-disable-next-line jsdoc/require-param-description
+ * @param progress.displayPercentage
+ // eslint-disable-next-line jsdoc/require-param-description
  * @returns Circular progress bar component
  */
 function CircularProgressBar({
@@ -125,8 +135,10 @@ function CircularProgressBar({
 
 /**
  * Search bar component constructor
- * @param {SearchBarProps} props - The props object containing the state of the search bar
- * @returns {JSX.Element} - The search bar component
+ * @param props - The props object containing the state of the search bar
+ * @param props.settingBarState
+ // eslint-disable-next-line jsdoc/no-types
+ * @returns JSX.Element - The search bar component
  */
 export default function SearchBar({
   settingBarState,
