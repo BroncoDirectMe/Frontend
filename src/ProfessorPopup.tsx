@@ -15,6 +15,14 @@ interface professorPopupTooltipProps {
     | undefined;
 }
 
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ *
+ * @param props
+  // eslint-disable-next-line jsdoc/require-param-description
+ * @param props.professorName
+  // eslint-disable-next-line jsdoc/require-param-description
+ */
 export default function ProfessorPopup(props: {
   professorName: string;
 }): JSX.Element {
@@ -43,6 +51,12 @@ export default function ProfessorPopup(props: {
   );
 }
 // component that shows popup
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ *
+ * @param props
+ // eslint-disable-next-line jsdoc/require-param-description
+ */
 function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
   return (
     <Tooltip
@@ -73,6 +87,12 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
   );
 }
 // component that shows the info inside the popup
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ *
+ * @param props
+ // eslint-disable-next-line jsdoc/require-param-description
+ */
 function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   return (
     <>
@@ -92,6 +112,12 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   );
 }
 // filters out duplicate professor names and To be Announced
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ *
+ * @param profName
+ // eslint-disable-next-line jsdoc/require-param-description
+ */
 function ProfessorNameFiltering(profName: string): string {
   // removes all commas then splits set elements by every new line
   const set = new Set(profName.split(',').join('').split('\n'));

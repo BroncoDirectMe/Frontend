@@ -7,6 +7,13 @@ interface person {
   reviewCount: number;
 }
 
+// eslint-disable-next-line jsdoc/require-returns
+/**
+ * @param props
+  // eslint-disable-next-line jsdoc/require-param-description
+ * @param props.list
+  // eslint-disable-next-line jsdoc/require-param-description
+ */
 export default function ListPage(props: { list: person[] }): JSX.Element {
   return (
     // Looks of Page
