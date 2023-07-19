@@ -17,8 +17,7 @@
   },
   "plugins": ["react"],
   "rules": {
-    "@typescript-eslint/strict-boolean-expressions": 0,
-    "require-jsdoc": "off"
+    "@typescript-eslint/strict-boolean-expressions": 0
   },
   "settings": {
     "react": {
