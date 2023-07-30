@@ -7,6 +7,7 @@ import { msalInstance, MicrosoftOAuth } from './components/MicrosoftOath';
 import { Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
+import DegreeProgressBar from './components/DegreeProgressBar';
 import './styles/App.css';
 
 /**
@@ -16,6 +17,7 @@ export function App(): ReactElement {
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = (): void => setPanelState(!isPanelOpen);
   const [isSettingsButtonOpen, setSettingsButtonState] = React.useState(true);
+  const [isLoggedIn, setLoggedInState] = React.useState(true);
 
   return (
     <MsalProvider instance={msalInstance}>
@@ -39,10 +41,10 @@ export function App(): ReactElement {
             </Box>
             <SearchBar settingBarState={isSettingsButtonOpen} />
             {/* <MicrosoftOAuth /> */}
+            {isLoggedIn && <DegreeProgressBar />}
           </section>
         )}
         {/* Hides main app components when setting panel opens */}
-
         <Panel
           title={'Settings'}
           isOpen={isPanelOpen}
