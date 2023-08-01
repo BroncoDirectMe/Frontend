@@ -51,14 +51,10 @@
     "webpack-dev-server": "^4.10.1"
   },
   "dependencies": {
-    "@azure/msal-browser": "^2.38.0",
-    "@azure/msal-react": "^1.5.9",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.14.0",
     "@mui/material": "^5.10.3",
-    "msal": "^1.4.18",
-    "msalx": "^0.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
