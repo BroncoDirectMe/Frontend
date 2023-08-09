@@ -20,10 +20,10 @@ export function App(): ReactElement {
 
   return (
     <MsalProvider instance={msalInstance}>
-      <UpdateAlert />
       <div className="App">
         {!isPanelOpen && (
           <section>
+            <UpdateAlert />
             <div id="errorElm"></div>
             <Box id="mainContent">
               <h1>BroncoDirectMe Search</h1>

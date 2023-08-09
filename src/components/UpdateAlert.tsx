@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from '@mui/material';
 
+/**
+ * UpdateAlert component
+ * @returns An Alert component which notifies the user of a new update from the chrome web store
+ */
 const UpdateAlert = (): JSX.Element => {
   const [alertVisible, setAlertVisible] = useState(false);
 
