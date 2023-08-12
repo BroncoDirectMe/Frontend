@@ -1,35 +1,25 @@
-import React, {
-  CSSProperties,
-  useState,
-  useEffect,
-  ReactElement,
-  ReactNode,
-} from 'react';
-import {
-  Grid,
-  Typography,
-  Tooltip,
-  IconButton,
-  Switch,
-  FormControlLabel,
-} from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Typography, Tooltip, IconButton, Switch } from '@mui/material';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import InfoIcon from '@mui/icons-material/Info';
-
-//import './styles/CourseProgressBar.css'
 
 interface ProgressBarProps {
   finished: number;
   progressing: number;
 }
 
-interface DetailedProgressProps {
+interface ToDoBarProps {
   majorCourse: number;
   reqElective: number;
   optElective: number;
 }
 
-function ProgressBar({ finished, progressing }: ProgressBarProps) {
+/**
+ * Progress bar component constructor
+ * @param {ProgressBarProps} props - The props object containing parameters' percentages
+ * @returns {JSX.Element} - Progress bar component
+ */
+function ProgressBar({ finished, progressing }: ProgressBarProps): JSX.Element {
   return (
     <Grid
       container
@@ -55,7 +45,11 @@ function ProgressBar({ finished, progressing }: ProgressBarProps) {
   );
 }
 
-function DotLabel() {
+/**
+ * Dot labeling component constructor
+ * @returns {JSX.Element} - Dot labeling component for progress bar
+ */
+function DotLabel(): JSX.Element {
   return (
     <Grid container justifyContent="center" mt="7px">
       <Grid item container xs={3} alignItems="center" gap="3px">
@@ -76,11 +70,16 @@ function DotLabel() {
   );
 }
 
+/**
+ * To-do bar component constructor
+ * @param {ToDoProgressProps} props - The props object containing parameters' percentages
+ * @returns {JSX.Element} - To-do bar component
+ */
 function ToDoBar({
   majorCourse,
   reqElective,
   optElective,
-}: DetailedProgressProps) {
+}: ToDoBarProps): JSX.Element {
   return (
     <Grid container height="20px" bgcolor="#FFDBAC" xs={11} borderRadius="40px">
       <Grid
@@ -110,7 +109,11 @@ function ToDoBar({
   );
 }
 
-function DotLabelToDo() {
+/**
+ * To-do dot labeling component constructor
+ * @returns {JSX.Element} - Dot labeling component for the to-do bar
+ */
+function DotLabelToDo(): JSX.Element {
   return (
     <Grid container justifyContent="center" mt="7px">
       <Grid item container xs={5} alignItems="center" gap="3px">
@@ -136,7 +139,11 @@ function DotLabelToDo() {
   );
 }
 
-export default function DegreeProgressBar() {
+/**
+ * Degree progress bar component constructor
+ * @returns {JSX.Element} - The degree progress bar component
+ */
+export default function DegreeProgressBar(): JSX.Element {
   const [isSwitchOn, setSwitchState] = useState(false);
 
   const finishedPerc = 30;
@@ -151,7 +158,11 @@ export default function DegreeProgressBar() {
     console.log(isSwitchOn);
   };
 
-  function InfoPopup() {
+  /**
+   * Information pop-up component constructor
+   * @returns {JSX.Element} - Information pop-up component
+   */
+  function InfoPopup(): JSX.Element {
     const handleButtonClick = () => {
       window.open(`https://www.cpp.edu/`);
     };
@@ -204,8 +215,10 @@ export default function DegreeProgressBar() {
       <Tooltip
         placement="top"
         {...(isSwitchOn
-          ? { title: 'Progress Bar' }
-          : { title: 'To-do Breakdown' })}
+          ? { title: <Typography fontWeight="bold">Progress Bar</Typography> }
+          : {
+              title: <Typography fontWeight="bold">To-Do Breakdown</Typography>,
+            })}
       >
         <Switch onChange={handleChange} />
       </Tooltip>
