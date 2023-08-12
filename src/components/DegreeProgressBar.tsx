@@ -153,7 +153,7 @@ export default function DegreeProgressBar(): JSX.Element {
   const reqElec = 25;
   const optElec = 30;
 
-  const handleChange = () => {
+  const handleChange = (): void => {
     setSwitchState(!isSwitchOn);
     console.log(isSwitchOn);
   };
@@ -163,7 +163,7 @@ export default function DegreeProgressBar(): JSX.Element {
    * @returns {JSX.Element} - Information pop-up component
    */
   function InfoPopup(): JSX.Element {
-    const handleButtonClick = () => {
+    const handleButtonClick = (): void => {
       window.open(`https://www.cpp.edu/`);
     };
 
