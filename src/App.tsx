@@ -17,7 +17,6 @@ export function App(): ReactElement {
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = (): void => setPanelState(!isPanelOpen);
   const [isSettingsButtonOpen, setSettingsButtonState] = React.useState(true);
-  const [isLoggedIn, setLoggedInState] = React.useState(true);
 
   return (
     <MsalProvider instance={msalInstance}>
@@ -41,7 +40,7 @@ export function App(): ReactElement {
             </Box>
             <SearchBar settingBarState={isSettingsButtonOpen} />
             {/* <MicrosoftOAuth /> */}
-            {isLoggedIn && <DegreeProgressBar />}
+            <DegreeProgressBar />
           </section>
         )}
         {/* Hides main app components when setting panel opens */}
