@@ -57,7 +57,7 @@ function DotLabel(): JSX.Element {
         <Typography>Finished</Typography>
       </Grid>
 
-      <Grid item container xs={4} alignItems="center" gap="3px">
+      <Grid item container xs={3.8} alignItems="center" gap="3px">
         <CircleRoundedIcon sx={{ color: '#FFD700', fontSize: '11px' }} />
         <Typography>Progressing</Typography>
       </Grid>
@@ -118,22 +118,22 @@ function DotLabelToDo(): JSX.Element {
     <Grid container justifyContent="center" mt="7px">
       <Grid item container xs={5} alignItems="center" gap="3px">
         <CircleRoundedIcon sx={{ color: 'red', fontSize: '11px' }} />
-        <Typography>Major Course</Typography>
+        <Typography>Major Courses</Typography>
       </Grid>
 
       <Grid item container xs={5} alignItems="center" gap="3px">
         <CircleRoundedIcon sx={{ color: 'orange', fontSize: '11px' }} />
-        <Typography>Required Elective</Typography>
+        <Typography>Required Electives</Typography>
       </Grid>
 
       <Grid item container xs={5} alignItems="center" gap="3px">
         <CircleRoundedIcon sx={{ color: '#FFD700', fontSize: '11px' }} />
-        <Typography>Optional Elective</Typography>
+        <Typography>Optional Electives</Typography>
       </Grid>
 
       <Grid item container xs={5} alignItems="center" gap="3px">
         <CircleRoundedIcon sx={{ color: '#FFDBAC', fontSize: '11px' }} />
-        <Typography>GE</Typography>
+        <Typography>GEs</Typography>
       </Grid>
     </Grid>
   );
@@ -146,6 +146,7 @@ function DotLabelToDo(): JSX.Element {
 export default function DegreeProgressBar(): JSX.Element {
   const [isSwitchOn, setSwitchState] = useState(false);
 
+  /**/ 
   const finishedPerc = 30;
   const progressPerc = 30;
 
@@ -174,9 +175,9 @@ export default function DegreeProgressBar(): JSX.Element {
           ? {
               title: (
                 <Typography fontWeight="bold">
-                  Major Course: {mCourse}% {<br />}
-                  Required Elective: {reqElec}% {<br />}
-                  Optional Elective: {optElec}% {<br />}
+                  Major Courses: {mCourse}% {<br />}
+                  Required Electives: {reqElec}% {<br />}
+                  Optional Electives: {optElec}% {<br />}
                   General Education: {100 - (mCourse + reqElec + optElec)}%
                 </Typography>
               ),
