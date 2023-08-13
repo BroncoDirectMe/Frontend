@@ -146,7 +146,6 @@ function DotLabelToDo(): JSX.Element {
 export default function DegreeProgressBar(): JSX.Element {
   const [isSwitchOn, setSwitchState] = useState(false);
 
-  /**/ 
   const finishedPerc = 30;
   const progressPerc = 30;
 
