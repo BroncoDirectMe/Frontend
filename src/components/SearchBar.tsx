@@ -252,80 +252,96 @@ export default function SearchBar({
       )}
       {/* Conditional rendering for loading circular progress */}
       {!loading && hasResult && (
-        <section id="searchResult" style={searchView}>
-          <h2
-            style={{
-              textAlign: 'center',
-              marginBottom: '20px',
-              marginLeft: '10%',
-            }}
-          >
-            {searchResult.professorName}
-            <RateMyProfessorButton professorName={searchResult.professorName} />
-          </h2>
-          <div
-            style={{ display: 'flex', marginBottom: '20px', marginLeft: '3vw' }}
-          >
-            <CircularProgressBar
-              value={searchResult.overallRating * 20}
-              color={
-                searchResult.overallRating < 5 / 3
-                  ? 'red'
-                  : searchResult.overallRating < 10 / 3
-                  ? 'blue'
-                  : 'green'
-              }
-              title={`Rating`}
-              displayPercentage={false}
-            />
-            <div style={{ width: '20px' }} /> {/* empty div with a width */}
-            <CircularProgressBar
-              value={searchResult.difficulty * 20}
-              color={
-                searchResult.difficulty < 5 / 3
-                  ? 'green'
-                  : searchResult.difficulty < 10 / 3
-                  ? 'blue'
-                  : 'red'
-              }
-              title={`Difficulty`}
-              displayPercentage={false}
-            />
-            <div style={{ width: '20px' }} /> {/* empty div with a width */}
-            <CircularProgressBar
-              value={
-                searchResult.retention === 'N/A'
-                  ? 0
-                  : parseInt(searchResult.retention)
-              }
-              color={
-                parseInt(searchResult.retention) < 50
-                  ? 'red'
-                  : parseInt(searchResult.retention) < 80
-                  ? 'blue'
-                  : 'green'
-              }
-              title={
-                searchResult.retention === 'N/A' ? 'N/A' : `Would\u00a0Retake`
-              }
-              displayPercentage={true}
-            />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '45px',
-              fontSize: '16px',
-              position: 'relative',
-              alignSelf: 'center',
-              color: '#A3A3A3',
-            }}
-          >
-            <span>{searchResult.reviewCount} total reviews</span>
-          </div>
-        </section>
-      )}
+  <section id="searchResult" style={searchView}>
+    <h2
+      style={{
+        textAlign: 'center',
+        marginBottom: '20px',
+        marginLeft: '10%',
+      }}
+    >
+      {searchResult.professorName}
+      <RateMyProfessorButton professorName={searchResult.professorName} />
+    </h2>
+
+    {/* Professor details and information */}
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ display: 'flex', marginBottom: '20px' }}>
+        {/* Rating progress bar */}
+        <CircularProgressBar
+          value={searchResult.overallRating * 20}
+          color={
+            searchResult.overallRating < 5 / 3
+              ? 'red'
+              : searchResult.overallRating < 10 / 3
+              ? 'blue'
+              : 'green'
+          }
+          title={`Rating`}
+          displayPercentage={false}
+        />
+        <div style={{ width: '40px' }} /> {/* spacing between progress bars */}
+        {/* Difficulty progress bar */}
+        <CircularProgressBar
+          value={searchResult.difficulty * 20}
+          color={
+            searchResult.difficulty < 5 / 3
+              ? 'green'
+              : searchResult.difficulty < 10 / 3
+              ? 'blue'
+              : 'red'
+          }
+          title={`Difficulty`}
+          displayPercentage={false}
+        />
+      </div>
+
+      <div style={{ height: '30px' }} /> {/* vertical spacing between progress bar rows */}
+
+      <div style={{ display: 'flex' }}>
+        {/* Avg. GPA progress bar */}
+        <CircularProgressBar
+          value={searchResult.difficulty * 20} 
+          color={
+            searchResult.difficulty < 5 / 3
+              ? 'green'
+              : searchResult.difficulty < 10 / 3
+              ? 'blue'
+              : 'red'
+          }
+          title={`Average\u00a0GPA`}
+          displayPercentage={false}
+        />
+        <div style={{ width: '40px' }} /> {/* spacing between progress bars */}
+        {/* Retention progress bar */}
+        <CircularProgressBar
+          value={
+            searchResult.retention === 'N/A'
+              ? 0
+              : parseInt(searchResult.retention)
+          }
+          color={
+            parseInt(searchResult.retention) < 50
+              ? 'red'
+              : parseInt(searchResult.retention) < 80
+              ? 'blue'
+              : 'green'
+          }
+          title={
+            searchResult.retention === 'N/A' ? 'N/A' : `Would\u00a0Retake`
+          }
+          displayPercentage={true}
+        />
+      </div>
+    </div>
+
+    <div style={{ display: 'flex', justifyContent: 'center', fontSize: '16px', color: '#A3A3A3', marginBottom: '35px', paddingTop: '55px' }}>
+      <span>{searchResult.reviewCount} total reviews</span>
+    </div>
+  </section>
+)}
+
+
       {!hasResult && (
         <div>
           <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>
