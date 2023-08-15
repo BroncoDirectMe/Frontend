@@ -12,6 +12,7 @@ interface ToDoBarProps {
   majorCourse: number;
   reqElective: number;
   optElective: number;
+  genEd: number;
 }
 
 /**
@@ -79,30 +80,38 @@ function ToDoBar({
   majorCourse,
   reqElective,
   optElective,
+  genEd,
 }: ToDoBarProps): JSX.Element {
   return (
-    <Grid container height="20px" bgcolor="#FFDBAC" xs={11} borderRadius="40px">
+    <Grid container height="20px" bgcolor="gray" xs={11} borderRadius="40px">
       <Grid
         container
-        bgcolor="#FFD700"
-        width={`${majorCourse + reqElective + optElective}%`}
+        bgcolor="#FFDBAC"
+        width={`${majorCourse + reqElective + optElective + genEd}%`}
         borderRadius="40px"
       >
         <Grid
           container
-          width={`${
-            ((reqElective + majorCourse) /
-              (optElective + reqElective + majorCourse)) *
-            100
-          }%`}
-          bgcolor="orange"
+          bgcolor="#FFD700"
+          width={`${majorCourse + reqElective + optElective}%`}
           borderRadius="40px"
         >
           <Grid
-            width={`${(majorCourse / (reqElective + majorCourse)) * 100}%`}
-            bgcolor="red"
+            container
+            width={`${
+              ((reqElective + majorCourse) /
+                (optElective + reqElective + majorCourse)) *
+              100
+            }%`}
+            bgcolor="orange"
             borderRadius="40px"
-          ></Grid>
+          >
+            <Grid
+              width={`${(majorCourse / (reqElective + majorCourse)) * 100}%`}
+              bgcolor="red"
+              borderRadius="40px"
+            ></Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
@@ -146,12 +155,13 @@ function DotLabelToDo(): JSX.Element {
 export default function DegreeProgressBar(): JSX.Element {
   const [isSwitchOn, setSwitchState] = useState(false);
 
-  const finishedPerc = 30;
-  const progressPerc = 30;
+  const finishedPerc = 0;
+  const progressPerc = 0;
 
-  const mCourse = 20;
-  const reqElec = 25;
-  const optElec = 30;
+  const mCourse = 0;
+  const reqElec = 0;
+  const optElec = 0;
+  const genEd = 0;
 
   const handleChange = (): void => {
     setSwitchState(!isSwitchOn);
@@ -164,7 +174,8 @@ export default function DegreeProgressBar(): JSX.Element {
    */
   function InfoPopup(): JSX.Element {
     const handleButtonClick = (): void => {
-      window.open(`https://www.cpp.edu/`);
+      window.open(`https://idp.cpp.edu/idp/profile/cas/login?service=
+      https://cmsweb.cms.cpp.edu/psp/CPOMPRDM/EMPLOYEE/SA/c/POM_MENU_SA_SS.POM_SS_DPR_LINK.GBL`);
     };
 
     return (
@@ -177,7 +188,7 @@ export default function DegreeProgressBar(): JSX.Element {
                   Major Courses: {mCourse}% {<br />}
                   Required Electives: {reqElec}% {<br />}
                   Optional Electives: {optElec}% {<br />}
-                  General Education: {100 - (mCourse + reqElec + optElec)}%
+                  General Education: {genEd}%
                 </Typography>
               ),
             }
@@ -231,6 +242,7 @@ export default function DegreeProgressBar(): JSX.Element {
           majorCourse={mCourse}
           reqElective={reqElec}
           optElective={optElec}
+          genEd={genEd}
         />
       )}
 
