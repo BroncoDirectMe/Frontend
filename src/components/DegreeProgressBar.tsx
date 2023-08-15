@@ -93,7 +93,11 @@ function ToDoBar({
         <Grid
           container
           bgcolor="#FFD700"
-          width={`${majorCourse + reqElective + optElective}%`}
+          width={`${
+            ((majorCourse + reqElective + optElective) /
+              (optElective + reqElective + majorCourse + genEd)) *
+            100
+          }%`}
           borderRadius="40px"
         >
           <Grid
