@@ -1,0 +1,20 @@
+.error-alert {
+  margin-bottom: 2;
+}
+
+.error-alert #action-button {
+  color: inherit;
+}
+
+.error-alert #close-icon {
+  font-size: inherit;
+}
+
+#auth-button {
+  margin: 0 auto;
+  display: flex;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  background-color: #3b8770;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

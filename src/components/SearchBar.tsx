@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import React, { CSSProperties, useState, useEffect } from 'react';
 import RateMyProfessorButton from './RateMyProfessorButton';
+import '../styles/SearchBar.css';
 
 let searchView: CSSProperties = {
   display: 'none',
@@ -54,15 +55,9 @@ function CircularProgressBar({
   const remainingColor = 'rgba(0, 0, 0, 0.1)';
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        position: 'relative',
-      }}
-    >
+    <div className="progress-container">
       <CircularProgress
+        id="colored"
         variant="determinate"
         thickness={2.5}
         value={value}
@@ -70,55 +65,29 @@ function CircularProgressBar({
         style={{ color }}
       />
       <CircularProgress
+        id="uncolored"
         variant="determinate"
         thickness={2.5}
         value={100}
         size={110}
-        style={{ color: remainingColor, position: 'absolute' }}
+        style={{ color: remainingColor }}
       />
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <span
-          style={{ fontSize: '27px', textAlign: 'center', fontWeight: 'bold' }}
-        >
+      <div className="ratings-container">
+        <span id="overall-ratings">
           {displayPercentage ? (
             <span>
               <span>{value.toFixed(1)}</span>
-              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>%</span>
+              <span id="percentage">%</span>
             </span>
           ) : (
-            <span style={{ fontSize: '27px', fontWeight: 'bold' }}>
+            <span id="score">
               {(value / 20).toFixed(1)}
-              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>/5</span>
+              <span id="total">/5</span>
             </span>
           )}
         </span>
       </div>
-      <span
-        style={{
-          fontSize: '16px',
-          color: 'black',
-          textAlign: 'center',
-          position: 'absolute',
-          top: 'calc(50% + 55px)',
-          left: '50%',
-          transform: 'translate(-50%, 0)',
-          marginTop: '10px',
-          marginBottom: '10px',
-        }}
-      >
-        {title}
-      </span>
+      <span id="ratings-categories">{title}</span>
     </div>
   );
 }
@@ -158,6 +127,7 @@ export default function SearchBar({
   return (
     <div>
       <Autocomplete
+        className="search-bar"
         freeSolo
         selectOnFocus
         disableClearable
@@ -172,12 +142,6 @@ export default function SearchBar({
         inputValue={searchText}
         onInputChange={(e, value) => {
           setSearchText(value);
-        }}
-        sx={{
-          width: '85vw',
-          marginBottom: '10%',
-          marginLeft: '5vw',
-          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         }}
         renderInput={(params) => (
           <TextField
@@ -240,32 +204,18 @@ export default function SearchBar({
       />
 
       {loading && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '20px',
-          }}
-        >
+        <div className="loading-container">
           <CircularProgress />
         </div>
       )}
       {/* Conditional rendering for loading circular progress */}
       {!loading && hasResult && (
         <section id="searchResult" style={searchView}>
-          <h2
-            style={{
-              textAlign: 'center',
-              marginBottom: '20px',
-              marginLeft: '10%',
-            }}
-          >
+          <h2>
             {searchResult.professorName}
             <RateMyProfessorButton professorName={searchResult.professorName} />
           </h2>
-          <div
-            style={{ display: 'flex', marginBottom: '20px', marginLeft: '3vw' }}
-          >
+          <div className="overall-circle-align">
             <CircularProgressBar
               value={searchResult.overallRating * 20}
               color={
@@ -278,7 +228,7 @@ export default function SearchBar({
               title={`Rating`}
               displayPercentage={false}
             />
-            <div style={{ width: '20px' }} /> {/* empty div with a width */}
+            <div className="spacing-inbetween" /> {/* empty div with a width */}
             <CircularProgressBar
               value={searchResult.difficulty * 20}
               color={
@@ -291,7 +241,7 @@ export default function SearchBar({
               title={`Difficulty`}
               displayPercentage={false}
             />
-            <div style={{ width: '20px' }} /> {/* empty div with a width */}
+            <div className="spacing-inbetween" /> {/* empty div with a width */}
             <CircularProgressBar
               value={
                 searchResult.retention === 'N/A'
@@ -311,26 +261,14 @@ export default function SearchBar({
               displayPercentage={true}
             />
           </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '45px',
-              fontSize: '16px',
-              position: 'relative',
-              alignSelf: 'center',
-              color: '#A3A3A3',
-            }}
-          >
+          <div id="number-of-reviews">
             <span>{searchResult.reviewCount} total reviews</span>
           </div>
         </section>
       )}
       {!hasResult && (
-        <div>
-          <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>
-            {"Sorry, we couldn't find any results for your search."}
-          </h3>
+        <div id="noResult">
+          <h3>{"Sorry, we couldn't find any results for your search."}</h3>
         </div>
       )}
       {/* Conditional React rendering for result and no result */}
