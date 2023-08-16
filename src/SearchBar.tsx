@@ -23,6 +23,10 @@ interface CircularProgressBarProps {
   displayPercentage: boolean;
 }
 
+interface SearchBarProps {
+  settingBarState: boolean;
+}
+
 /**
  * Helper function -- closes search results element
  */
@@ -90,10 +94,12 @@ function CircularProgressBar({
 
 /**
  * Search bar component constructor
- * @param settingBarState State of search bar results
- * @returns Search bar
+ * @param {SearchBarProps} props - The props object containing the state of the search bar
+ * @returns {JSX.Element} - The search bar component
  */
-export default function SearchBar(settingBarState: boolean): JSX.Element {
+export default function SearchBar({
+  settingBarState,
+}: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = useState('');
   const [hasResult, setResult] = useState(true);
   const [loading, isLoading] = useState(false);
