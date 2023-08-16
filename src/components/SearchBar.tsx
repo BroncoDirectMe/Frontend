@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import React, { CSSProperties, useState, useEffect } from 'react';
 import RateMyProfessorButton from './RateMyProfessorButton';
-import './styles/SearchBar.css';
+import '../styles/SearchBar.css';
 
 let searchView: CSSProperties = {
   display: 'none',

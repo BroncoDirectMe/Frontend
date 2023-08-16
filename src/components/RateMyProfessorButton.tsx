@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { Tooltip, Typography } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { ProfessorNameFiltering } from './ProfessorPopup';
-import './styles/RateMyProfessorButton.css';
+import '../styles/RateMyProfessorButton.css';
 
 /**
  * Button that opens RateMyProfessor page for a given professor
