@@ -178,8 +178,9 @@ export default function DegreeProgressBar(): JSX.Element {
    */
   function InfoPopup(): JSX.Element {
     const handleButtonClick = (): void => {
-      window.open(`https://idp.cpp.edu/idp/profile/cas/login?service=
-      https://cmsweb.cms.cpp.edu/psp/CPOMPRDM/EMPLOYEE/SA/c/POM_MENU_SA_SS.POM_SS_DPR_LINK.GBL`);
+      window.open(
+        'https://idp.cpp.edu/idp/profile/cas/login?service=https://cmsweb.cms.cpp.edu/psp/CPOMPRDM/EMPLOYEE/SA/c/POM_MENU_SA_SS.POM_SS_DPR_LINK.GBL?1=1'
+      );
     };
 
     return (
