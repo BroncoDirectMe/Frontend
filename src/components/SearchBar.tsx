@@ -91,15 +91,15 @@ function CircularProgressBar({
         }}
       >
         <span
-          style={{ fontSize: '27px', textAlign: 'center', fontWeight: 'bold' }}
+          style={{ fontSize: '30px', textAlign: 'center', fontWeight: 'bold' }}
         >
           {displayPercentage ? (
             <span>
-              <span>{value.toFixed(1)}</span>
+              <span>{value.toFixed(0)}</span>
               <span style={{ fontSize: '15px', fontWeight: 'normal' }}>%</span>
             </span>
           ) : (
-            <span style={{ fontSize: '27px', fontWeight: 'bold' }}>
+            <span style={{ fontSize: '30px', fontWeight: 'bold' }}>
               {(value / 20).toFixed(1)}
               <span style={{ fontSize: '15px', fontWeight: 'normal' }}>
                 {isGPA ? '/4.0' : '/5'}
