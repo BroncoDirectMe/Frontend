@@ -20,6 +20,7 @@ interface CircularProgressBarProps {
   color: string;
   title: string;
   displayPercentage: boolean;
+  isGPA: boolean;
 }
 
 interface SearchBarProps {
@@ -50,6 +51,7 @@ function CircularProgressBar({
   color,
   title,
   displayPercentage,
+  isGPA,
 }: CircularProgressBarProps): JSX.Element {
   const remainingColor = 'rgba(0, 0, 0, 0.1)';
 
@@ -99,7 +101,7 @@ function CircularProgressBar({
           ) : (
             <span style={{ fontSize: '27px', fontWeight: 'bold' }}>
               {(value / 20).toFixed(1)}
-              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>/5</span>
+              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>{isGPA ? '/4.0' : '/5'}</span>
             </span>
           )}
         </span>
@@ -173,7 +175,7 @@ export default function SearchBar({
         return 0.0;
       }
     } catch (error) {
-      console.error('An error occurred', error);
+      // console.error(error);
       return 0.0;
     }
   };
@@ -322,6 +324,7 @@ export default function SearchBar({
                 }
                 title={`Rating`}
                 displayPercentage={false}
+                isGPA = {false}
               />
               <div style={{ width: '40px' }} />{' '}
               {/* spacing between progress bars */}
@@ -337,6 +340,7 @@ export default function SearchBar({
                 }
                 title={`Difficulty`}
                 displayPercentage={false}
+                isGPA={false}
               />
             </div>
             <div style={{ height: '30px' }} />{' '}
@@ -358,6 +362,7 @@ export default function SearchBar({
                 }
                 title={`Average\u00a0GPA`}
                 displayPercentage={false}
+                isGPA={true}
               />
               <div style={{ width: '40px' }} />{' '}
               {/* spacing between progress bars */}
@@ -379,6 +384,7 @@ export default function SearchBar({
                   searchResult.retention === 'N/A' ? 'N/A' : `Would\u00a0Retake`
                 }
                 displayPercentage={true}
+                isGPA={false}
               />
             </div>
           </div>
