@@ -101,7 +101,9 @@ function CircularProgressBar({
           ) : (
             <span style={{ fontSize: '27px', fontWeight: 'bold' }}>
               {(value / 20).toFixed(1)}
-              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>{isGPA ? '/4.0' : '/5'}</span>
+              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>
+                {isGPA ? '/4.0' : '/5'}
+              </span>
             </span>
           )}
         </span>
@@ -324,7 +326,7 @@ export default function SearchBar({
                 }
                 title={`Rating`}
                 displayPercentage={false}
-                isGPA = {false}
+                isGPA={false}
               />
               <div style={{ width: '40px' }} />{' '}
               {/* spacing between progress bars */}
