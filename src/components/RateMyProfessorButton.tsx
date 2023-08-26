@@ -1,30 +1,10 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import { Tooltip, Typography, createTheme } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { ProfessorNameFiltering } from './ProfessorPopup';
-import { ThemeProvider } from '@emotion/react';
-
-const infoIconStyle = {
-  minHeight: '16px',
-  minWidth: '16px',
-  height: '24px',
-};
-
-const tooltipStyle = createTheme({
-  components: {
-    MuiTooltip: {
-      styleOverrides: {
-        tooltip: {
-          fontSize: '2em',
-          color: 'black',
-          backgroundColor: 'white!important',
-        },
-      },
-    },
-  },
-});
+import '../styles/RateMyProfessorButton.css';
 
 /**
  * Button that opens RateMyProfessor page for a given professor
@@ -72,28 +52,25 @@ export default function RateMyProfessorButton(props: {
 
   return (
     <>
-      {loading && '. . .'}
+      {loading && <span id="loading-text">. . .</span>}
       {!loading && (
-        <ThemeProvider theme={tooltipStyle}>
-          <Tooltip
-            disableFocusListener
-            title={
-              <ThemeProvider theme={tooltipStyle}>
-                <Typography>Open RateMyProfessor Page</Typography>
-              </ThemeProvider>
-            }
-            placement="top"
+        <Tooltip
+          disableFocusListener
+          title={
+            <Typography className="rmp-tooltip">
+              Open RateMyProfessor Page
+            </Typography>
+          }
+          placement="top"
+        >
+          <Button
+            className={`${loading ? 'disabled' : 'enabled'}`}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onClick={handleButtonClick}
           >
-            <Button
-              style={{ background: 'none', border: 'none' }}
-              className={`${loading ? 'disabled' : ''}`}
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={handleButtonClick}
-            >
-              <InfoIcon style={infoIconStyle} sx={{ color: 'black' }} />
-            </Button>
-          </Tooltip>
-        </ThemeProvider>
+            <InfoIcon id="icon" />
+          </Button>
+        </Tooltip>
       )}
     </>
   );

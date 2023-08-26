@@ -2,20 +2,7 @@ import React from 'react';
 import { TableCell, TableRow, Icon } from '@mui/material';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
-
-const ICON = {
-  width: '1em',
-  height: '1em',
-  display: 'inline-block',
-  fontSize: '1.5rem',
-
-  padding: '0',
-  outline: '0',
-  border: 'none',
-  background: 'none',
-  stroke: '#ffffff',
-  strokeWidth: 2,
-};
+import '../../styles/ExpandableTableRows.css';
 
 interface ExpandableTableRowProps {
   children: JSX.Element | JSX.Element[];
@@ -31,19 +18,14 @@ const ExpandableTableRow = ({
     <>
       <TableRow
         onClick={() => setIsExpanded(!isExpanded)}
-        style={{
-          background: 'linear-gradient(to right, #00843D 0%, #01426A 100%)',
-          cursor: 'pointer',
-        }}
+        className="expandable-table-row"
       >
         <TableCell padding="checkbox">
-          <Icon style={ICON}>
+          <Icon className="icon">
             {isExpanded ? <ExpandLess /> : <ExpandMore />}
           </Icon>
         </TableCell>
-        <TableCell style={{ fontWeight: 'bold', color: 'white' }}>
-          {title}
-        </TableCell>
+        <TableCell className="expandable-table-cell">{title}</TableCell>
       </TableRow>
       {isExpanded && (
         <TableRow>

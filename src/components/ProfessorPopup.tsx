@@ -6,13 +6,14 @@ import {
   IconButton,
   Button,
 } from '@mui/material';
-import React, { useState, useEffect, CSSProperties } from 'react';
+import React, { useState, useEffect } from 'react';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CloseIcon from '@mui/icons-material/Close';
 import FmdBadIcon from '@mui/icons-material/FmdBad';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import RateMyProfessorButton from './RateMyProfessorButton';
+import '../styles/ProfessorPopup.css';
 
 interface professorPopupTooltipProps {
   professorName: string;
@@ -31,43 +32,6 @@ interface ProfessorInfo {
   numRatings: number;
   wouldTakeAgainPercent: number;
 }
-
-const iconButtonStyle: CSSProperties = {
-  minHeight: '34px',
-  minWidth: '34px',
-  display: 'flex',
-  alignItems: 'center',
-  borderRadius: '50%',
-  border: 'none',
-  boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
-  margin: '0 15px',
-};
-
-const professorIconStyle: CSSProperties = {
-  minHeight: '16px',
-  minWidth: '16px',
-  height: '24px',
-  display: 'flex',
-};
-
-const boldStyle: CSSProperties = {
-  fontSize: '1.25rem',
-  fontWeight: 'bold',
-  color: 'black',
-};
-
-const unboldStyle: CSSProperties = {
-  fontSize: '1.25rem',
-  fontWeight: 'normal',
-  color: '#1c1c1c',
-};
-
-const centerItems: CSSProperties = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'row',
-};
 
 /**
  * Filters out duplicate professor names and "To be Announced"
@@ -219,9 +183,8 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       {/* Display loading while data is being fetched */}
       {!loading && (
         <img
+          id="loading-gif"
           src="https://i.imgur.com/AO3PZss.gif" // this gif is 1:1
-          width="175"
-          height="175"
           alt="Loading..."
         />
       )}
@@ -230,74 +193,56 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         {/* Display professor data if no errors were caught during fetch */}
         {loading && hasResult && (
           <section>
-            <div style={{ ...centerItems, marginTop: '10px' }}>
-              <Typography
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                  color: '#008970',
-                }}
-              >
+            <div className="header center-items">
+              <Typography id="header-text">
                 {currentProfessor.toUpperCase()}
               </Typography>
               <RateMyProfessorButton professorName={currentProfessor} />
             </div>
-            <Divider style={{ margin: '10px 0' }} />
+            <Divider className="divider" />
             <Typography>
-              <span style={boldStyle}>Rating: </span>
-              <span style={unboldStyle}>{professorData.rating}</span>
+              <span className="bold-style">Rating: </span>
+              <span className="unbold-style">{professorData.rating}</span>
             </Typography>
             <Typography>
-              <span style={boldStyle}>Difficulty: </span>
-              <span style={unboldStyle}>{professorData.difficulty}</span>
+              <span className="bold-style">Difficulty: </span>
+              <span className="unbold-style">{professorData.difficulty}</span>
             </Typography>
             <Typography>
-              <span style={boldStyle}>Reviews: </span>
-              <span style={unboldStyle}>{professorData.reviews}</span>
+              <span className="bold-style">Reviews: </span>
+              <span className="unbold-style">{professorData.reviews}</span>
             </Typography>
-            <span style={boldStyle}>{professorData.retention}% </span>
-            <span style={unboldStyle}>would take again</span>
+            <span className="bold-style">{professorData.retention}% </span>
+            <span className="unbold-style">would take again</span>
           </section>
         )}
 
         {/* Display if error was caught during fetch process */}
         {!hasResult && (
-          <div
-            style={{
-              ...centerItems,
-              height: '100%',
-              flexDirection: 'column',
-              marginTop: '70px', // Manual adjustment to center items vertically - temporary?
-              textAlign: 'center',
-            }}
-          >
-            <FmdBadIcon style={{ width: '28px', height: '28px' }} />
-            <Typography style={{ marginTop: '6px' }}>{errorMessage}</Typography>
+          <div className="error center-items">
+            <FmdBadIcon id="error-icon" />
+            <Typography id="error-message">{errorMessage}</Typography>
           </div>
         )}
 
-        <Divider style={{ margin: '10px 0' }} />
-        <div style={centerItems}>
+        <Divider className="divider" />
+        <div className="center-items">
           {/* Previous page button */}
-          {professorsList.length > 1 ? (
-            <IconButton style={iconButtonStyle} onClick={previousPage}>
-              <NavigateBeforeIcon />
-            </IconButton>
-          ) : null}
+          <IconButton className="icon-button" onClick={previousPage}>
+            <NavigateBeforeIcon />
+          </IconButton>
 
           <IconButton
+            className="icon-button"
             onClick={props.handleTooltipClose}
-            style={iconButtonStyle}
           >
             <CloseIcon />
           </IconButton>
 
           {/* Next page button */}
-          {professorsList.length > 1 ? (
-            <IconButton style={iconButtonStyle} onClick={nextPage}>
-              <NavigateNextIcon />
-            </IconButton>
-          ) : null}
+          <IconButton className="icon-button" onClick={nextPage}>
+            <NavigateNextIcon />
+          </IconButton>
         </div>
       </section>
     </>
@@ -313,17 +258,8 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
   return (
     <Tooltip
       PopperProps={{
+        className: 'popup-tooltip',
         disablePortal: true,
-        style: {
-          backgroundColor: 'white',
-          color: 'black',
-          padding: '0.5em',
-          minWidth: '200px',
-          minHeight: '200px',
-          boxShadow: '0 0 8px rgba(0, 0, 0, 0.2)',
-          borderRadius: '10px',
-          width: '10vw',
-        },
       }}
       onClose={props.handleTooltipClose}
       open={props.open}
@@ -339,10 +275,10 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
       }
     >
       <Button
+        className="popup-button"
         variant="outlined"
-        startIcon={<AssignmentIndIcon style={professorIconStyle} />}
+        startIcon={<AssignmentIndIcon id="professor-icon" />}
         size="medium"
-        style={{ display: 'flex', alignItems: 'center' }}
         onClick={props.handleTooltipOpen}
       >
         {ProfessorNameFiltering(props.professorName, false)}

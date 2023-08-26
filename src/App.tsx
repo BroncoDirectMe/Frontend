@@ -9,6 +9,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
 import DegreeProgressBar from './components/DegreeProgressBar';
 import './styles/App.css';
+import UpdateAlert from './components/UpdateAlert';
 
 /**
  * @returns Main app component
@@ -23,6 +24,7 @@ export function App(): ReactElement {
       <div className="App">
         {!isPanelOpen && (
           <section>
+            <UpdateAlert />
             <div id="errorElm"></div>
             <Box id="mainContent">
               <h1>BroncoDirectMe Search</h1>
