@@ -1,42 +1,31 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import TableRedesign from './components/TableRedesign/TableRedesign';
+import { pageMapping } from './injection';
 
-// import UpvoteDownvoteButton from './UpvoteDownvoteButtons';
+let currPage: string | null = null;
+const observer = new MutationObserver(
+  (mutationList: MutationRecord[]): void => {
+    mutationList.forEach((mutation) => {
+      // runs if data-subpage attribute in document.body changes
+      if (mutation.attributeName === 'data-subpage') {
+        currPage = (mutation.target as HTMLElement).getAttribute(
+          'data-subpage'
+        );
+        console.log('[BRONCODIRECTME] Current Page:', currPage);
 
-const observer = new MutationObserver(function (mutationList) {
-  mutationList.forEach((mutation) => {
-    // runs if data-subpage attribute in document.body changes
-    if (mutation.attributeName === 'data-subpage') {
-      const currPage = (mutation.target as HTMLElement).getAttribute(
-        'data-subpage'
-      );
-      console.log('[BRONCODIRECT] Current Page:', currPage);
-
-      // injection
-      const iframeDoc = (
-        document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
-      ).contentDocument;
-
-      injection(iframeDoc);
-    }
-  });
-});
+        const iframeDocument = (
+          document.getElementById('ptifrmtgtframe') as HTMLIFrameElement
+        ).contentDocument;
+        if (iframeDocument) injection(iframeDocument);
+      }
+    });
+  }
+);
 
 /**
  * Injects custom components into the BroncoDirect DOM
  * @param iframeDoc Professor instances on the page
  */
-function injection(iframeDoc: Document | null): void {
-  if (iframeDoc == null) return;
-  const rootInjection: HTMLElement | null = iframeDoc.getElementById(
-    'win0divDERIVED_CLSRCH_GROUP6'
-  );
-  const classRows: NodeListOf<HTMLElement> = iframeDoc.querySelectorAll(
-    '*[data-for^="SSR_CLSRSLT_WRK_GROUPBOX2$"]'
-  );
-  if (rootInjection == null) return;
-  createRoot(rootInjection).render(<TableRedesign courseHTML={classRows} />);
+function injection(iframeDoc: Document): void {
+  if (currPage) pageMapping[currPage](iframeDoc);
 }
 
 /**
@@ -45,9 +34,9 @@ function injection(iframeDoc: Document | null): void {
  */
 function pageLoadCheck(): boolean {
   // URL set on entire cpp portal so injection will work on add class page too
-  const URL = 'https://cmsweb.cms.cpp.edu/psp/'; // /CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?';
+  const URL = 'https://cmsweb.cms.cpp.edu/psp/CPOMPRDM/'; // /CPOMPRDM/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?';
   if (!window.location.href.includes(URL)) return false;
-  console.log('[BRONCODIRECT] Page Loaded');
+  console.log('[BRONCODIRECTME] Page Loaded');
   return true;
 }
 
