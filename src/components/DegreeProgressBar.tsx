@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Typography, Tooltip, IconButton, Switch } from '@mui/material';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import InfoIcon from '@mui/icons-material/Info';
+import '../styles/DegreeProgressBar.css';
 
 interface ProgressBarProps {
   finished: number;
@@ -22,24 +23,15 @@ interface ToDoBarProps {
  */
 function ProgressBar({ finished, progressing }: ProgressBarProps): JSX.Element {
   return (
-    <Grid
-      container
-      height="20px"
-      bgcolor="gray"
-      borderRadius="40px"
-      id="progressbar"
-      xs={11}
-    >
+    <Grid container id="to-do-container" xs={11}>
       <Grid
         container
         width={`${progressing + finished}%`}
-        bgcolor="#FFD700"
-        borderRadius="40px"
+        id="progressing-container"
       >
         <Grid
           width={`${(finished / (progressing + finished)) * 100}%`}
-          bgcolor="#3CB043"
-          borderRadius="40px"
+          id="finished-container"
         ></Grid>
       </Grid>
     </Grid>
@@ -52,18 +44,18 @@ function ProgressBar({ finished, progressing }: ProgressBarProps): JSX.Element {
  */
 function DotLabel(): JSX.Element {
   return (
-    <Grid container justifyContent="center" mt="7px">
-      <Grid item container xs={3} alignItems="center" gap="3px">
+    <Grid container id="dot-label-container">
+      <Grid item container xs={3} id="dot-container">
         <CircleRoundedIcon sx={{ color: '#3CB043', fontSize: '11px' }} />
         <Typography>Finished</Typography>
       </Grid>
 
-      <Grid item container xs={3.8} alignItems="center" gap="3px">
+      <Grid item container xs={3.8} id="dot-container">
         <CircleRoundedIcon sx={{ color: '#FFD700', fontSize: '11px' }} />
         <Typography>Progressing</Typography>
       </Grid>
 
-      <Grid item container xs={3} alignItems="center" gap="3px">
+      <Grid item container xs={3} id="dot-container">
         <CircleRoundedIcon sx={{ color: 'gray', fontSize: '11px' }} />
         <Typography>To-Do</Typography>
       </Grid>
@@ -83,22 +75,20 @@ function ToDoBar({
   genEd,
 }: ToDoBarProps): JSX.Element {
   return (
-    <Grid container height="20px" bgcolor="gray" xs={11} borderRadius="40px">
+    <Grid container xs={11} id="to-do-container">
       <Grid
         container
-        bgcolor="#FFDBAC"
         width={`${majorCourse + reqElective + optElective + genEd}%`}
-        borderRadius="40px"
+        id="gen-ed-container"
       >
         <Grid
           container
-          bgcolor="#FFD700"
           width={`${
             ((majorCourse + reqElective + optElective) /
               (optElective + reqElective + majorCourse + genEd)) *
             100
           }%`}
-          borderRadius="40px"
+          id="opt-electives-container"
         >
           <Grid
             container
@@ -107,13 +97,11 @@ function ToDoBar({
                 (optElective + reqElective + majorCourse)) *
               100
             }%`}
-            bgcolor="orange"
-            borderRadius="40px"
+            id="req-electives-container"
           >
             <Grid
               width={`${(majorCourse / (reqElective + majorCourse)) * 100}%`}
-              bgcolor="red"
-              borderRadius="40px"
+              id="major-courses-container"
             ></Grid>
           </Grid>
         </Grid>
@@ -128,23 +116,23 @@ function ToDoBar({
  */
 function DotLabelToDo(): JSX.Element {
   return (
-    <Grid container justifyContent="center" mt="7px">
-      <Grid item container xs={5} alignItems="center" gap="3px">
+    <Grid container id="dot-label-container">
+      <Grid item container xs={5} id="dot-container">
         <CircleRoundedIcon sx={{ color: 'red', fontSize: '11px' }} />
         <Typography>Major Courses</Typography>
       </Grid>
 
-      <Grid item container xs={5} alignItems="center" gap="3px">
+      <Grid item container xs={5} id="dot-container">
         <CircleRoundedIcon sx={{ color: 'orange', fontSize: '11px' }} />
         <Typography>Required Electives</Typography>
       </Grid>
 
-      <Grid item container xs={5} alignItems="center" gap="3px">
+      <Grid item container xs={5} id="dot-container">
         <CircleRoundedIcon sx={{ color: '#FFD700', fontSize: '11px' }} />
         <Typography>Optional Electives</Typography>
       </Grid>
 
-      <Grid item container xs={5} alignItems="center" gap="3px">
+      <Grid item container xs={5} id="dot-container">
         <CircleRoundedIcon sx={{ color: '#FFDBAC', fontSize: '11px' }} />
         <Typography>GEs</Typography>
       </Grid>
@@ -208,7 +196,7 @@ export default function DegreeProgressBar(): JSX.Element {
             })}
       >
         <IconButton onClick={handleButtonClick}>
-          <InfoIcon color="primary" fontSize="small" id="info" />
+          <InfoIcon color="primary" fontSize="small" />
         </IconButton>
       </Tooltip>
     );
@@ -216,13 +204,7 @@ export default function DegreeProgressBar(): JSX.Element {
 
   return (
     <Grid container justifyContent="center">
-      <Grid
-        container
-        xs={9}
-        alignItems="center"
-        justifyContent="center"
-        ml="20px"
-      >
+      <Grid container xs={9.5} id="info-container">
         <InfoPopup />
         {!isSwitchOn && <Typography fontWeight="600">Progress Bar</Typography>}
         {isSwitchOn && <Typography fontWeight="600">To-Do </Typography>}
