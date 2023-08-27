@@ -9,6 +9,7 @@ export const pageMapping: pageMappingType = {
 };
 
 /**
+ * Function to inject into Class Search Result
  * @param doc Root Document to inject into
  */
 function classSearchInject(doc: Document): void {
@@ -22,9 +23,46 @@ function classSearchInject(doc: Document): void {
   createRoot(rootInjection).render(<TableRedesign courseHTML={classRows} />);
 }
 
+interface courseListType {
+  courses: Record<string, number>;
+  taken: number;
+  enrolled: number;
+  needed: number;
+}
+
 /**
+ * Function to inject into Degree Progress Report
  * @param doc Root Document to inject into
  */
 function degreeProgressInject(doc: Document): void {
-  console.log('[ID] ', doc.getElementById('SCC_PERS_SA_VW_EMPLID')?.innerText);
+  const major: courseListType = {
+    courses: {},
+    taken: 0,
+    enrolled: 0,
+    needed: 0,
+  };
+
+  const majorDPR = doc.querySelectorAll<HTMLElement>(
+    'table [id="ACE_CSU_ARSLT_RLVW$3"] h2.ui-collapsible-heading'
+  );
+
+  majorDPR.forEach((elem, idx, nodes) => {
+    if (idx === nodes.length - 1) return; // last element will be elective tab
+    const course = elem.innerText.split(/ (?:\(.*\))(?:\n)/); // output is [course, status]
+    let status = 0;
+    if (course[1] === 'Taken') {
+      status = 0;
+      major.taken++;
+    } else if (course[1] === 'Enrolled') {
+      status = 1;
+      major.enrolled++;
+    } else if (course[1] === 'Error') {
+      status = 2;
+      major.needed++;
+    } else return;
+
+    major.courses[course[0]] = status;
+  });
+
+  chrome.storage.local.set({ major }).catch((err: Error) => console.error(err));
 }
