@@ -1,55 +1,55 @@
 /*styling for progress bar*/
-#to-do-container{
-    height: 20px;
-    background-color: gray;
-    border-radius: 40px;
+#to-do-container {
+  height: 20px;
+  background-color: gray;
+  border-radius: 40px;
 }
 
-#progressing-container{
-    border-radius: 40px;
-    background-color: #FFD700;
+#progressing-container {
+  border-radius: 40px;
+  background-color: #ffd700;
 }
 
-#finished-container{
-    border-radius: 40px;
-    background-color: #3CB043;
+#finished-container {
+  border-radius: 40px;
+  background-color: #3cb043;
 }
 
 /*styling for to-do bar*/
-#gen-ed-container{
-    border-radius: 40px;
-    background-color: #FFDBAC;
+#gen-ed-container {
+  border-radius: 40px;
+  background-color: #ffdbac;
 }
 
-#opt-electives-container{
-    border-radius: 40px;
-    background-color: #FFD700;
+#opt-electives-container {
+  border-radius: 40px;
+  background-color: #ffd700;
 }
 
-#req-electives-container{
-    border-radius: 40px;
-    background-color: orange;
+#req-electives-container {
+  border-radius: 40px;
+  background-color: orange;
 }
 
-#major-courses-container{
-    border-radius: 40px;
-    background-color: red;
+#major-courses-container {
+  border-radius: 40px;
+  background-color: red;
 }
 
 /*styling for dot label*/
-#dot-label-container{
-    justify-content: center;
-    margin-top: 7px;
+#dot-label-container {
+  justify-content: center;
+  margin-top: 7px;
 }
 
-#dot-container{
-    align-items: center;
-    gap: 3px;
+#dot-container {
+  align-items: center;
+  gap: 3px;
 }
 
 /*styling for info pop-up*/
-#info-container{
-    align-items: center;
-    justify-content: center;
-    margin-left: 10px;
+#info-container {
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
 }
