@@ -1,0 +1,16 @@
+#table-redesign {
+  overflow-x: auto;
+}
+
+#course-catalog {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  width: 100%;
+  min-width: 900px;
+}
+
+.course-section {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 5px 5px;
+}

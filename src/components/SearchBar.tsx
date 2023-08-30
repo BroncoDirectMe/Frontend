@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import React, { CSSProperties, useState, useEffect } from 'react';
 import RateMyProfessorButton from './RateMyProfessorButton';
+import '../styles/SearchBar.css';
 
 let searchView: CSSProperties = {
   display: 'none',
@@ -56,15 +57,9 @@ function CircularProgressBar({
   const remainingColor = 'rgba(0, 0, 0, 0.1)';
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        position: 'relative',
-      }}
-    >
+    <div className="progress-container">
       <CircularProgress
+        id="colored"
         variant="determinate"
         thickness={2.5}
         value={value}
@@ -72,11 +67,12 @@ function CircularProgressBar({
         style={{ color }}
       />
       <CircularProgress
+        id="uncolored"
         variant="determinate"
         thickness={2.5}
         value={100}
         size={110}
-        style={{ color: remainingColor, position: 'absolute' }}
+        style={{ color: remainingColor }}
       />
       <div
         style={{
@@ -108,21 +104,7 @@ function CircularProgressBar({
           )}
         </span>
       </div>
-      <span
-        style={{
-          fontSize: '16px',
-          color: 'black',
-          textAlign: 'center',
-          position: 'absolute',
-          top: 'calc(50% + 55px)',
-          left: '50%',
-          transform: 'translate(-50%, 0)',
-          marginTop: '10px',
-          marginBottom: '10px',
-        }}
-      >
-        {title}
-      </span>
+      <span id="ratings-categories">{title}</span>
     </div>
   );
 }
@@ -197,6 +179,7 @@ export default function SearchBar({
   return (
     <div>
       <Autocomplete
+        className="search-bar"
         freeSolo
         selectOnFocus
         disableClearable
@@ -211,12 +194,6 @@ export default function SearchBar({
         inputValue={searchText}
         onInputChange={(e, value) => {
           setSearchText(value);
-        }}
-        sx={{
-          width: '85vw',
-          marginBottom: '10%',
-          marginLeft: '5vw',
-          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         }}
         renderInput={(params) => (
           <TextField
@@ -281,30 +258,17 @@ export default function SearchBar({
       />
 
       {loading && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '20px',
-          }}
-        >
+        <div className="loading-container">
           <CircularProgress />
         </div>
       )}
       {/* Conditional rendering for loading circular progress */}
       {!loading && hasResult && (
         <section id="searchResult" style={searchView}>
-          <h2
-            style={{
-              textAlign: 'center',
-              marginBottom: '20px',
-              marginLeft: '10%',
-            }}
-          >
+          <h2>
             {searchResult.professorName}
             <RateMyProfessorButton professorName={searchResult.professorName} />
           </h2>
-
           {/* Professor details and information */}
           <div
             style={{
@@ -407,10 +371,8 @@ export default function SearchBar({
       )}
 
       {!hasResult && (
-        <div>
-          <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>
-            {"Sorry, we couldn't find any results for your search."}
-          </h3>
+        <div id="noResult">
+          <h3>{"Sorry, we couldn't find any results for your search."}</h3>
         </div>
       )}
       {/* Conditional React rendering for result and no result */}

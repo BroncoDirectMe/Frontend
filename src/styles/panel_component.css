@@ -1,0 +1,16 @@
+.panel {
+  display: flex;
+  height: 200px;
+  width: 200px;
+}
+
+.margin {
+  margin: 5px 5px 5px 5px;
+}
+
+.closeBtn {
+  position: absolute;
+  margin-bottom: 12px;
+  text-align: center;
+  bottom: 0;
+}

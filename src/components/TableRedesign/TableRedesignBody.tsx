@@ -3,6 +3,7 @@ import { CourseSections } from '../../../types/types';
 import { Button, TableBody, TableRow, TableCell } from '@mui/material';
 import linkGen from '../linkGeneration';
 import { ProfessorPopup } from '../../components/ProfessorPopup';
+import '../../styles/TableRedesignBody.css';
 
 interface TableRedesignBodyProps {
   Sections: CourseSections;
@@ -12,17 +13,9 @@ interface TableButtonProps {
   link: string;
 }
 
-const buttonStyling = {
-  backgroundColor: 'green',
-  color: 'white',
-  borderRadius: '5px',
-  display: 'inline-block',
-  padding: '3%',
-};
-
 const TableButton = ({ value, link }: TableButtonProps): JSX.Element => {
   return value ? (
-    <Button href={link} style={buttonStyling}>
+    <Button href={link} className="table-button">
       Select Class
     </Button>
   ) : (
@@ -45,11 +38,7 @@ const TableRedesignBody = ({
               // if the key is $Select, then we want to render a button
               // if the key starts with $, then we want to render a link
               // else if the key doesn't start with $, we want to render the value
-              <TableCell
-                style={{ textAlign: 'left', whiteSpace: 'pre-line' }}
-                width="10%"
-                key={key}
-              >
+              <TableCell className="table-cell-info" key={key}>
                 {(() => {
                   if (key === '$Select')
                     return (
