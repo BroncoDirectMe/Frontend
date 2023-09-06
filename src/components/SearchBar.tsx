@@ -140,7 +140,7 @@ export default function SearchBar({
       InstructorFirst: firstName,
       InstructorLast: lastName,
     };
-  
+
     try {
       const response = await fetch(
         'https://cpp-scheduler.herokuapp.com/data/instructors/find',
@@ -152,10 +152,13 @@ export default function SearchBar({
           body: JSON.stringify(requestData),
         }
       );
-  
+
       if (response.ok) {
         const data = await response.json();
-        return { avgGPA: data[0].AvgGPA, totalEnrollment: data[0].TotalEnrollment };
+        return {
+          avgGPA: data[0].AvgGPA,
+          totalEnrollment: data[0].TotalEnrollment,
+        };
       } else {
         console.error('Failed to fetch GPA data');
         return { avgGPA: 0.0, totalEnrollment: 0 };
@@ -164,7 +167,6 @@ export default function SearchBar({
       return { avgGPA: 0.0, totalEnrollment: 0 };
     }
   };
-  
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -231,10 +233,10 @@ export default function SearchBar({
                     numRatings,
                     wouldTakeAgainPercent,
                   } = await request.json();
-                  const {
-                    avgGPA,
-                    totalEnrollment,
-                  } =  await fetchInstructorGPA(firstName, lastName);
+                  const { avgGPA, totalEnrollment } = await fetchInstructorGPA(
+                    firstName,
+                    lastName
+                  );
                   newResult({
                     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                     professorName: `${firstName} ${lastName}`,
@@ -371,7 +373,10 @@ export default function SearchBar({
               paddingTop: '55px',
             }}
           >
-            <span>{searchResult.reviewCount} total reviews, {searchResult.gpaCount} total grades</span>
+            <span>
+              {searchResult.reviewCount} total reviews, {searchResult.gpaCount}{' '}
+              total grades
+            </span>
           </div>
         </section>
       )}
