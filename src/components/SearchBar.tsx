@@ -126,7 +126,7 @@ export default function SearchBar({
     overallRating: 1.0,
     difficulty: 1.0,
     reviewCount: 1,
-    gradesCount: 0,
+    gpaCount: null as number | null,
     retention: 'N/A',
   });
 
@@ -135,11 +135,12 @@ export default function SearchBar({
   const fetchInstructorGPA = async (
     firstName: string,
     lastName: string
-  ): Promise<number | null> => {
+  ): Promise<{ avgGPA: number | null; totalEnrollment: number | null }> => {
     const requestData = {
       InstructorFirst: firstName,
       InstructorLast: lastName,
     };
+  
     try {
       const response = await fetch(
         'https://cpp-scheduler.herokuapp.com/data/instructors/find',
@@ -151,19 +152,19 @@ export default function SearchBar({
           body: JSON.stringify(requestData),
         }
       );
-
+  
       if (response.ok) {
         const data = await response.json();
-        return data[0].AvgGPA;
+        return { avgGPA: data[0].AvgGPA, totalEnrollment: data[0].TotalEnrollment };
       } else {
         console.error('Failed to fetch GPA data');
-        return 0.0;
+        return { avgGPA: 0.0, totalEnrollment: 0 };
       }
     } catch (error) {
-      // console.error(error);
-      return 0.0;
+      return { avgGPA: 0.0, totalEnrollment: 0 };
     }
   };
+  
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -230,7 +231,10 @@ export default function SearchBar({
                     numRatings,
                     wouldTakeAgainPercent,
                   } = await request.json();
-                  const avgGPA = await fetchInstructorGPA(firstName, lastName);
+                  const {
+                    avgGPA,
+                    totalEnrollment,
+                  } =  await fetchInstructorGPA(firstName, lastName);
                   newResult({
                     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                     professorName: `${firstName} ${lastName}`,
@@ -238,7 +242,7 @@ export default function SearchBar({
                     overallRating: avgRating,
                     difficulty: avgDifficulty,
                     reviewCount: numRatings,
-                    gradesCount: 0,
+                    gpaCount: totalEnrollment,
                     retention:
                       wouldTakeAgainPercent >= 0
                         ? wouldTakeAgainPercent.toString()
@@ -367,7 +371,7 @@ export default function SearchBar({
               paddingTop: '55px',
             }}
           >
-            <span>{searchResult.reviewCount} total reviews, {searchResult.gradesCount} total grades</span>
+            <span>{searchResult.reviewCount} total reviews, {searchResult.gpaCount} total grades</span>
           </div>
         </section>
       )}
