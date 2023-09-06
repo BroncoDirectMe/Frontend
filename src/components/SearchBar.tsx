@@ -126,6 +126,7 @@ export default function SearchBar({
     overallRating: 1.0,
     difficulty: 1.0,
     reviewCount: 1,
+    gradesCount: 0,
     retention: 'N/A',
   });
 
@@ -237,6 +238,7 @@ export default function SearchBar({
                     overallRating: avgRating,
                     difficulty: avgDifficulty,
                     reviewCount: numRatings,
+                    gradesCount: 0,
                     retention:
                       wouldTakeAgainPercent >= 0
                         ? wouldTakeAgainPercent.toString()
@@ -365,7 +367,7 @@ export default function SearchBar({
               paddingTop: '55px',
             }}
           >
-            <span>{searchResult.reviewCount} total reviews</span>
+            <span>{searchResult.reviewCount} total reviews, {searchResult.gradesCount} total grades</span>
           </div>
         </section>
       )}
