@@ -320,11 +320,11 @@ export default function SearchBar({
                 color={
                   searchResult.averageGPA === null
                     ? 'gray' // Use a suitable color for null value
-                    : searchResult.averageGPA < 5 / 3
-                    ? 'green'
-                    : searchResult.averageGPA < 10 / 3
+                    : searchResult.averageGPA < 3 && searchResult.averageGPA > 2
                     ? 'blue'
-                    : 'red'
+                    : searchResult.averageGPA < 2
+                    ? 'red'
+                    : 'green'
                 }
                 title={`Average\u00a0GPA`}
                 displayPercentage={false}
