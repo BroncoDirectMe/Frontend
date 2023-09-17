@@ -7,6 +7,7 @@ import { msalInstance, MicrosoftOAuth } from './components/MicrosoftOath';
 import { Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
+import DegreeProgressBar from './components/DegreeProgressBar';
 import './styles/App.css';
 import UpdateAlert from './components/UpdateAlert';
 
@@ -41,10 +42,10 @@ export function App(): ReactElement {
             </Box>
             <SearchBar settingBarState={isSettingsButtonOpen} />
             {/* <MicrosoftOAuth /> */}
+            <DegreeProgressBar />
           </section>
         )}
         {/* Hides main app components when setting panel opens */}
-
         <Panel
           title={'Settings'}
           isOpen={isPanelOpen}
