@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import ProfessorPopup from './ProfessorPopup';
+import { ProfessorPopup } from './components/ProfessorPopup';
 
 if (document.URL.includes('https://cmsweb.cms.cpp.edu/'))
   console.log('BroncoDirect Page Loaded');
