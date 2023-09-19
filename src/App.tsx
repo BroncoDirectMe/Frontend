@@ -10,6 +10,7 @@ import { Panel } from './components/panel_component';
 import DegreeProgressBar from './components/DegreeProgressBar';
 import './styles/App.css';
 import UpdateAlert from './components/UpdateAlert';
+import CourseSearchBar from './components/CourseSearchBar';
 
 /**
  * @returns Main app component
@@ -41,6 +42,7 @@ export function App(): ReactElement {
               )}
             </Box>
             <SearchBar settingBarState={isSettingsButtonOpen} />
+            <CourseSearchBar />
             {/* <MicrosoftOAuth /> */}
             <DegreeProgressBar />
           </section>
