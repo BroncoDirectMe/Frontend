@@ -21,7 +21,7 @@ const CourseSearchBar: React.FC = () => {
   const { fetchAllCourses } = useFetchCourses();
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchAllCourses().then((data) => {
       if (data) {
         setOptions(data);

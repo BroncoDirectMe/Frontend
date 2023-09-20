@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { CourseInfo } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useFetchCourses = () => {
   const [loading, setLoading] = useState(false);
 
