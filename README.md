@@ -15,6 +15,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
 </code>
+
 <h2> Features </h2>
 
 <h3> Content Script </h3>
