@@ -5,7 +5,7 @@ import { CourseInfo } from '../types';
 const useFetchCourses = () => {
   const [loading, setLoading] = useState(false);
 
-  const fetchAllCourses = async () => {
+  const fetchAllCourses = async (): Promise<CourseInfo[] | undefined> => {
     setLoading(true);
     try {
       const response = await fetch('/courses/2023-2024.json');
