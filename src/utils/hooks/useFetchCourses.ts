@@ -1,6 +1,6 @@
 // useFetchCourses.js
 import { useState } from 'react';
-import { CourseInfo } from '../utils/types';
+import { CourseInfo } from '../types';
 
 const useFetchCourses = () => {
   const [loading, setLoading] = useState(false);

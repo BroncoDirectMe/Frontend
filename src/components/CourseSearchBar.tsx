@@ -5,7 +5,7 @@ import {
   createFilterOptions,
   CircularProgress,
 } from '@mui/material';
-import useFetchCourses from '../hooks/useFetchCourses';
+import useFetchCourses from '../utils/hooks/useFetchCourses';
 import { CourseInfo } from '../utils/types';
 
 const CourseSearchBar: React.FC = () => {
