@@ -1,6 +1,6 @@
 export enum CourseStatus {
   FINISHED = 'FINISHED',
-  INPROGRESS = 'INPROGRESS',
+  INPROGRESS = 'IN PROGRESS',
   TODO = 'TODO',
 }
 
