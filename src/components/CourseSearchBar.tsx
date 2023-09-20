@@ -5,92 +5,10 @@ import {
   createFilterOptions,
   CircularProgress,
 } from '@mui/material';
-
-interface CourseInfo {
-  courseID: string;
-  name: string;
-  units: number;
-  description: string;
-  prerequisites?: string[]; // string of course IDs
-  notes?: string;
-}
-
-// Sample list of available courses
-const courses: CourseInfo[] = [
-  {
-    courseID: 'CS101',
-    name: 'Introduction to Computer Science',
-    units: 4,
-    description: 'Basics of computer science...',
-    notes: 'Core course for CS majors',
-  },
-  {
-    courseID: 'CS102',
-    name: 'Data Structures',
-    units: 4,
-    description: 'Introduction to data structures...',
-    prerequisites: ['CS101'],
-  },
-  {
-    courseID: 'CS201',
-    name: 'Algorithms',
-    units: 4,
-    description: 'Introduction to algorithms...',
-    prerequisites: ['CS102'],
-  },
-  {
-    courseID: 'CS202',
-    name: 'Operating Systems',
-    units: 4,
-    description: 'Introduction to operating systems...',
-    prerequisites: ['CS101'],
-  },
-  {
-    courseID: 'CS203',
-    name: 'Software Engineering',
-    units: 4,
-    description: 'Introduction to software engineering...',
-    prerequisites: ['CS102'],
-  },
-  {
-    courseID: 'CS204',
-    name: 'Computer Networks',
-    units: 4,
-    description: 'Introduction to computer networks...',
-    prerequisites: ['CS102'],
-  },
-  {
-    courseID: 'CS205',
-    name: 'Databases',
-    units: 4,
-    description: 'Introduction to databases...',
-    prerequisites: ['CS102'],
-  },
-  {
-    courseID: 'CS206',
-    name: 'Web Development',
-    units: 4,
-    description: 'Introduction to web development...',
-    prerequisites: ['CS203'],
-  },
-  {
-    courseID: 'CS207',
-    name: 'Machine Learning',
-    units: 4,
-    description: 'Introduction to machine learning...',
-    prerequisites: ['CS203'],
-  },
-  {
-    courseID: 'CS208',
-    name: 'Artificial Intelligence',
-    units: 4,
-    description: 'Introduction to artificial intelligence...',
-    prerequisites: ['CS207'],
-  },
-];
+import useFetchCourses from '../hooks/useFetchCourses';
+import { CourseInfo } from '../utils/types';
 
 const CourseSearchBar: React.FC = () => {
-  const [searchBy, setSearchBy] = useState('courseID');
   const [courseInfo, setCourseInfo] = useState<CourseInfo | null>(null);
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<CourseInfo[]>([]);
@@ -99,34 +17,20 @@ const CourseSearchBar: React.FC = () => {
     setCourseInfo(newValue);
   };
 
+  const { fetchAllCourses } = useFetchCourses();
+
   useEffect(() => {
-    // Fetch the list of courses when the component mounts
-    // Replace with our API call to fetch courses from backend
-    setOptions(courses);
+    fetchAllCourses().then((data) => {
+      if (data) {
+        setOptions(data);
+      } else {
+        setOptions([]);
+      }
+    });
   }, []);
 
   return (
     <div style={{ margin: '0 5vw 0 5vw' }}>
-      <div style={{ marginBottom: 20 }}>
-        <label>
-          <input
-            type="radio"
-            value="courseID"
-            checked={searchBy === 'courseID'}
-            onChange={() => setSearchBy('courseID')}
-          />
-          Search by Course ID
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="name"
-            checked={searchBy === 'name'}
-            onChange={() => setSearchBy('name')}
-          />
-          Search by Name
-        </label>
-      </div>
       <Autocomplete
         id="course-search"
         sx={{
@@ -167,11 +71,6 @@ const CourseSearchBar: React.FC = () => {
           />
         )}
       />
-      {/* display the selected course info 
-      TODO: 
-        - maybe actions: add buttons to add to degree progess (completed, inprogress, todo)
-        - ? check the professor with highest rating for the course)
-      */}
       {courseInfo && (
         <div style={{ marginTop: 10, padding: 5 }}>
           <h2>{courseInfo.name}</h2>
@@ -181,18 +80,16 @@ const CourseSearchBar: React.FC = () => {
           <p>
             <strong>Units:</strong> {courseInfo.units}
           </p>
-          <p>
-            <strong>Description:</strong> {courseInfo.description}
-          </p>
-          {courseInfo.prerequisites && (
+
+          {courseInfo.description !== '' && (
+            <p>
+              <strong>Description:</strong> {courseInfo.description}
+            </p>
+          )}
+          {courseInfo.prerequisites && courseInfo.prerequisites.length !== 0 && (
             <p>
               <strong>Prerequisites:</strong>{' '}
               {courseInfo.prerequisites.join(', ')}
-            </p>
-          )}
-          {courseInfo.notes && (
-            <p>
-              <strong>Notes:</strong> {courseInfo.notes}
             </p>
           )}
         </div>
