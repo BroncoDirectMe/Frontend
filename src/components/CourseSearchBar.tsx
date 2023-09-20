@@ -13,6 +13,7 @@ const CourseSearchBar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<CourseInfo[]>([]);
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleSearchChange = (event: any, newValue: any) => {
     setCourseInfo(newValue);
   };
@@ -20,6 +21,7 @@ const CourseSearchBar: React.FC = () => {
   const { fetchAllCourses } = useFetchCourses();
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     fetchAllCourses().then((data) => {
       if (data) {
         setOptions(data);
