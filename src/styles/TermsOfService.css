@@ -1,0 +1,26 @@
+.tos-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tos-description {
+  margin-top: 2;
+  max-height: 150px;
+  overflow: auto;
+  border: 2px solid #000000;
+}
+
+.tos-description::-webkit-scrollbar {
+  width: 12px; 
+}
+
+.tos-description::-webkit-scrollbar-thumb {
+  background-color: #999;
+}
+
+.tos-button{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
