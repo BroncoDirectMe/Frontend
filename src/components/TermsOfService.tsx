@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Box,
@@ -11,11 +11,16 @@ import '../styles/TermsOfService.css';
 
 /**
  * Terms Of Service Popup Component
- * @returns Div containing the professor popup element
+ * @returns A button which upon clicked shows a popup that displays Terms of Service agreement
  */
 function TermsOfService(): JSX.Element {
+  const [isAgreed, setIsAgreed] = useState(false);
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    handleAgreementButton();
+  }, []);
 
   const handleOpen = (): void => setOpen(true);
   const handleClose = (): void => setOpen(false);
@@ -28,11 +33,37 @@ function TermsOfService(): JSX.Element {
     }
   };
 
+  const handleAgreementButton = (): void => {
+    chrome.storage.local.get('tosSigned', ({ tosSigned }) => {
+      if (tosSigned) {
+        setIsAgreed(true);
+      }
+    });
+  };
+
+  // chrome.storage.local.set({ tosSigned: false }, () => {
+  //   if (chrome.runtime.lastError) {
+  //    console.error(chrome.runtime.lastError);
+  //   }
+  // });
+
+  const handleAgreement = (): void => {
+    setOpen(false);
+    chrome.storage.local.set({ tosSigned: true }, () => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+      }
+    });
+    handleAgreementButton();
+  };
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleOpen}>
-        TERMS OF SERVICE
-      </Button>
+      {!isAgreed && (
+        <Button variant="outlined" onClick={handleOpen}>
+          TERMS OF SERVICE
+        </Button>
+      )}
       <Modal
         open={open}
         onClose={handleClose}
@@ -52,9 +83,19 @@ function TermsOfService(): JSX.Element {
             p: 4,
           }}
         >
-          <Typography className="tos-title" variant="h6" component="h2">
-            Terms Of Service
-          </Typography>
+          <div className="tos-header">
+            <Button
+              onClick={() => {
+                setOpen(false);
+                setChecked(false);
+              }}
+            >
+              BACK
+            </Button>
+            <Typography className="tos-title" variant="h6" component="h2">
+              Terms Of Service
+            </Typography>
+          </div>
           <Typography className="tos-description">
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.Duis
             mollis, est non commodo luctus, nisi erat porttitor ligula. Duis
@@ -76,7 +117,7 @@ function TermsOfService(): JSX.Element {
             label="I have read and agree to the Terms of Service"
           />
           <div className="tos-button">
-            <Button onClick={() => setOpen(false)} disabled={!checked}>
+            <Button onClick={handleAgreement} disabled={!checked}>
               CONFIRM
             </Button>
           </div>

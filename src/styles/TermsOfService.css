@@ -1,3 +1,8 @@
+.tos-header {
+  position: relative;
+  display: flex;
+}
+
 .tos-title {
   display: flex;
   justify-content: center;
@@ -12,15 +17,15 @@
 }
 
 .tos-description::-webkit-scrollbar {
-  width: 12px; 
+  width: 12px;
 }
 
 .tos-description::-webkit-scrollbar-thumb {
   background-color: #999;
 }
 
-.tos-button{
-    display: flex;
-    justify-content: right;
-    align-items: center;
+.tos-button {
+  display: flex;
+  justify-content: right;
+  align-items: center;
 }
