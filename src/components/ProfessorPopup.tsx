@@ -13,6 +13,7 @@ import FmdBadIcon from '@mui/icons-material/FmdBad';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import RateMyProfessorButton from './RateMyProfessorButton';
+import { fetchInstructorGPA } from './SearchBar';
 import '../styles/ProfessorPopup.css';
 
 interface professorPopupTooltipProps {
@@ -31,6 +32,8 @@ interface ProfessorInfo {
   avgRating: string;
   numRatings: number;
   wouldTakeAgainPercent: number;
+  avgGPA: number;
+  totalEnrollment: number;
 }
 
 /**
@@ -83,6 +86,8 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     rating: 'N/A', // avgRating
     reviews: 'N/A', // numRatings
     retention: 'N/A', // wouldTakeAgainPercent
+    averageGPA: 'N/A', // avgGPA
+    gpaCount: 'N/A', // totalEnrollment
   });
 
   const [loading, setLoading] = useState(false);
@@ -124,6 +129,12 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         numRatings,
         wouldTakeAgainPercent,
       }: ProfessorInfo = request;
+      const firstName = currentProfessor.split(" ")[0];
+      const lastName = currentProfessor.split(" ").slice(1).join(" ");
+      const { avgGPA, totalEnrollment } = await fetchInstructorGPA(
+        firstName,
+        lastName
+      );
 
       // Throws an error if professor has no ratings on Rate My Professor
       if (wouldTakeAgainPercent < 0) {
@@ -137,6 +148,8 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         rating: avgRating,
         reviews: numRatings.toString(),
         retention: wouldTakeAgainPercent.toString(),
+        averageGPA: avgGPA !== null ? avgGPA.toString() : 'N/A',
+        gpaCount: totalEnrollment !== null ? totalEnrollment.toString() : 'N/A',
       });
 
       setLoading(true); // data finished loading
@@ -203,14 +216,30 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
             <Typography>
               <span className="bold-style">Rating: </span>
               <span className="unbold-style">{professorData.rating}</span>
+              <span className="unbold-style">/5</span>
             </Typography>
             <Typography>
               <span className="bold-style">Difficulty: </span>
               <span className="unbold-style">{professorData.difficulty}</span>
+              <span className="unbold-style">/5</span>
             </Typography>
             <Typography>
               <span className="bold-style">Reviews: </span>
               <span className="unbold-style">{professorData.reviews}</span>
+            </Typography>
+            <Typography>
+              <span className="bold-style">Section GPA: </span>
+              <span className="unbold-style">{professorData.averageGPA}</span>
+              <span className="unbold-style">/4.0</span>
+            </Typography>
+            <Typography>
+              <span className="bold-style">Average GPA: </span>
+              <span className="unbold-style">{professorData.gpaCount}</span>
+              <span className="unbold-style">/4.0</span>
+            </Typography>
+            <Typography>
+              <span className="bold-style">GPA Count: </span>
+              <span className="unbold-style">{professorData.gpaCount}</span>
             </Typography>
             <span className="bold-style">{professorData.retention}% </span>
             <span className="unbold-style">would take again</span>
