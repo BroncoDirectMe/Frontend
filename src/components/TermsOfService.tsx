@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  Box,
-  Button,
-  Modal,
-  Checkbox,
-  FormControlLabel,
-} from '@mui/material';
+import { Alert, Typography, Box, Button, Modal, Checkbox } from '@mui/material';
 import '../styles/TermsOfService.css';
 
 /**
@@ -18,13 +11,17 @@ function TermsOfService(): JSX.Element {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
 
+  const tos =
+    'https://github.com/BroncoDirectMe/Frontend/blob/main/TermsOfService.md';
+
   useEffect(() => {
-    handleAgreementButton();
+    handleAgreementAlert();
   }, []);
 
   const handleOpen = (): void => setOpen(true);
   const handleClose = (): void => setOpen(false);
 
+  // handles checkbox state
   const handleCheck = (): void => {
     if (checked) {
       setChecked(false);
@@ -33,7 +30,8 @@ function TermsOfService(): JSX.Element {
     }
   };
 
-  const handleAgreementButton = (): void => {
+  //
+  const handleAgreementAlert = (): void => {
     chrome.storage.local.get('tosSigned', ({ tosSigned }) => {
       if (tosSigned) {
         setIsAgreed(true);
@@ -54,15 +52,18 @@ function TermsOfService(): JSX.Element {
         console.error(chrome.runtime.lastError);
       }
     });
-    handleAgreementButton();
+    handleAgreementAlert();
   };
 
   return (
     <div>
       {!isAgreed && (
-        <Button variant="outlined" onClick={handleOpen}>
-          TERMS OF SERVICE
-        </Button>
+        <Alert
+          severity="info"
+          action={<Button onClick={handleOpen}>GO</Button>}
+        >
+          Please read the Terms of Service.
+        </Alert>
       )}
       <Modal
         open={open}
@@ -83,39 +84,24 @@ function TermsOfService(): JSX.Element {
             p: 4,
           }}
         >
-          <div className="tos-header">
-            <Button
-              onClick={() => {
-                setOpen(false);
-                setChecked(false);
-              }}
-            >
-              BACK
-            </Button>
-            <Typography className="tos-title" variant="h6" component="h2">
-              Terms Of Service
+          <Button
+            onClick={() => {
+              setOpen(false);
+              setChecked(false);
+            }}
+          >
+            BACK
+          </Button>
+          <div className="tos-checkbox">
+            <Checkbox onChange={handleCheck} />
+            <Typography>
+              By checking this box you have read and accepted{' '}
+              <a href={tos} target="_blank" rel="noopener noreferrer">
+                Terms of Service
+              </a>{' '}
+              of BroncoDirectMe
             </Typography>
           </div>
-          <Typography className="tos-description">
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula. Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula.Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula. Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula.Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula. Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula.Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula. Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula.Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula. Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula.Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula. Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula.Duis
-            mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-          <FormControlLabel
-            control={<Checkbox onChange={handleCheck} />}
-            label="I have read and agree to the Terms of Service"
-          />
           <div className="tos-button">
             <Button onClick={handleAgreement} disabled={!checked}>
               CONFIRM
