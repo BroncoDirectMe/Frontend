@@ -67,7 +67,11 @@ function TermsOfService(): JSX.Element {
       )}
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          handleClose();
+          setOpen(false);
+          setChecked(false);
+        }}
         aria-labelledby="tos-title"
         aria-describedby="tos-description"
       >
@@ -84,18 +88,10 @@ function TermsOfService(): JSX.Element {
             p: 4,
           }}
         >
-          <Button
-            onClick={() => {
-              setOpen(false);
-              setChecked(false);
-            }}
-          >
-            BACK
-          </Button>
           <div className="tos-checkbox">
             <Checkbox onChange={handleCheck} />
             <Typography>
-              By checking this box you have read and accepted{' '}
+              By checking this box you have read and accepted the{' '}
               <a href={tos} target="_blank" rel="noopener noreferrer">
                 Terms of Service
               </a>{' '}
