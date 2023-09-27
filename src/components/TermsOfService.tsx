@@ -91,7 +91,7 @@ function TermsOfService(): JSX.Element {
           <div className="tos-checkbox">
             <Checkbox onChange={handleCheck} />
             <Typography>
-              By checking this box you have read and accepted the{' '}
+              By checking this box, you accept the{' '}
               <a href={tos} target="_blank" rel="noopener noreferrer">
                 Terms of Service
               </a>{' '}
