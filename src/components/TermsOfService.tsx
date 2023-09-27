@@ -23,11 +23,7 @@ function TermsOfService(): JSX.Element {
 
   // handles checkbox state
   const handleCheck = (): void => {
-    if (checked) {
-      setChecked(false);
-    } else {
-      setChecked(true);
-    }
+    setChecked(!checked);
   };
 
   //
