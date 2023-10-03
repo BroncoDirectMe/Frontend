@@ -6,6 +6,7 @@ module.exports = {
     script: './src/Index.tsx',
     content: './src/Content.tsx',
   },
+
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].js',
@@ -24,6 +25,19 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+        ],
+      },
+      {
         test: /\.(js|ts)x?$/,
         exclude: /node_modules/,
         use: {
@@ -33,6 +47,6 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js'], // add .tsx, .ts
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.css'],
   },
 };

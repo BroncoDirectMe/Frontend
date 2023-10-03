@@ -16,5 +16,5 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true
   },
-  "include": ["src", "src/Index.tsx"]
+  "include": ["src", "src/Index.tsx", "types/import-gif.d.ts", "types"]
 }

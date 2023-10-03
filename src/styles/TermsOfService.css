@@ -1,0 +1,11 @@
+.tos-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tos-button {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
