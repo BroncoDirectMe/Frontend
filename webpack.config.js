@@ -6,6 +6,7 @@ module.exports = {
     script: './src/Index.tsx',
     content: './src/Content.tsx',
   },
+
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].js',
