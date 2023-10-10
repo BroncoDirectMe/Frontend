@@ -21,6 +21,7 @@ interface CircularProgressBarProps {
   color: string;
   title: string;
   displayPercentage: boolean;
+  isGPA: boolean;
 }
 
 interface SearchBarProps {
@@ -51,6 +52,7 @@ function CircularProgressBar({
   color,
   title,
   displayPercentage,
+  isGPA,
 }: CircularProgressBarProps): JSX.Element {
   const remainingColor = 'rgba(0, 0, 0, 0.1)';
 
@@ -72,17 +74,32 @@ function CircularProgressBar({
         size={110}
         style={{ color: remainingColor }}
       />
-      <div className="ratings-container">
-        <span id="overall-ratings">
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <span
+          style={{ fontSize: '30px', textAlign: 'center', fontWeight: 'bold' }}
+        >
           {displayPercentage ? (
             <span>
-              <span>{value.toFixed(1)}</span>
-              <span id="percentage">%</span>
+              <span>{value.toFixed(0)}</span>
+              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>%</span>
             </span>
           ) : (
-            <span id="score">
+            <span style={{ fontSize: '30px', fontWeight: 'bold' }}>
               {(value / 20).toFixed(1)}
-              <span id="total">/5</span>
+              <span style={{ fontSize: '15px', fontWeight: 'normal' }}>
+                {isGPA ? '/4.0' : '/5'}
+              </span>
             </span>
           )}
         </span>
@@ -105,12 +122,51 @@ export default function SearchBar({
   const [loading, isLoading] = useState(false);
   const [searchResult, newResult] = useState({
     professorName: 'professor',
+    averageGPA: null as number | null,
     overallRating: 1.0,
     difficulty: 1.0,
     reviewCount: 1,
+    gpaCount: null as number | null,
     retention: 'N/A',
   });
+
   const [profList, setProfList] = useState<ProfessorName[]>([]);
+
+  const fetchInstructorGPA = async (
+    firstName: string,
+    lastName: string
+  ): Promise<{ avgGPA: number | null; totalEnrollment: number | null }> => {
+    const requestData = {
+      InstructorFirst: firstName,
+      InstructorLast: lastName,
+    };
+
+    try {
+      const response = await fetch(
+        'https://cpp-scheduler.herokuapp.com/data/instructors/find',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          avgGPA: data[0].AvgGPA,
+          totalEnrollment: data[0].TotalEnrollment,
+        };
+      } else {
+        console.error('Failed to fetch GPA data');
+        return { avgGPA: 0.0, totalEnrollment: 0 };
+      }
+    } catch (error) {
+      return { avgGPA: 0.0, totalEnrollment: 0 };
+    }
+  };
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -177,12 +233,18 @@ export default function SearchBar({
                     numRatings,
                     wouldTakeAgainPercent,
                   } = await request.json();
+                  const { avgGPA, totalEnrollment } = await fetchInstructorGPA(
+                    firstName,
+                    lastName
+                  );
                   newResult({
                     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                     professorName: `${firstName} ${lastName}`,
+                    averageGPA: avgGPA,
                     overallRating: avgRating,
                     difficulty: avgDifficulty,
                     reviewCount: numRatings,
+                    gpaCount: totalEnrollment,
                     retention:
                       wouldTakeAgainPercent >= 0
                         ? wouldTakeAgainPercent.toString()
@@ -215,57 +277,110 @@ export default function SearchBar({
             {searchResult.professorName}
             <RateMyProfessorButton professorName={searchResult.professorName} />
           </h2>
-          <div className="overall-circle-align">
-            <CircularProgressBar
-              value={searchResult.overallRating * 20}
-              color={
-                searchResult.overallRating < 5 / 3
-                  ? 'red'
-                  : searchResult.overallRating < 10 / 3
-                  ? 'blue'
-                  : 'green'
-              }
-              title={`Rating`}
-              displayPercentage={false}
-            />
-            <div className="spacing-inbetween" /> {/* empty div with a width */}
-            <CircularProgressBar
-              value={searchResult.difficulty * 20}
-              color={
-                searchResult.difficulty < 5 / 3
-                  ? 'green'
-                  : searchResult.difficulty < 10 / 3
-                  ? 'blue'
-                  : 'red'
-              }
-              title={`Difficulty`}
-              displayPercentage={false}
-            />
-            <div className="spacing-inbetween" /> {/* empty div with a width */}
-            <CircularProgressBar
-              value={
-                searchResult.retention === 'N/A'
-                  ? 0
-                  : parseInt(searchResult.retention)
-              }
-              color={
-                parseInt(searchResult.retention) < 50
-                  ? 'red'
-                  : parseInt(searchResult.retention) < 80
-                  ? 'blue'
-                  : 'green'
-              }
-              title={
-                searchResult.retention === 'N/A' ? 'N/A' : `Would\u00a0Retake`
-              }
-              displayPercentage={true}
-            />
+          {/* Professor details and information */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <div style={{ display: 'flex', marginBottom: '20px' }}>
+              {/* Rating progress bar */}
+              <CircularProgressBar
+                value={searchResult.overallRating * 20}
+                color={
+                  searchResult.overallRating < 5 / 3
+                    ? 'red'
+                    : searchResult.overallRating < 10 / 3
+                    ? 'blue'
+                    : 'green'
+                }
+                title={`Rating`}
+                displayPercentage={false}
+                isGPA={false}
+              />
+              <div style={{ width: '40px' }} />{' '}
+              {/* spacing between progress bars */}
+              {/* Difficulty progress bar */}
+              <CircularProgressBar
+                value={searchResult.difficulty * 20}
+                color={
+                  searchResult.difficulty < 5 / 3
+                    ? 'green'
+                    : searchResult.difficulty < 10 / 3
+                    ? 'blue'
+                    : 'red'
+                }
+                title={`Difficulty`}
+                displayPercentage={false}
+                isGPA={false}
+              />
+            </div>
+            <div style={{ height: '30px' }} />{' '}
+            {/* vertical spacing between progress bar rows */}
+            <div style={{ display: 'flex' }}>
+              {/* Avg. GPA progress bar */}
+              <CircularProgressBar
+                value={
+                  searchResult.averageGPA ? searchResult.averageGPA * 20 : 0
+                }
+                color={
+                  searchResult.averageGPA === null
+                    ? 'gray' // Use a suitable color for null value
+                    : searchResult.averageGPA < 3 && searchResult.averageGPA > 2
+                    ? 'blue'
+                    : searchResult.averageGPA < 2
+                    ? 'red'
+                    : 'green'
+                }
+                title={`Average\u00a0GPA`}
+                displayPercentage={false}
+                isGPA={true}
+              />
+              <div style={{ width: '40px' }} />{' '}
+              {/* spacing between progress bars */}
+              {/* Retention progress bar */}
+              <CircularProgressBar
+                value={
+                  searchResult.retention === 'N/A'
+                    ? 0
+                    : parseInt(searchResult.retention)
+                }
+                color={
+                  parseInt(searchResult.retention) < 50
+                    ? 'red'
+                    : parseInt(searchResult.retention) < 80
+                    ? 'blue'
+                    : 'green'
+                }
+                title={
+                  searchResult.retention === 'N/A' ? 'N/A' : `Would\u00a0Retake`
+                }
+                displayPercentage={true}
+                isGPA={false}
+              />
+            </div>
           </div>
-          <div id="number-of-reviews">
-            <span>{searchResult.reviewCount} total reviews</span>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              fontSize: '16px',
+              color: '#A3A3A3',
+              marginBottom: '35px',
+              paddingTop: '55px',
+            }}
+          >
+            <span>
+              {searchResult.reviewCount} total reviews, {searchResult.gpaCount}{' '}
+              total grades
+            </span>
           </div>
         </section>
       )}
+
       {!hasResult && (
         <div id="noResult">
           <h3>{"Sorry, we couldn't find any results for your search."}</h3>
