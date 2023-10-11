@@ -7,8 +7,10 @@ import { msalInstance, MicrosoftOAuth } from './components/MicrosoftOath';
 import { Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Panel } from './components/panel_component';
+import DegreeProgressBar from './components/DegreeProgressBar';
 import './styles/App.css';
 import UpdateAlert from './components/UpdateAlert';
+import TermsOfService from './components/TermsOfService';
 
 /**
  * @returns Main app component
@@ -24,6 +26,7 @@ export function App(): ReactElement {
         {!isPanelOpen && (
           <section>
             <UpdateAlert />
+            <TermsOfService />
             <div id="errorElm"></div>
             <Box id="mainContent">
               <h1>BroncoDirectMe Search</h1>
@@ -41,10 +44,10 @@ export function App(): ReactElement {
             </Box>
             <SearchBar settingBarState={isSettingsButtonOpen} />
             {/* <MicrosoftOAuth /> */}
+            <DegreeProgressBar />
           </section>
         )}
         {/* Hides main app components when setting panel opens */}
-
         <Panel
           title={'Settings'}
           isOpen={isPanelOpen}
