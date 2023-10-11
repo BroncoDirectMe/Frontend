@@ -13,7 +13,7 @@ import FmdBadIcon from '@mui/icons-material/FmdBad';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import RateMyProfessorButton from './RateMyProfessorButton';
-import { fetchInstructorGPA } from './SearchBar';
+import {fetchInstructorGPA} from './SearchBar';
 import '../styles/ProfessorPopup.css';
 
 interface professorPopupTooltipProps {
