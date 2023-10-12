@@ -3,9 +3,11 @@ import {
   Autocomplete,
   createFilterOptions,
   CircularProgress,
+  Typography,
 } from '@mui/material';
 import React, { CSSProperties, useState, useEffect } from 'react';
 import RateMyProfessorButton from './RateMyProfessorButton';
+import ReportMissingProfesor from './ReportMissingProfessor';
 import '../styles/SearchBar.css';
 
 let searchView: CSSProperties = {
@@ -267,9 +269,14 @@ export default function SearchBar({
         </section>
       )}
       {!hasResult && (
-        <div id="noResult">
-          <h3>{"Sorry, we couldn't find any results for your search."}</h3>
-        </div>
+        <>
+          <div id="noResult">
+            <Typography fontWeight="bold" fontSize="15px">
+              {"Sorry, we couldn't find any results for your search."}
+            </Typography>
+          </div>
+          <ReportMissingProfesor />
+        </>
       )}
       {/* Conditional React rendering for result and no result */}
     </div>
