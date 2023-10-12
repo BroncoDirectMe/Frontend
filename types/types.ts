@@ -15,3 +15,9 @@ export interface CourseSec {
   $Select: boolean;
   _idx: number;
 }
+export interface courseStatus {
+  courses: Record<string, number>;
+  taken: number;
+  enrolled: number;
+  needed: number;
+}

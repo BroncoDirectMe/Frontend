@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     script: './src/Index.tsx',
     content: './src/Content.tsx',
+    dpr: './src/DegreeProgressReport.tsx',
   },
   output: {
     path: path.resolve(__dirname, './dist'),

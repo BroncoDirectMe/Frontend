@@ -10,6 +10,11 @@ import { Panel } from './components/panel_component';
 import './styles/App.css';
 import UpdateAlert from './components/UpdateAlert';
 
+
+const OpenDPRPage = (): void => {
+  void chrome.tabs.create({ url: 'DegreeProgressReport.html' });
+};
+
 /**
  * @returns Main app component
  */
@@ -40,6 +45,11 @@ export function App(): ReactElement {
               )}
             </Box>
             <SearchBar settingBarState={isSettingsButtonOpen} />
+            <button
+            onClick={OpenDPRPage}>
+              Test
+            </button>
+              
             {/* <MicrosoftOAuth /> */}
           </section>
         )}

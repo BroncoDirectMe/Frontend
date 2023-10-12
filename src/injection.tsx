@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import TableRedesign from './components/TableRedesign/TableRedesign';
+import { courseStatus } from '../types/types';
 
 type pageMappingType = Record<string, (doc: Document) => void>;
 export const pageMapping: pageMappingType = {
@@ -23,19 +24,12 @@ function classSearchInject(doc: Document): void {
   createRoot(rootInjection).render(<TableRedesign courseHTML={classRows} />);
 }
 
-interface courseListType {
-  courses: Record<string, number>;
-  taken: number;
-  enrolled: number;
-  needed: number;
-}
-
 /**
  * Function to inject into Degree Progress Report
  * @param doc Root Document to inject into
  */
 function degreeProgressInject(doc: Document): void {
-  const major: courseListType = {
+  const major: courseStatus = {
     courses: {},
     taken: 0,
     enrolled: 0,
@@ -63,6 +57,6 @@ function degreeProgressInject(doc: Document): void {
 
     major.courses[course[0]] = status;
   });
-
+  console.log(major);
   chrome.storage.local.set({ major }).catch((err: Error) => console.error(err));
 }
