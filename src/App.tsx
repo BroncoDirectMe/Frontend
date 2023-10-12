@@ -10,11 +10,6 @@ import { Panel } from './components/panel_component';
 import './styles/App.css';
 import UpdateAlert from './components/UpdateAlert';
 
-
-const OpenDPRPage = (): void => {
-  void chrome.tabs.create({ url: 'DegreeProgressReport.html' });
-};
-
 /**
  * @returns Main app component
  */
@@ -22,6 +17,10 @@ export function App(): ReactElement {
   const [isPanelOpen, setPanelState] = React.useState(false);
   const togglePanel = (): void => setPanelState(!isPanelOpen);
   const [isSettingsButtonOpen, setSettingsButtonState] = React.useState(true);
+
+  const openDPRPage = (): void => {
+    void chrome.tabs.create({ url: 'DegreeProgressReport.html' });
+  };
 
   return (
     <MsalProvider instance={msalInstance}>
@@ -45,11 +44,8 @@ export function App(): ReactElement {
               )}
             </Box>
             <SearchBar settingBarState={isSettingsButtonOpen} />
-            <button
-            onClick={OpenDPRPage}>
-              Test
-            </button>
-              
+            <button onClick={openDPRPage}>Open DPR Page</button>
+
             {/* <MicrosoftOAuth /> */}
           </section>
         )}
