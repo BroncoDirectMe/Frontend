@@ -29,10 +29,12 @@ interface CustomTextFieldProps {
 
 /**
  * Missing professor report component constructor
- * @param openForm - Open form if boolean value is true
+ * @param props.openForm - Open form if boolean value is true
  * @returns {JSX.Element} - Missing professor report component
  */
-export default function ReportMissingProfesor(props: { openForm: boolean }) {
+export default function ReportMissingProfesor(props: {
+  openForm: boolean;
+}): JSX.Element {
   const [reportState, setReportState] = useState(false);
   const [submitState, setSubmitState] = useState(false);
 
@@ -47,10 +49,10 @@ export default function ReportMissingProfesor(props: { openForm: boolean }) {
 
   /**
    * Error icon pop up component constructor
-   * @param title - Tooltip's title
+   * @param props.title - Tooltip's title
    * @returns {JSX.Element} - Error icon component
    */
-  const InvalidError = (props: { title: string }) => {
+  const InvalidError = (props: { title: string }): JSX.Element => {
     return (
       <Tooltip title={props.title}>
         <ErrorIcon color="error" />
@@ -63,7 +65,7 @@ export default function ReportMissingProfesor(props: { openForm: boolean }) {
    * @param {CustomTextFieldProps} props - The props object containing custom text field's args
    * @returns {JSX.Element} - Custom text field component
    */
-  const CustomTextField = (props: CustomTextFieldProps) => {
+  const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
     const [text, setText] = useState(props.text);
 
     function handleTextChange(event: any) {
@@ -97,7 +99,7 @@ export default function ReportMissingProfesor(props: { openForm: boolean }) {
    * Text field form component constructor
    * @returns {JSX.Element} - Text field form component
    */
-  const TextFieldForm = () => {
+  const TextFieldForm = (): JSX.Element => {
     const {
       handleSubmit,
       register,
@@ -150,7 +152,7 @@ export default function ReportMissingProfesor(props: { openForm: boolean }) {
    * Missing professor form component constructor
    * @returns {JSX.Element} - Missing professor form component
    */
-  const MissingProfessorForm = () => {
+  const MissingProfessorForm = (): JSX.Element => {
     return (
       <Modal open={reportState} id="modal-form">
         <Grid container id="modal-form-container">
