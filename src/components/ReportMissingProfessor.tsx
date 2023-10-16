@@ -73,7 +73,6 @@ export default function ReportMissingProfesor(props: {
     /**
      * Helper function to limit text's length
      * @param event event parameter
-     * @returns nothing
      */
     function handleTextChange(event: any): void {
       if (event.target.value.length > 40) return;
@@ -116,9 +115,11 @@ export default function ReportMissingProfesor(props: {
       <Grid item container xs={12} id="form-container">
         <form
           onSubmit={handleSubmit((data) => {
-            console.log(data);
-            setReportState(false);
-            setSubmitState(true);
+            void (async () => {
+              console.log(data);
+              setReportState(false);
+              setSubmitState(true);
+            });
           })}
         >
           <Grid item container id="form-component-container">
