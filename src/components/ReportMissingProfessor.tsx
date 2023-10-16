@@ -29,6 +29,7 @@ interface CustomTextFieldProps {
 
 /**
  * Missing professor report component constructor
+ * @param props - properties
  * @param props.openForm - Open form if boolean value is true
  * @returns {JSX.Element} - Missing professor report component
  */
@@ -38,17 +39,18 @@ export default function ReportMissingProfesor(props: {
   const [reportState, setReportState] = useState(false);
   const [submitState, setSubmitState] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (): void => {
     setReportState(true);
     if (!props.openForm) setSubmitState(true);
   };
 
-  const handleOnCancel = () => {
+  const handleOnCancel = (): void => {
     setReportState(false);
   };
 
   /**
    * Error icon pop up component constructor
+   * @param props - properties
    * @param props.title - Tooltip's title
    * @returns {JSX.Element} - Error icon component
    */
@@ -68,7 +70,12 @@ export default function ReportMissingProfesor(props: {
   const CustomTextField = (props: CustomTextFieldProps): JSX.Element => {
     const [text, setText] = useState(props.text);
 
-    function handleTextChange(event: any) {
+    /**
+     * Helper function to limit text's length
+     * @param event event parameter
+     * @returns nothing
+     */
+    function handleTextChange(event: any): void {
       if (event.target.value.length > 40) return;
       setText(event.target.value);
     }
