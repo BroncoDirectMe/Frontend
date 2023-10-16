@@ -33,7 +33,7 @@ interface ProfessorInfo {
   wouldTakeAgainPercent: number;
   avgGPA: number;
   totalEnrollment: number;
-  sectionAvgGPA: number;
+  // sectionAvgGPA: number;
 }
 
 /**
@@ -78,53 +78,44 @@ async function professorRequest(
 export const fetchInstructorAndSectionGPA = async (
   firstName: string,
   lastName: string
-): Promise<{ avgGPA: number | null; totalEnrollment: number | null; sectionAvgGPA: number | null }> => {
-  const instructorData = {
+): Promise<{ avgGPA: number | null; totalEnrollment: number | null }> => {
+  const requestData = {
     InstructorFirst: firstName,
     InstructorLast: lastName,
   };
 
   try {
-    // Fetch instructor data
-    const instructorResponse = await fetch(
+    const response = await fetch(
       'https://cpp-scheduler.herokuapp.com/data/instructors/find',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(instructorData),
+        body: JSON.stringify(requestData),
       }
     );
 
-    // Fetch section data for average section GPA
-    const sectionResponse = await fetch(
-      'https://cpp-scheduler.herokuapp.com/data/sections/find',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(instructorData),
-      }
-    );
-
-    if (instructorResponse.ok && sectionResponse.ok) {
-      const instructorData = await instructorResponse.json();
-      const sectionData = await sectionResponse.json();
-
+    if (response.ok) {
+      const data = await response.json();
+      console.log("working")
+      console.log("avg gpa data type: ")
+      // console.log(typeof data[0].AvgGPA);
+      console.log("data: ")
+      console.log(data)
+      // console.log("Avg gpa: " + data[0].AvgGPA)
       return {
-        avgGPA: instructorData[0].AvgGPA,
-        totalEnrollment: instructorData[0].TotalEnrollment, 
-        sectionAvgGPA: sectionData[0].AvgGPA,
+        avgGPA: data[0].AvgGPA,
+        totalEnrollment: data[0].TotalEnrollment,
       };
     } else {
       console.log('Failed to fetch GPA data');
-      return { avgGPA: 0.0, totalEnrollment: 0, sectionAvgGPA: 0.0 };
+      return { avgGPA: 0.0, totalEnrollment: 0 };
     }
   } catch (error) {
+    console.log("not working");
     console.log(error);
-    return { avgGPA: 0.0, totalEnrollment: 0, sectionAvgGPA: 0.0 };
+    return { avgGPA: 0.0, totalEnrollment: 0 };
   }
 };
 
@@ -141,7 +132,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     retention: 'N/A', // wouldTakeAgainPercent
     averageGPA: 'N/A', // avgGPA
     gpaCount: 'N/A', // totalEnrollment
-    sectionAverageGPA: 'N/A', // sectionAvgGPA
+    // sectionAverageGPA: 'N/A', // sectionAvgGPA
   });
 
   const [loading, setLoading] = useState(false);
@@ -183,9 +174,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         numRatings,
         wouldTakeAgainPercent,
       }: ProfessorInfo = request;
-      const firstName = currentProfessor.split(" ")[0];
-      const lastName = currentProfessor.split(" ").slice(1).join(" ");
-      const { avgGPA, totalEnrollment, sectionAvgGPA } = await fetchInstructorAndSectionGPA(
+      const firstName = selectedProf.split(" ")[0];
+      const lastName = selectedProf.split(" ").slice(1).join(" ");
+      const { avgGPA, totalEnrollment /*, sectionAvgGPA */}= await fetchInstructorAndSectionGPA(
         firstName,
         lastName
       );
@@ -203,8 +194,8 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         reviews: numRatings.toString(),
         retention: wouldTakeAgainPercent.toString(),
         averageGPA: avgGPA !== null ? avgGPA.toString() : 'N/A',
-        gpaCount: totalEnrollment !== null ? totalEnrollment.toString() : 'N/A',
-        sectionAverageGPA: sectionAvgGPA != null ? sectionAvgGPA.toString() : 'N/A',
+        gpaCount: totalEnrollment != null ? totalEnrollment.toString() : 'N/A',
+        // sectionAverageGPA: sectionAvgGPA != null ? sectionAvgGPA.toString() : 'N/A',
       });
 
       setLoading(true); // data finished loading
@@ -284,13 +275,13 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
             </Typography>
             <Typography>
               <span className="bold-style">Average GPA: </span>
-              <span className="unbold-style">{professorData.gpaCount}</span>
-              <span className="unbold-style">/4.0</span>
+              <span className="unbold-style">{parseFloat(professorData.averageGPA).toFixed(2)}</span>
+              <span className="unbold-style">/4.00</span>
             </Typography>
             <Typography>
               <span className="bold-style">Section GPA: </span>
               <span className="unbold-style">{professorData.averageGPA}</span>
-              <span className="unbold-style">/4.0</span>
+              <span className="unbold-style">/4.00</span>
             </Typography>
             <Typography>
               <span className="bold-style">GPA Count: </span>
