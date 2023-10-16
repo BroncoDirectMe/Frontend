@@ -13,7 +13,6 @@ import FmdBadIcon from '@mui/icons-material/FmdBad';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import RateMyProfessorButton from './RateMyProfessorButton';
-import {fetchInstructorGPA} from './SearchBar';
 import '../styles/ProfessorPopup.css';
 
 interface professorPopupTooltipProps {
@@ -34,6 +33,7 @@ interface ProfessorInfo {
   wouldTakeAgainPercent: number;
   avgGPA: number;
   totalEnrollment: number;
+  sectionAvgGPA: number;
 }
 
 /**
@@ -75,6 +75,59 @@ async function professorRequest(
   return await request.json();
 }
 
+export const fetchInstructorAndSectionGPA = async (
+  firstName: string,
+  lastName: string
+): Promise<{ avgGPA: number | null; totalEnrollment: number | null; sectionAvgGPA: number | null }> => {
+  const instructorData = {
+    InstructorFirst: firstName,
+    InstructorLast: lastName,
+  };
+
+  try {
+    // Fetch instructor data
+    const instructorResponse = await fetch(
+      'https://cpp-scheduler.herokuapp.com/data/instructors/find',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(instructorData),
+      }
+    );
+
+    // Fetch section data for average section GPA
+    const sectionResponse = await fetch(
+      'https://cpp-scheduler.herokuapp.com/data/sections/find',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(instructorData),
+      }
+    );
+
+    if (instructorResponse.ok && sectionResponse.ok) {
+      const instructorData = await instructorResponse.json();
+      const sectionData = await sectionResponse.json();
+
+      return {
+        avgGPA: instructorData[0].AvgGPA,
+        totalEnrollment: instructorData[0].TotalEnrollment, 
+        sectionAvgGPA: sectionData[0].AvgGPA,
+      };
+    } else {
+      console.log('Failed to fetch GPA data');
+      return { avgGPA: 0.0, totalEnrollment: 0, sectionAvgGPA: 0.0 };
+    }
+  } catch (error) {
+    console.log(error);
+    return { avgGPA: 0.0, totalEnrollment: 0, sectionAvgGPA: 0.0 };
+  }
+};
+
 /**
  * Component that shows the info inside the popup
  * @param props See professorPopupTooltipProps interface (control click) to see parameters
@@ -88,6 +141,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     retention: 'N/A', // wouldTakeAgainPercent
     averageGPA: 'N/A', // avgGPA
     gpaCount: 'N/A', // totalEnrollment
+    sectionAverageGPA: 'N/A', // sectionAvgGPA
   });
 
   const [loading, setLoading] = useState(false);
@@ -131,7 +185,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       }: ProfessorInfo = request;
       const firstName = currentProfessor.split(" ")[0];
       const lastName = currentProfessor.split(" ").slice(1).join(" ");
-      const { avgGPA, totalEnrollment } = await fetchInstructorGPA(
+      const { avgGPA, totalEnrollment, sectionAvgGPA } = await fetchInstructorAndSectionGPA(
         firstName,
         lastName
       );
@@ -150,6 +204,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         retention: wouldTakeAgainPercent.toString(),
         averageGPA: avgGPA !== null ? avgGPA.toString() : 'N/A',
         gpaCount: totalEnrollment !== null ? totalEnrollment.toString() : 'N/A',
+        sectionAverageGPA: sectionAvgGPA != null ? sectionAvgGPA.toString() : 'N/A',
       });
 
       setLoading(true); // data finished loading
@@ -228,13 +283,13 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
               <span className="unbold-style">{professorData.reviews}</span>
             </Typography>
             <Typography>
-              <span className="bold-style">Section GPA: </span>
-              <span className="unbold-style">{professorData.averageGPA}</span>
+              <span className="bold-style">Average GPA: </span>
+              <span className="unbold-style">{professorData.gpaCount}</span>
               <span className="unbold-style">/4.0</span>
             </Typography>
             <Typography>
-              <span className="bold-style">Average GPA: </span>
-              <span className="unbold-style">{professorData.gpaCount}</span>
+              <span className="bold-style">Section GPA: </span>
+              <span className="unbold-style">{professorData.averageGPA}</span>
               <span className="unbold-style">/4.0</span>
             </Typography>
             <Typography>
