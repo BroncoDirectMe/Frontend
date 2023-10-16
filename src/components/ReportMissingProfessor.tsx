@@ -115,11 +115,9 @@ export default function ReportMissingProfesor(props: {
       <Grid item container xs={12} id="form-container">
         <form
           onSubmit={handleSubmit((data) => {
-            void (async () => {
-              console.log(data);
-              setReportState(false);
-              setSubmitState(true);
-            });
+            console.log(data);
+            setReportState(false);
+            setSubmitState(true);
           })}
         >
           <Grid item container id="form-component-container">

@@ -224,7 +224,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
             <FmdBadIcon id="error-icon" />
             <Typography id="error-message">{errorMessage}</Typography>
             {errorMessage.includes('does not have') && (
-              <ReportMissingProfesor openForm={false} />
+              <ReportMissingProfesor openForm={true} />
             )}
           </div>
         )}
