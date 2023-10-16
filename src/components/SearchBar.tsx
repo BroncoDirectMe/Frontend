@@ -275,7 +275,7 @@ export default function SearchBar({
               {"Sorry, we couldn't find any results for your search."}
             </Typography>
           </div>
-          <ReportMissingProfesor />
+          <ReportMissingProfesor openForm={true} />
         </>
       )}
       {/* Conditional React rendering for result and no result */}

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useForm, UseFormRegister, FieldError } from 'react-hook-form';
+import ErrorIcon from '@mui/icons-material/Error';
 
 import {
   Grid,
@@ -6,92 +8,152 @@ import {
   Button,
   TextField,
   Modal,
-  FormControl,
+  Tooltip,
 } from '@mui/material';
+import '../styles/ReportMissingProfessor.css';
 
-export default function ReportMissingProfesor() {
+interface IFormInputs {
+  name: string;
+  department: string;
+}
+
+interface CustomTextFieldProps {
+  label: string;
+  text: string;
+  placeholder: string;
+  register: UseFormRegister<IFormInputs>;
+  title: string;
+  errorField: FieldError | undefined;
+  fieldName: 'name' | 'department';
+}
+
+/**
+ * Missing professor report component constructor
+ * @param openForm - Open form if boolean value is true
+ * @returns {JSX.Element} - Missing professor report component
+ */
+export default function ReportMissingProfesor(props: { openForm: boolean }) {
   const [reportState, setReportState] = useState(false);
+  const [submitState, setSubmitState] = useState(false);
 
   const handleButtonClick = () => {
     setReportState(true);
-  };
-
-  const handleOnSubmit = () => {
-    setReportState(false);
+    if (!props.openForm) setSubmitState(true);
   };
 
   const handleOnCancel = () => {
     setReportState(false);
   };
 
-  const TextFieldBox = (props: {
-    label: string;
-    placeholder: string;
-    text: string;
-    charLimit: number;
-  }) => {
+  /**
+   * Error icon pop up component constructor
+   * @param title - Tooltip's title
+   * @returns {JSX.Element} - Error icon component
+   */
+  const InvalidError = (props: { title: string }) => {
     return (
-      <FormControl required fullWidth>
-        <TextField
-          variant="outlined"
-          label={props.label}
-          placeholder={props.placeholder}
-        >
-          {props.text}
-        </TextField>
-      </FormControl>
+      <Tooltip title={props.title}>
+        <ErrorIcon color="error" />
+      </Tooltip>
     );
   };
 
-  const TextFieldForm = () => {
+  /**
+   * Custom text field component constructor
+   * @param {CustomTextFieldProps} props - The props object containing custom text field's args
+   * @returns {JSX.Element} - Custom text field component
+   */
+  const CustomTextField = (props: CustomTextFieldProps) => {
+    const [text, setText] = useState(props.text);
+
+    function handleTextChange(event: any) {
+      if (event.target.value.length > 40) return;
+      setText(event.target.value);
+    }
+
     return (
-      <Grid item container xs={12} margin="10px 15px 0px 15px">
-        <Grid item container justifyContent="center" xs={12}>
-          <Typography fontWeight="bold" fontSize="17px">
-            Missing Professor Report
-          </Typography>
-        </Grid>
+      <TextField
+        fullWidth
+        value={text}
+        placeholder={props.placeholder}
+        label={props.label}
+        {...props.register(props.fieldName, {
+          required: true,
+          onChange: (e) => {
+            handleTextChange(e);
+          },
+        })}
+        {...(props.errorField && {
+          color: 'error',
+          InputProps: {
+            endAdornment: <InvalidError title={props.title + ' is required'} />,
+          },
+        })}
+      />
+    );
+  };
 
-        <Grid item container gap="10px" justifyContent="right">
-          <TextFieldBox
-            label="Name"
-            placeholder="Enter professor's name"
-            text=""
-            charLimit={40}
-          />
-          <TextFieldBox
-            label="Course/Major"
-            placeholder="Enter course's name and number"
-            text=""
-            charLimit={40}
-          />
-        </Grid>
-
-        <Grid item container xs={12} justifyContent="right" mb="5px">
-          <Button onClick={handleOnCancel}>Cancel</Button>
-          <Button onClick={handleOnSubmit}>Submit</Button>
-        </Grid>
+  /**
+   * Text field form component constructor
+   * @returns {JSX.Element} - Text field form component
+   */
+  const TextFieldForm = () => {
+    const {
+      handleSubmit,
+      register,
+      formState: { errors },
+    } = useForm<IFormInputs>();
+    return (
+      <Grid item container xs={12} id="form-container">
+        <form
+          onSubmit={handleSubmit((data) => {
+            console.log(data);
+            setReportState(false);
+            setSubmitState(true);
+          })}
+        >
+          <Grid item container id="form-component-container">
+            <Grid item container xs={12} id="form-header-container">
+              <Typography fontWeight="bold" fontSize="17px">
+                Missing Professor Report
+              </Typography>
+            </Grid>
+            <CustomTextField
+              label="Name*"
+              text=""
+              placeholder="Enter professor's name"
+              register={register}
+              title="Name"
+              errorField={errors.name}
+              fieldName="name"
+            />
+            <CustomTextField
+              label="Department*"
+              text=""
+              placeholder="Enter professor's department"
+              register={register}
+              title="Department"
+              errorField={errors.department}
+              fieldName="department"
+            />
+            <Grid item container xs={12} id="form-button-container">
+              <Button onClick={handleOnCancel}>Cancel</Button>
+              <Button type="submit">Submit</Button>
+            </Grid>
+          </Grid>
+        </form>
       </Grid>
     );
   };
 
+  /**
+   * Missing professor form component constructor
+   * @returns {JSX.Element} - Missing professor form component
+   */
   const MissingProfessorForm = () => {
     return (
-      <Modal
-        open={reportState}
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Grid
-          container
-          width="375px"
-          height="225px"
-          bgcolor="white"
-          borderRadius="10px"
-        >
+      <Modal open={reportState} id="modal-form">
+        <Grid container id="modal-form-container">
           <TextFieldForm />
         </Grid>
       </Modal>
@@ -99,11 +161,17 @@ export default function ReportMissingProfesor() {
   };
 
   return (
-    <Grid container alignItems="center" justifyContent="center">
-      <Button onClick={handleButtonClick}>
-        <Typography fontSize="13px"> Report Missing Professor </Typography>
-      </Button>
-      <MissingProfessorForm />
+    <Grid container id="button-container">
+      {submitState ? (
+        <Typography fontSize="15px" fontWeight="bold" color="#3cb043">
+          Missing Professor Report submitted!
+        </Typography>
+      ) : (
+        <Button onClick={handleButtonClick} id="button">
+          <Typography fontSize="13px"> Report Missing Professor </Typography>
+        </Button>
+      )}
+      {props.openForm && <MissingProfessorForm />}
     </Grid>
   );
 }

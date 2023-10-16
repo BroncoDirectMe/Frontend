@@ -13,6 +13,7 @@ import FmdBadIcon from '@mui/icons-material/FmdBad';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import RateMyProfessorButton from './RateMyProfessorButton';
+import ReportMissingProfesor from './ReportMissingProfessor';
 import '../styles/ProfessorPopup.css';
 
 interface professorPopupTooltipProps {
@@ -222,6 +223,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
           <div className="error center-items">
             <FmdBadIcon id="error-icon" />
             <Typography id="error-message">{errorMessage}</Typography>
+            {errorMessage.includes('does not have') && (
+              <ReportMissingProfesor openForm={false} />
+            )}
           </div>
         )}
 
