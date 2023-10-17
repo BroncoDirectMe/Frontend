@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   ClickAwayListener,
   Divider,
@@ -6,7 +7,6 @@ import {
   IconButton,
   Button,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CloseIcon from '@mui/icons-material/Close';
 import FmdBadIcon from '@mui/icons-material/FmdBad';
@@ -17,6 +17,7 @@ import '../styles/ProfessorPopup.css';
 
 interface professorPopupTooltipProps {
   professorName: string;
+  Course?: string;
   open?: boolean;
   handleTooltipOpen?:
     | ((event: Event | React.SyntheticEvent<Element, Event>) => void)
@@ -78,7 +79,11 @@ async function professorRequest(
 export const fetchInstructorAndSectionGPA = async (
   firstName: string,
   lastName: string
-): Promise<{ avgGPA: number | null; totalEnrollment: number | null; classAvgGPA: number | null }> => {
+): Promise<{
+  avgGPA: number | null;
+  totalEnrollment: number | null;
+  classAvgGPA: number | null;
+}> => {
   const requestData = {
     InstructorFirst: firstName,
     InstructorLast: lastName,
@@ -98,11 +103,11 @@ export const fetchInstructorAndSectionGPA = async (
 
     if (response.ok) {
       const data = await response.json();
-      console.log("working")
-      console.log("avg gpa data type: ")
+      console.log('working');
+      console.log('avg gpa data type: ');
       // console.log(typeof data[0].AvgGPA);
-      console.log("data: ")
-      console.log(data)
+      console.log('data: ');
+      console.log(data);
       // console.log("Avg gpa: " + data[0].AvgGPA)
       return {
         avgGPA: data[0].AvgGPA,
@@ -111,12 +116,12 @@ export const fetchInstructorAndSectionGPA = async (
       };
     } else {
       console.log('Failed to fetch GPA data');
-      return { avgGPA: 0.0, totalEnrollment: 0, classAvgGPA: 0.0};
+      return { avgGPA: 0.0, totalEnrollment: 0, classAvgGPA: 0.0 };
     }
   } catch (error) {
-    console.log("not working");
+    console.log('not working');
     console.log(error);
-    return { avgGPA: 0.0, totalEnrollment: 0, classAvgGPA: 0.0};
+    return { avgGPA: 0.0, totalEnrollment: 0, classAvgGPA: 0.0 };
   }
 };
 
@@ -175,12 +180,10 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         numRatings,
         wouldTakeAgainPercent,
       }: ProfessorInfo = request;
-      const firstName = selectedProf.split(" ")[0];
-      const lastName = selectedProf.split(" ").slice(1).join(" ");
-      const { avgGPA, totalEnrollment, classAvgGPA}= await fetchInstructorAndSectionGPA(
-        firstName,
-        lastName
-      );
+      const firstName = selectedProf.split(' ')[0];
+      const lastName = selectedProf.split(' ').slice(1).join(' ');
+      const { avgGPA, totalEnrollment, classAvgGPA } =
+        await fetchInstructorAndSectionGPA(firstName, lastName);
 
       // Throws an error if professor has no ratings on Rate My Professor
       if (wouldTakeAgainPercent < 0) {
@@ -196,7 +199,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         retention: wouldTakeAgainPercent.toString(),
         averageGPA: avgGPA !== null ? avgGPA.toString() : 'N/A',
         gpaCount: totalEnrollment != null ? totalEnrollment.toString() : 'N/A',
-        classAverageGPA: classAvgGPA != null ? classAvgGPA.toString(): 'N/A'
+        classAverageGPA: classAvgGPA != null ? classAvgGPA.toString() : 'N/A',
       });
 
       setLoading(true); // data finished loading
@@ -276,7 +279,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
             </Typography>
             <Typography>
               <span className="bold-style">Average GPA: </span>
-              <span className="unbold-style">{parseFloat(professorData.averageGPA).toFixed(2)}</span>
+              <span className="unbold-style">
+                {parseFloat(professorData.averageGPA).toFixed(2)}
+              </span>
               <span className="unbold-style">/4.00</span>
             </Typography>
             <Typography>
@@ -369,7 +374,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
  * @param props.professorName Professor Name from RateMyProfessor
  * @returns Div containing the professor popup element
  */
-export function ProfessorPopup(props: { professorName: string }): JSX.Element {
+export function ProfessorPopup({professorName, Course }: professorPopupTooltipProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
   const handleTooltipClose = (): void => {
@@ -379,13 +384,13 @@ export function ProfessorPopup(props: { professorName: string }): JSX.Element {
   const handleTooltipOpen = (): void => {
     setOpen(true);
   };
-
+  console.log(Course)
   return (
     // close popup if click outside inner tooltip
     <ClickAwayListener onClickAway={handleTooltipClose}>
       <div>
         <ProfessorPopupToolTip
-          professorName={props.professorName}
+          professorName={professorName}
           open={open}
           handleTooltipOpen={handleTooltipOpen}
           handleTooltipClose={handleTooltipClose}
