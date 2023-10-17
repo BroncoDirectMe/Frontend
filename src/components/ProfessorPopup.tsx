@@ -33,7 +33,7 @@ interface ProfessorInfo {
   wouldTakeAgainPercent: number;
   avgGPA: number;
   totalEnrollment: number;
-  sectionAvgGPA: number;
+  classAvgGPA: number;
 }
 
 /**
@@ -78,7 +78,7 @@ async function professorRequest(
 export const fetchInstructorAndSectionGPA = async (
   firstName: string,
   lastName: string
-): Promise<{ avgGPA: number | null; totalEnrollment: number | null; sectionAvgGPA: number | null }> => {
+): Promise<{ avgGPA: number | null; totalEnrollment: number | null; classAvgGPA: number | null }> => {
   const requestData = {
     InstructorFirst: firstName,
     InstructorLast: lastName,
@@ -107,16 +107,16 @@ export const fetchInstructorAndSectionGPA = async (
       return {
         avgGPA: data[0].AvgGPA,
         totalEnrollment: data[0].TotalEnrollment,
-        sectionAvgGPA: data[0].avgGPAInSection0,
+        classAvgGPA: data[0].avgGPAInSection0,
       };
     } else {
       console.log('Failed to fetch GPA data');
-      return { avgGPA: 0.0, totalEnrollment: 0, sectionAvgGPA: 0.0};
+      return { avgGPA: 0.0, totalEnrollment: 0, classAvgGPA: 0.0};
     }
   } catch (error) {
     console.log("not working");
     console.log(error);
-    return { avgGPA: 0.0, totalEnrollment: 0, sectionAvgGPA: 0.0};
+    return { avgGPA: 0.0, totalEnrollment: 0, classAvgGPA: 0.0};
   }
 };
 
@@ -133,7 +133,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
     retention: 'N/A', // wouldTakeAgainPercent
     averageGPA: 'N/A', // avgGPA
     gpaCount: 'N/A', // totalEnrollment
-    sectionAverageGPA: 'N/A', // sectionAvgGPA
+    classAverageGPA: 'N/A', // sectionAvgGPA
   });
 
   const [loading, setLoading] = useState(false);
@@ -177,7 +177,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       }: ProfessorInfo = request;
       const firstName = selectedProf.split(" ")[0];
       const lastName = selectedProf.split(" ").slice(1).join(" ");
-      const { avgGPA, totalEnrollment, sectionAvgGPA}= await fetchInstructorAndSectionGPA(
+      const { avgGPA, totalEnrollment, classAvgGPA}= await fetchInstructorAndSectionGPA(
         firstName,
         lastName
       );
@@ -196,7 +196,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         retention: wouldTakeAgainPercent.toString(),
         averageGPA: avgGPA !== null ? avgGPA.toString() : 'N/A',
         gpaCount: totalEnrollment != null ? totalEnrollment.toString() : 'N/A',
-        sectionAverageGPA: sectionAvgGPA != null ? sectionAvgGPA.toString(): 'N/A'
+        classAverageGPA: classAvgGPA != null ? classAvgGPA.toString(): 'N/A'
       });
 
       setLoading(true); // data finished loading
