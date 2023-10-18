@@ -111,14 +111,17 @@ export default function ReportMissingProfesor(props: {
       register,
       formState: { errors },
     } = useForm<IFormInputs>();
+
+    const onSubmitClick = (): void => {
+      setReportState(false);
+      setSubmitState(true);
+    };
+
     return (
       <Grid item container xs={12} id="form-container">
         <form
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
-            setReportState(false);
-            setSubmitState(true);
-          })}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onSubmit={handleSubmit(onSubmitClick)}
         >
           <Grid item container id="form-component-container">
             <Grid item container xs={12} id="form-header-container">
