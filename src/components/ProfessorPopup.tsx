@@ -358,10 +358,6 @@ function ProfessorPopupInfo({
                 <span className="unbold-style">/4</span>
               )}
             </Typography>
-            <Typography>
-              <span className="bold-style">GPA Count: </span>
-              <span className="unbold-style">{professorData.gpaCount}</span>
-            </Typography>
           </section>
         )}
 
