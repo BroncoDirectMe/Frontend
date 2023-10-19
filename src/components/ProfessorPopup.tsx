@@ -335,6 +335,7 @@ function ProfessorPopupInfo({
               <span className="bold-style">Reviews: </span>
               <span className="unbold-style">{professorData.reviews}</span>
             </Typography>
+            <Divider className="divider" />
             <Typography>
               <span className="bold-style">Average GPA: </span>
               <span className="unbold-style">

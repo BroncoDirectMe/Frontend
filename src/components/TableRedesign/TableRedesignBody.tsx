@@ -52,7 +52,12 @@ const TableRedesignBody = ({
                   else if (key.startsWith('$'))
                     return <a href={linkGen(key, Section._idx)}>{value}</a>;
                   else if (key === 'Instructor')
-                    return <ProfessorPopup professorName={value} Course={CourseName}/>;
+                    return (
+                      <ProfessorPopup
+                        professorName={value}
+                        Course={CourseName}
+                      />
+                    );
                   else return value;
                 })()}
               </TableCell>
