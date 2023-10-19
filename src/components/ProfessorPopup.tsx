@@ -76,61 +76,105 @@ async function professorRequest(
   return await request.json();
 }
 
-export const fetchInstructorAndSectionGPA = async (
+export const fetchInstructorAndCourseGPA = async (
   firstName: string,
-  lastName: string
+  lastName: string,
+  courseNum: string,
+  courseSubject: string,
 ): Promise<{
   avgGPA: number | null;
   totalEnrollment: number | null;
   classAvgGPA: number | null;
 }> => {
-  const requestData = {
-    InstructorFirst: firstName,
-    InstructorLast: lastName,
-  };
-
   try {
-    const response = await fetch(
-      'https://cpp-scheduler.herokuapp.com/data/instructions/findWithSections',
+    console.log("first: " + firstName)
+    console.log("last: " + lastName)
+    console.log("courseNum: " + courseNum)
+    console.log("courseSubject: " + courseSubject)
+
+    const profResponse = await fetch(
+      'https://cpp-scheduler.herokuapp.com/data/instructors/find',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestData),
+        body: JSON.stringify({
+          InstructorFirst: firstName,
+          InstructorLast: lastName,
+        }),
       }
     );
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log('working');
-      console.log('avg gpa data type: ');
-      // console.log(typeof data[0].AvgGPA);
-      console.log('data: ');
-      console.log(data);
-      // console.log("Avg gpa: " + data[0].AvgGPA)
-      return {
-        avgGPA: data[0].AvgGPA,
-        totalEnrollment: data[0].TotalEnrollment,
-        classAvgGPA: data[0].avgGPAInSection0,
-      };
+    const courseResponse = await fetch(
+      'https://cpp-scheduler.herokuapp.com/data/instructions/find',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          InstructorFirst: firstName,
+          InstructorLast: lastName,
+          CourseNumber: courseNum,
+          Subject: courseSubject,
+        }),
+      }
+    );
+
+    let avgGPA = 0;
+    let totalEnrollment = 0;
+    let classAvgGPA = 0;
+
+    if (profResponse.ok) {
+      const profData = await profResponse.json();
+      console.log("profData:")
+      console.log(profData)
+      avgGPA = profData[0].AvgGPA ?? 0;
+      totalEnrollment = profData[0].TotalEnrollment ?? 0;
+      console.log("Avg gpa:")
+      console.log(avgGPA)
+      console.log("Total enrollment:")
+      console.log(totalEnrollment)
     } else {
-      console.log('Failed to fetch GPA data');
-      return { avgGPA: 0.0, totalEnrollment: 0, classAvgGPA: 0.0 };
+      console.error('Failed to fetch instructor data');
     }
+
+    if (courseResponse.ok) {
+      const courseData = await courseResponse.json();
+      console.log("Course data: ")
+      console.log(courseData)
+      classAvgGPA = courseData[0].AvgGPA ?? 0;
+      console.log("Class avg gpa:")
+      console.log(classAvgGPA);
+    } else {
+      console.error('Failed to fetch instructor sections data');
+    }
+
+    return {
+      avgGPA,
+      totalEnrollment,
+      classAvgGPA,
+    };
   } catch (error) {
-    console.log('not working');
-    console.log(error);
-    return { avgGPA: 0.0, totalEnrollment: 0, classAvgGPA: 0.0 };
+    console.log('Error:', error);
+    return { avgGPA: 0, totalEnrollment: 0, classAvgGPA: 0 };
   }
 };
 
 /**
  * Component that shows the info inside the popup
- * @param props See professorPopupTooltipProps interface (control click) to see parameters
+ * @param props See professorPopupTooltipProps interface
+ * @param props.professorName Professor name
+ * @param props.Course Full course title
+ * @param props.handleTooltipClose Tooltip closing
  * @returns Element containing the UI for professor information
  */
-function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
+function ProfessorPopupInfo({
+  professorName,
+  Course,
+  handleTooltipClose,
+}: professorPopupTooltipProps): JSX.Element {
   const [professorData, setProfessorData] = useState({
     difficulty: 'N/A', // avgDifficulty
     rating: 'N/A', // avgRating
@@ -145,7 +189,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
   const [hasResult, setHasResult] = useState(true);
   const [page, setPage] = useState(0);
   const [currentProfessor, setCurrent] = useState('TBA');
-  const filteredProfNames = ProfessorNameFiltering(props.professorName);
+  const filteredProfNames = ProfessorNameFiltering(professorName);
   const professorsList = filteredProfNames.split('&');
   const [errorMessage, setErrorMessage] = useState(
     'Something went wrong when trying to retrieve data'
@@ -180,10 +224,15 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         numRatings,
         wouldTakeAgainPercent,
       }: ProfessorInfo = request;
+
       const firstName = selectedProf.split(' ')[0];
       const lastName = selectedProf.split(' ').slice(1).join(' ');
-      const { avgGPA, totalEnrollment, classAvgGPA } =
-        await fetchInstructorAndSectionGPA(firstName, lastName);
+      const classString = (Course ?? '').toString();
+      const classStringParts = classString.split(' ');
+      const subject = classStringParts[0];     
+      const courseNumber = classStringParts[1];
+      const { avgGPA, totalEnrollment, classAvgGPA, } =
+        await fetchInstructorAndCourseGPA(firstName, lastName, courseNumber, subject);
 
       // Throws an error if professor has no ratings on Rate My Professor
       if (wouldTakeAgainPercent < 0) {
@@ -285,8 +334,8 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
               <span className="unbold-style">/4.00</span>
             </Typography>
             <Typography>
-              <span className="bold-style">Section GPA: </span>
-              <span className="unbold-style">{professorData.averageGPA}</span>
+              <span className="bold-style">Course Average GPA: </span>
+              <span className="unbold-style">{parseFloat(professorData.classAverageGPA).toFixed(2)}</span>
               <span className="unbold-style">/4.00</span>
             </Typography>
             <Typography>
@@ -315,7 +364,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
 
           <IconButton
             className="icon-button"
-            onClick={props.handleTooltipClose}
+            onClick={handleTooltipClose}
           >
             <CloseIcon />
           </IconButton>
@@ -351,6 +400,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
       title={
         <ProfessorPopupInfo
           professorName={props.professorName}
+          Course={props.Course}
           handleTooltipClose={props.handleTooltipClose}
         />
       }
@@ -384,13 +434,14 @@ export function ProfessorPopup({professorName, Course }: professorPopupTooltipPr
   const handleTooltipOpen = (): void => {
     setOpen(true);
   };
-  console.log(Course)
+
   return (
     // close popup if click outside inner tooltip
     <ClickAwayListener onClickAway={handleTooltipClose}>
       <div>
         <ProfessorPopupToolTip
           professorName={professorName}
+          Course={Course}
           open={open}
           handleTooltipOpen={handleTooltipOpen}
           handleTooltipClose={handleTooltipClose}
