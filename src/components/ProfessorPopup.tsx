@@ -301,7 +301,7 @@ function ProfessorPopupInfo({
       {!loading && (
         <img
           id="loading-gif"
-          src="https://i.imgur.com/AO3PZss.gif" // this gif is 1:1
+          src="https://media4.giphy.com/media/3oEjI6SIIHBdRxXI40/200w.gif?cid=6c09b9526oi97khsansodigbd19wofk9q41qtc1jehlvl00d&ep=v1_gifs_search&rid=200w.gif&ct=g"
           alt="Loading..."
         />
       )}
