@@ -25,7 +25,7 @@ const TableRedesign = ({ courseHTML }: courseType): JSX.Element => {
           <ExpandableRows key={Course} title={Course}>
             <Table className="course-section">
               <TableRedesignHeader Headings={Object.keys(Sections[0])} />
-              <TableRedesignBody Sections={Sections} />
+              <TableRedesignBody Sections={Sections} CourseName={Course} />
             </Table>
           </ExpandableRows>
         ))}

@@ -2,6 +2,7 @@ import { TableRow, TableHead, TableCell } from '@mui/material';
 import React from 'react';
 import '../../styles/TableRedesignHeader.css';
 
+// Maps the course sections keys to the table header
 const TableRedesignHeader = ({
   Headings,
 }: {

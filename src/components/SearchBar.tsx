@@ -110,6 +110,49 @@ function CircularProgressBar({
 }
 
 /**
+ * Fetches an instructor's GPA and total enrollment data.
+ * @param {string} firstName - The first name of the instructor.
+ * @param {string} lastName - The last name of the instructor.
+ * @returns {Promise<{avgGPA: number | null, totalEnrollment: number | null}>} A Promise that resolves to an object containing the instructor's average GPA and total enrollment. If the fetch fails, the Promise resolves to an object with null values.
+ */
+export const fetchInstructorGPA = async (
+  firstName: string,
+  lastName: string
+): Promise<{ avgGPA: number | null; totalEnrollment: number | null }> => {
+  const requestData = {
+    InstructorFirst: firstName,
+    InstructorLast: lastName,
+  };
+
+  try {
+    const response = await fetch(
+      'https://cpp-scheduler.herokuapp.com/data/instructors/find',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        avgGPA: data[0].AvgGPA,
+        totalEnrollment: data[0].TotalEnrollment,
+      };
+    } else {
+      console.log('Failed to fetch GPA data');
+      return { avgGPA: 0.0, totalEnrollment: 0 };
+    }
+  } catch (error) {
+    console.log(error);
+    return { avgGPA: 0.0, totalEnrollment: 0 };
+  }
+};
+
+/**
  * Search bar component constructor
  * @param {SearchBarProps} props - The props object containing the state of the search bar
  * @returns {JSX.Element} - The search bar component
@@ -131,42 +174,6 @@ export default function SearchBar({
   });
 
   const [profList, setProfList] = useState<ProfessorName[]>([]);
-
-  const fetchInstructorGPA = async (
-    firstName: string,
-    lastName: string
-  ): Promise<{ avgGPA: number | null; totalEnrollment: number | null }> => {
-    const requestData = {
-      InstructorFirst: firstName,
-      InstructorLast: lastName,
-    };
-
-    try {
-      const response = await fetch(
-        'https://cpp-scheduler.herokuapp.com/data/instructors/find',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        return {
-          avgGPA: data[0].AvgGPA,
-          totalEnrollment: data[0].TotalEnrollment,
-        };
-      } else {
-        console.error('Failed to fetch GPA data');
-        return { avgGPA: 0.0, totalEnrollment: 0 };
-      }
-    } catch (error) {
-      return { avgGPA: 0.0, totalEnrollment: 0 };
-    }
-  };
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises

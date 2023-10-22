@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   ClickAwayListener,
   Divider,
@@ -6,7 +7,6 @@ import {
   IconButton,
   Button,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CloseIcon from '@mui/icons-material/Close';
 import FmdBadIcon from '@mui/icons-material/FmdBad';
@@ -17,6 +17,7 @@ import '../styles/ProfessorPopup.css';
 
 interface professorPopupTooltipProps {
   professorName: string;
+  Course?: string;
   open?: boolean;
   handleTooltipOpen?:
     | ((event: Event | React.SyntheticEvent<Element, Event>) => void)
@@ -31,6 +32,9 @@ interface ProfessorInfo {
   avgRating: string;
   numRatings: number;
   wouldTakeAgainPercent: number;
+  avgGPA: number;
+  totalEnrollment: number;
+  classAvgGPA: number;
 }
 
 /**
@@ -72,24 +76,120 @@ async function professorRequest(
   return await request.json();
 }
 
+export const fetchInstructorAndCourseGPA = async (
+  firstName: string,
+  lastName: string,
+  courseNum: string,
+  courseSubject: string
+): Promise<{
+  avgGPA: number | null;
+  totalEnrollment: number | null;
+  classAvgGPA: number | null;
+}> => {
+  try {
+    console.log('first: ' + firstName);
+    console.log('last: ' + lastName);
+    console.log('courseNum: ' + courseNum);
+    console.log('courseSubject: ' + courseSubject);
+
+    const profResponse = await fetch(
+      'https://cpp-scheduler.herokuapp.com/data/instructors/find',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          InstructorFirst: firstName,
+          InstructorLast: lastName,
+        }),
+      }
+    );
+
+    const courseResponse = await fetch(
+      'https://cpp-scheduler.herokuapp.com/data/instructions/find',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          InstructorFirst: firstName,
+          InstructorLast: lastName,
+          CourseNumber: courseNum,
+          Subject: courseSubject,
+        }),
+      }
+    );
+
+    let avgGPA = 0;
+    let totalEnrollment = 0;
+    let classAvgGPA = 0;
+
+    if (profResponse.ok) {
+      const profData = await profResponse.json();
+      console.log('profData:');
+      console.log(profData);
+      avgGPA = profData[0].AvgGPA ?? 0;
+      totalEnrollment = profData[0].TotalEnrollment ?? 0;
+      console.log('Avg gpa:');
+      console.log(avgGPA);
+      console.log('Total enrollment:');
+      console.log(totalEnrollment);
+    } else {
+      console.error('Failed to fetch instructor data');
+    }
+
+    if (courseResponse.ok) {
+      const courseData = await courseResponse.json();
+      console.log('Course data: ');
+      console.log(courseData);
+      classAvgGPA = courseData[0].AvgGPA ?? 0;
+      console.log('Class avg gpa:');
+      console.log(classAvgGPA);
+    } else {
+      console.error('Failed to fetch instructor sections data');
+    }
+
+    return {
+      avgGPA,
+      totalEnrollment,
+      classAvgGPA,
+    };
+  } catch (error) {
+    console.log('Error:', error);
+    return { avgGPA: 0, totalEnrollment: 0, classAvgGPA: 0 };
+  }
+};
+
 /**
  * Component that shows the info inside the popup
- * @param props See professorPopupTooltipProps interface (control click) to see parameters
+ * @param props See professorPopupTooltipProps interface
+ * @param props.professorName Professor name
+ * @param props.Course Full course title
+ * @param props.handleTooltipClose Tooltip closing
  * @returns Element containing the UI for professor information
  */
-function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
+function ProfessorPopupInfo({
+  professorName,
+  Course,
+  handleTooltipClose,
+}: professorPopupTooltipProps): JSX.Element {
   const [professorData, setProfessorData] = useState({
     difficulty: 'N/A', // avgDifficulty
     rating: 'N/A', // avgRating
     reviews: 'N/A', // numRatings
     retention: 'N/A', // wouldTakeAgainPercent
+    averageGPA: 'N/A', // avgGPA
+    gpaCount: 'N/A', // totalEnrollment
+    classAverageGPA: 'N/A', // sectionAvgGPA
   });
 
   const [loading, setLoading] = useState(false);
   const [hasResult, setHasResult] = useState(true);
   const [page, setPage] = useState(0);
   const [currentProfessor, setCurrent] = useState('TBA');
-  const filteredProfNames = ProfessorNameFiltering(props.professorName);
+  const filteredProfNames = ProfessorNameFiltering(professorName);
   const professorsList = filteredProfNames.split('&');
   const [errorMessage, setErrorMessage] = useState(
     'Something went wrong when trying to retrieve data'
@@ -125,6 +225,20 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         wouldTakeAgainPercent,
       }: ProfessorInfo = request;
 
+      const firstName = selectedProf.split(' ')[0];
+      const lastName = selectedProf.split(' ').slice(1).join(' ');
+      const classString = (Course ?? '').toString();
+      const classStringParts = classString.split(' ');
+      const subject = classStringParts[0];
+      const courseNumber = classStringParts[1];
+      const { avgGPA, totalEnrollment, classAvgGPA } =
+        await fetchInstructorAndCourseGPA(
+          firstName,
+          lastName,
+          courseNumber,
+          subject
+        );
+
       // Throws an error if professor has no ratings on Rate My Professor
       if (wouldTakeAgainPercent < 0) {
         throw Error(
@@ -137,6 +251,9 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
         rating: avgRating,
         reviews: numRatings.toString(),
         retention: wouldTakeAgainPercent.toString(),
+        averageGPA: avgGPA !== null ? avgGPA.toString() : 'N/A',
+        gpaCount: totalEnrollment != null ? totalEnrollment.toString() : 'N/A',
+        classAverageGPA: classAvgGPA != null ? classAvgGPA.toString() : 'N/A',
       });
 
       setLoading(true); // data finished loading
@@ -184,7 +301,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
       {!loading && (
         <img
           id="loading-gif"
-          src="https://i.imgur.com/AO3PZss.gif" // this gif is 1:1
+          src="https://media4.giphy.com/media/3oEjI6SIIHBdRxXI40/200w.gif?cid=6c09b9526oi97khsansodigbd19wofk9q41qtc1jehlvl00d&ep=v1_gifs_search&rid=200w.gif&ct=g"
           alt="Loading..."
         />
       )}
@@ -203,17 +320,45 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
             <Typography>
               <span className="bold-style">Rating: </span>
               <span className="unbold-style">{professorData.rating}</span>
+              <span className="unbold-style">/5</span>
             </Typography>
             <Typography>
               <span className="bold-style">Difficulty: </span>
               <span className="unbold-style">{professorData.difficulty}</span>
+              <span className="unbold-style">/5</span>
+            </Typography>
+            <Typography>
+              <span className="bold-style">{professorData.retention}% </span>
+              <span className="unbold-style">would retake</span>
             </Typography>
             <Typography>
               <span className="bold-style">Reviews: </span>
               <span className="unbold-style">{professorData.reviews}</span>
             </Typography>
-            <span className="bold-style">{professorData.retention}% </span>
-            <span className="unbold-style">would take again</span>
+            <Divider className="divider" />
+            <Typography>
+              <span className="bold-style">Average GPA: </span>
+              <span className="unbold-style">
+                {parseFloat(professorData.averageGPA).toFixed(2)}
+              </span>
+              <span className="unbold-style">/4</span>
+            </Typography>
+            <Typography>
+              <span className="bold-style">
+                {Course
+                  ? Course.toString().split(' - ')[0].replace(' ', '')
+                  : ''}{' '}
+                GPA:
+              </span>
+              <span className="unbold-style">
+                {parseFloat(professorData.classAverageGPA) === 0
+                  ? ' TBA'
+                  : ` ${parseFloat(professorData.classAverageGPA).toFixed(2)}`}
+              </span>
+              {parseFloat(professorData.classAverageGPA) !== 0 && (
+                <span className="unbold-style">/4</span>
+              )}
+            </Typography>
           </section>
         )}
 
@@ -232,10 +377,7 @@ function ProfessorPopupInfo(props: professorPopupTooltipProps): JSX.Element {
             <NavigateBeforeIcon />
           </IconButton>
 
-          <IconButton
-            className="icon-button"
-            onClick={props.handleTooltipClose}
-          >
+          <IconButton className="icon-button" onClick={handleTooltipClose}>
             <CloseIcon />
           </IconButton>
 
@@ -270,6 +412,7 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
       title={
         <ProfessorPopupInfo
           professorName={props.professorName}
+          Course={props.Course}
           handleTooltipClose={props.handleTooltipClose}
         />
       }
@@ -293,7 +436,10 @@ function ProfessorPopupToolTip(props: professorPopupTooltipProps): JSX.Element {
  * @param props.professorName Professor Name from RateMyProfessor
  * @returns Div containing the professor popup element
  */
-export function ProfessorPopup(props: { professorName: string }): JSX.Element {
+export function ProfessorPopup({
+  professorName,
+  Course,
+}: professorPopupTooltipProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
   const handleTooltipClose = (): void => {
@@ -309,7 +455,8 @@ export function ProfessorPopup(props: { professorName: string }): JSX.Element {
     <ClickAwayListener onClickAway={handleTooltipClose}>
       <div>
         <ProfessorPopupToolTip
-          professorName={props.professorName}
+          professorName={professorName}
+          Course={Course}
           open={open}
           handleTooltipOpen={handleTooltipOpen}
           handleTooltipClose={handleTooltipClose}

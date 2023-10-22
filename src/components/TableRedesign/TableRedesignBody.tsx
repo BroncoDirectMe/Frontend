@@ -7,6 +7,7 @@ import '../../styles/TableRedesignBody.css';
 
 interface TableRedesignBodyProps {
   Sections: CourseSections;
+  CourseName: string;
 }
 interface TableButtonProps {
   value: string;
@@ -26,6 +27,7 @@ const TableButton = ({ value, link }: TableButtonProps): JSX.Element => {
 // Maps the course sections to the table body
 const TableRedesignBody = ({
   Sections,
+  CourseName,
 }: TableRedesignBodyProps): JSX.Element => {
   return (
     <TableBody>
@@ -50,7 +52,12 @@ const TableRedesignBody = ({
                   else if (key.startsWith('$'))
                     return <a href={linkGen(key, Section._idx)}>{value}</a>;
                   else if (key === 'Instructor')
-                    return <ProfessorPopup professorName={value} />;
+                    return (
+                      <ProfessorPopup
+                        professorName={value}
+                        Course={CourseName}
+                      />
+                    );
                   else return value;
                 })()}
               </TableCell>
