@@ -126,7 +126,7 @@ export const fetchInstructorGPA = async (
 
   try {
     const response = await fetch(
-      'https://cpp-scheduler.herokuapp.com/data/instructors/find',
+      'https://api.cppscheduler.com/data/professors/find',
       {
         method: 'POST',
         headers: {

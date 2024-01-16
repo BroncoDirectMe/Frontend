@@ -93,7 +93,7 @@ export const fetchInstructorAndCourseGPA = async (
     console.log('courseSubject: ' + courseSubject);
 
     const profResponse = await fetch(
-      'https://cpp-scheduler.herokuapp.com/data/instructors/find',
+      'https://api.cppscheduler.com/data/professors/find',
       {
         method: 'POST',
         headers: {
@@ -107,7 +107,7 @@ export const fetchInstructorAndCourseGPA = async (
     );
 
     const courseResponse = await fetch(
-      'https://cpp-scheduler.herokuapp.com/data/instructions/find',
+      'https://api.cppscheduler.com/data/instructions/find',
       {
         method: 'POST',
         headers: {
