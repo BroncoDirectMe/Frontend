@@ -5,14 +5,35 @@
 #mainContent {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-left: 5vw;
   padding-right: 5vw;
 }
 
+#mainButtons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+#bugReportButton {
+  padding: 0;
+  border-radius: 6px;
+  height: fit-content;
+}
+
+#bugReportIcon {
+  font-size: 2rem;
+  padding: 2px;
+}
+
 #settingsButton {
   padding: 0;
+  border-radius: 6px;
+  height: fit-content;
 }
 
 #settingsIcon {
   font-size: 2rem;
+  padding: 2px;
 }
