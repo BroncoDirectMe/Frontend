@@ -63,6 +63,7 @@
   border-radius: 50%;
   border: none;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  margin: 0px 18px;
 }
 
 .popup-tooltip {

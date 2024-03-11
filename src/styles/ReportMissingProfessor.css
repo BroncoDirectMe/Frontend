@@ -1,0 +1,39 @@
+#button-container {
+  justify-content: center;
+  align-items: center;
+}
+
+#button {
+  display: flex;
+  align-items: center;
+}
+
+#modal-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal-form-container {
+  width: 375px;
+  height: 225px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+#form-container {
+  margin: 10px 15px 0px 15px;
+}
+
+#form-component-container {
+  gap: 10px;
+}
+
+#form-button-container {
+  justify-content: right;
+  margin-bottom: 5px;
+}
+
+#form-header-container {
+  justify-content: center;
+}
