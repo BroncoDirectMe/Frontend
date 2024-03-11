@@ -6,6 +6,7 @@ import { MsalProvider } from '@azure/msal-react';
 import { msalInstance, MicrosoftOAuth } from './components/MicrosoftOath';
 import { Box, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
+import BugReportIcon from '@mui/icons-material/BugReport';
 import { Panel } from './components/panel_component';
 import DegreeProgressBar from './components/DegreeProgressBar';
 import './styles/App.css';
@@ -20,6 +21,14 @@ export function App(): ReactElement {
   const togglePanel = (): void => setPanelState(!isPanelOpen);
   const [isSettingsButtonOpen, setSettingsButtonState] = React.useState(true);
 
+  const handleBugReportClick = (): void => {
+    // Specify the URL you want to open in a new tab
+    const url =
+      'https://docs.google.com/forms/d/e/1FAIpQLSfEAQ5xbzU98fxRBaQgxKv01pEU07_ALcrJU-lGmOdIhKvkAw/viewform';
+    // Open a new tab with the specified URL
+    window.open(url, '_blank');
+  };
+
   return (
     <MsalProvider instance={msalInstance}>
       <div className="App">
@@ -30,17 +39,22 @@ export function App(): ReactElement {
             <div id="errorElm"></div>
             <Box id="mainContent">
               <h1>BroncoDirectMe Search</h1>
-              {isSettingsButtonOpen && (
-                <IconButton
-                  onClick={() => {
-                    togglePanel();
-                    setSettingsButtonState(false);
-                  }}
-                  id="settingsButton"
-                >
-                  <SettingsIcon id="settingsIcon" />
+              <div id="mainButtons">
+                <IconButton id="bugReportButton" onClick={handleBugReportClick}>
+                  <BugReportIcon id="bugReportIcon" />
                 </IconButton>
-              )}
+                {isSettingsButtonOpen && (
+                  <IconButton
+                    onClick={() => {
+                      togglePanel();
+                      setSettingsButtonState(false);
+                    }}
+                    id="settingsButton"
+                  >
+                    <SettingsIcon id="settingsIcon" />
+                  </IconButton>
+                )}
+              </div>
             </Box>
             <SearchBar settingBarState={isSettingsButtonOpen} />
             {/* <MicrosoftOAuth /> */}
